@@ -7,6 +7,7 @@ import { useState, type FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail, FiUser } from 'react-icons/fi';
+import { LuImage } from 'react-icons/lu';
 
 const inputClass =
     'w-full min-w-0 rounded-xl border border-line bg-white py-3.5 pr-12 pl-11 text-sm text-ink placeholder:text-subtle/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15';
@@ -15,28 +16,76 @@ const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
+    // Track the upload and signup together so the submit button can show a loading state.
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        // Ignore another submission while the current upload or signup is still running.
+        if (isSubmitting) return;
+
         const form = event.currentTarget;
         const formData = new FormData(form);
         const userData = Object.fromEntries(formData.entries());
-        // console.log(userData);
+        // Read the file input using its name="image" attribute. This is a File, not a URL.
+        const imageFile = formData.get('image');
+        setIsSubmitting(true);
 
-        // The server assigns the default 'user' role; role input is disabled in auth.ts.
-        const { data: resData, error } = await signUp.email({
-            name: userData.name as string,
-            email: userData.email as string,
-            password: userData.password as string,
-        });
+        try {
+            // Keep this undefined when no photo is selected because the photo is optional.
+            let imageUrl: string | undefined;
 
-        if (error) {
-            toast.error(error.message || 'Sign up failed! Please try again.');
-        } else {
+            // Only upload when the form contains a real file with some content.
+            if (imageFile instanceof File && imageFile.size > 0) {
+                // FormData sends the image file as multipart/form-data.
+                // The "image" field name must match what our upload API reads.
+                const uploadData = new FormData();
+                uploadData.append('image', imageFile);
+
+                // Send the file to our server, which uploads it to ImgBB using the private API key.
+                // The browser sets the multipart Content-Type and boundary automatically.
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: uploadData,
+                });
+                // Our API returns either { imageUrl: "https://..." } or { error: "..." }.
+                const result = await response.json();
+
+                // Stop before signup if the upload failed or did not return a usable URL string.
+                // Throwing an error sends us to the catch block, which displays a toast.
+                if (!response.ok || typeof result.imageUrl !== 'string' || !result.imageUrl) {
+                    throw new Error(result.error || 'Image upload failed. Please try again.');
+                }
+
+                // Save the hosted image URL so Better Auth can store it with the new user.
+                imageUrl = result.imageUrl;
+            }
+
+            // The server assigns the default 'user' role; role input is disabled in auth.ts.
+            const { data: resData, error } = await signUp.email({
+                name: userData.name as string,
+                email: userData.email as string,
+                password: userData.password as string,
+                // Include the image field only when a photo was uploaded successfully.
+                // Better Auth expects the hosted URL here, not the original File object.
+                ...(imageUrl ? { image: imageUrl } : {}),
+            });
+
+            if (error) {
+                toast.error(error.message || 'Sign up failed! Please try again.');
+                return;
+            }
+
             toast.success('User registration successful! ' + 'User Name: ' + resData.user.name);
             form.reset();
             router.push('/');
+        } catch (error) {
+            // Show upload, network or unexpected signup errors without reloading the page.
+            toast.error(error instanceof Error ? error.message : 'Sign up failed! Please try again.');
+        } finally {
+            // Always re-enable the submit button, whether the request succeeded or failed.
+            setIsSubmitting(false);
         }
     };
 
@@ -127,6 +176,31 @@ export default function SignUpForm() {
                         />
                     </div>
                 </div>
+                {/* Optional file picker: name="image" connects it to formData.get('image').
+                    The accept attribute guides the file picker; the server also checks the file type and size. */}
+                <div>
+                    <label
+                        htmlFor="profile-image"
+                        className="mb-2 flex items-center justify-between gap-3 text-[10px] font-semibold tracking-wide"
+                    >
+                        PROFILE PHOTO
+                        <span className="font-normal tracking-normal text-subtle">Optional</span>
+                    </label>
+                    <div className="relative">
+                        <LuImage aria-hidden="true" className={iconClass} size={17} />
+                        <input
+                            id="profile-image"
+                            type="file"
+                            name="image"
+                            accept="image/jpeg,image/png,image/webp,image/gif"
+                            aria-describedby="profile-image-hint"
+                            className="block w-full min-w-0 cursor-pointer rounded-xl border border-line bg-white py-2.5 pr-3 pl-11 text-xs text-muted transition-colors file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand-soft file:px-3 file:py-2 file:text-xs file:font-semibold file:text-brand hover:border-brand/40 hover:file:bg-avatar focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15"
+                        />
+                    </div>
+                    <p id="profile-image-hint" className="mt-2 text-xs text-subtle">
+                        JPG, PNG, WebP or GIF. Maximum 2 MB.
+                    </p>
+                </div>
 
                 <div>
                     <label
@@ -136,7 +210,7 @@ export default function SignUpForm() {
                         PASSWORD
                     </label>
                     <div className="relative">
-                        <FiLock aria-hidden="true" className={iconClass} size={17} />
+                        <FiLock className={iconClass} size={17} />
                         <input
                             id="password"
                             name="password"
@@ -167,11 +241,14 @@ export default function SignUpForm() {
                     </p>
                 </div>
 
+                {/* Disable repeated clicks and announce the loading state while uploading or signing up. */}
                 <button
                     type="submit"
-                    className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                    className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                    Create My Account
+                    {isSubmitting ? 'Creating your account...' : 'Create My Account'}
                     <FiArrowRight aria-hidden="true" size={17} />
                 </button>
                 {message && (
