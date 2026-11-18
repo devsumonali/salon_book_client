@@ -89,22 +89,18 @@ const Footer = () => {
                         <div className="space-y-4 text-sm leading-6 text-muted">
                             <div>
                                 <p>
-                                    <span className="font-medium text-ink">Mon - Sat:</span>{' '}
-                                    9:00 AM - 8:00 PM
+                                    <span className="font-medium text-ink">Mon - Sat:</span> 9:00 AM
+                                    - 8:00 PM
                                 </p>
                                 <p>
-                                    <span className="font-medium text-ink">Sunday:</span>{' '}
-                                    10:00 AM - 6:00 PM
+                                    <span className="font-medium text-ink">Sunday:</span> 10:00 AM -
+                                    6:00 PM
                                 </p>
                             </div>
 
                             <div className="flex items-start gap-2">
                                 <FiMapPin className="mt-1 shrink-0" size={15} />
-                                <p>
-                                    742 Evergreen Atelier,
-                                    <br />
-                                    Beverly Hills, CA
-                                </p>
+                                <p>742 Evergreen Atelier, Beverly Hills, CA</p>
                             </div>
 
                             <Link

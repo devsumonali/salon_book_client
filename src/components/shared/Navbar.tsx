@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { FiMenu, FiX, FiCalendar } from 'react-icons/fi';
+import { FiCalendar } from 'react-icons/fi';
 import NavigationLink from './NavigationLink';
 
 const navLinks = [
@@ -47,7 +47,10 @@ const Navbar = () => {
     }, [isMenuOpen]);
 
     return (
-        <header ref={headerRef} className="sticky top-0 z-50 w-full shrink-0 border-b border-line bg-surface">
+        <header
+            ref={headerRef}
+            className="sticky top-0 z-50 w-full shrink-0 border-b border-line bg-surface"
+        >
             <div className="mx-auto flex min-h-18 w-full max-w-360 items-center justify-between gap-3 px-4 sm:min-h-20 sm:px-6 lg:gap-6 lg:px-8 xl:px-12">
                 <Link
                     href="/"
@@ -57,9 +60,16 @@ const Navbar = () => {
                     SalonBook
                 </Link>
 
-                <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex xl:gap-2">
+                <nav
+                    aria-label="Main navigation"
+                    className="hidden items-center gap-1 lg:flex xl:gap-2"
+                >
                     {navLinks.map((link) => (
-                        <NavigationLink key={link.href} href={link.href} className="px-4 py-3 text-sm font-medium">
+                        <NavigationLink
+                            key={link.href}
+                            href={link.href}
+                            className="px-4 py-3 text-sm font-medium"
+                        >
                             {link.label}
                         </NavigationLink>
                     ))}
@@ -73,31 +83,14 @@ const Navbar = () => {
                         <FiCalendar size={16} aria-hidden="true" />
                         <span>Book Appointment</span>
                     </Link>
-
-                    <div className="hidden items-center gap-2 border-l border-line pl-4 xl:flex">
-                        <div aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-full bg-avatar text-xs font-semibold text-brand">
-                            CU
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-ink">Customer</span>
-                            <span className="text-xs text-subtle">My Account</span>
-                        </div>
+                    <div>
+                        <Link href={'/sign-in'}>Sign In</Link>
+                        <Link href={'/sign-up'}>Sign Up</Link>
                     </div>
-
-                    <button
-                        ref={toggleRef}
-                        type="button"
-                        aria-label={isMenuOpen ? 'Close navigation' : 'Open navigation'}
-                        aria-controls="mobile-navigation"
-                        aria-expanded={isMenuOpen}
-                        onClick={() => setOpenPathname(isMenuOpen ? null : pathname)}
-                        className="flex size-11 items-center justify-center rounded-md text-ink transition-colors hover:bg-brand-soft lg:hidden"
-                    >
-                        {isMenuOpen ? <FiX size={24} aria-hidden="true" /> : <FiMenu size={24} aria-hidden="true" />}
-                    </button>
                 </div>
             </div>
 
+            {/* mobile navigation  */}
             <nav
                 id="mobile-navigation"
                 aria-label="Mobile navigation"
