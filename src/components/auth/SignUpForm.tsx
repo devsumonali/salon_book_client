@@ -1,7 +1,10 @@
 'use client';
 
+import { signUp } from '@/lib/auth-client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
+import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail, FiUser } from 'react-icons/fi';
 
@@ -12,11 +15,30 @@ const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
+    const router = useRouter();
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setMessage('Account authentication is not connected yet. Please try again later.');
-    }
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const userData = Object.fromEntries(formData.entries());
+        // console.log(userData);
+
+        // The server assigns the default 'user' role; role input is disabled in auth.ts.
+        const { data: resData, error } = await signUp.email({
+            name: userData.name as string,
+            email: userData.email as string,
+            password: userData.password as string,
+        });
+
+        if (error) {
+            toast.error(error.message || 'Sign up failed! Please try again.');
+        } else {
+            toast.success('User registration successful! ' + 'User Name: ' + resData.user.name);
+            form.reset();
+            router.push('/');
+        }
+    };
 
     return (
         <>
@@ -45,11 +67,7 @@ export default function SignUpForm() {
                 </Link>
             </nav>
 
-            <form
-                aria-label="Create account"
-                className="mt-7 space-y-5"
-                onSubmit={handleSubmit}
-            >
+            <form aria-label="Create account" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
                     onClick={() =>
@@ -151,7 +169,7 @@ export default function SignUpForm() {
 
                 <button
                     type="submit"
-                    className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
+                    className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
                 >
                     Create My Account
                     <FiArrowRight aria-hidden="true" size={17} />

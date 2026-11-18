@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { FiCalendar } from 'react-icons/fi';
 import NavigationLink from './NavigationLink';
+import UserMenu from './UserMenu';
 
 const navLinks = [
     { label: 'Home', href: '/' },
@@ -83,10 +84,7 @@ const Navbar = () => {
                         <FiCalendar size={16} aria-hidden="true" />
                         <span>Book Appointment</span>
                     </Link>
-                    <div>
-                        <Link href={'/sign-in'}>Sign In</Link>
-                        <Link href={'/sign-up'}>Sign Up</Link>
-                    </div>
+                    <UserMenu />
                 </div>
             </div>
 

@@ -16,6 +16,17 @@ export const auth = betterAuth({
         google: { clientId: '', clientSecret: '' },
     },
 
+    //define user role
+    user: {
+        additionalFields: {
+            role: {
+                type: ['admin', 'user'],
+                input: false,
+                defaultValue: 'user',
+            },
+        },
+    },
+
     //database connect
     database: mongodbAdapter(db, {
         client,

@@ -1,7 +1,10 @@
 'use client';
 
+import { signIn } from '@/lib/auth-client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
+import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
 
@@ -12,10 +15,28 @@ const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 
 export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
+    const router = useRouter();
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        setMessage('Account authentication is not connected yet. Please try again later.');
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const userData = Object.fromEntries(formData.entries());
+        // console.log(userData);
+
+        const { data: resData, error } = await signIn.email({
+            email: userData.email as string,
+            password: userData.password as string,
+            rememberMe: true,
+        });
+
+        if (error) {
+            toast.error(error.message || 'Sign in failed! Please try again.');
+        } else {
+            toast.success('User sign in successful! ' + 'User Name: ' + resData.user.name);
+            form.reset();
+            router.push('/');
+        }
     }
 
     return (

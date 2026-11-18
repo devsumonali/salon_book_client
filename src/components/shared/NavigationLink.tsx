@@ -1,15 +1,15 @@
 'use client';
 
+import type { NavigationLinkProps } from '@/types/types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { ComponentProps } from 'react';
 
 export default function NavigationLink({
     href,
     className = '',
     children,
     ...props
-}: Omit<ComponentProps<typeof Link>, 'href'> & { href: string }) {
+}: NavigationLinkProps) {
     const pathname = usePathname();
     const isActive = pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
 

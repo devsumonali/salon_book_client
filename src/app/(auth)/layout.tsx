@@ -1,8 +1,9 @@
+import type { ChildrenProps } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowUpRight, FiFeather } from 'react-icons/fi';
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({ children }: ChildrenProps) {
     return (
         <section className="bg-surface px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
             <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-line bg-[#fcfaf8] shadow-xl shadow-ink/10">
