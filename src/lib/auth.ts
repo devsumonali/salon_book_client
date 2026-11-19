@@ -13,7 +13,10 @@ export const auth = betterAuth({
 
     //social providers
     socialProviders: {
-        google: { clientId: '', clientSecret: '' },
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SCREET_KEY as string,
+        },
     },
 
     //define user role

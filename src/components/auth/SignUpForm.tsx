@@ -1,6 +1,6 @@
 'use client';
 
-import { signUp } from '@/lib/auth-client';
+import { authClient, signUp } from '@/lib/auth-client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
@@ -82,10 +82,23 @@ export default function SignUpForm() {
             router.push('/');
         } catch (error) {
             // Show upload, network or unexpected signup errors without reloading the page.
-            toast.error(error instanceof Error ? error.message : 'Sign up failed! Please try again.');
+            toast.error(
+                error instanceof Error ? error.message : 'Sign up failed! Please try again.',
+            );
         } finally {
             // Always re-enable the submit button, whether the request succeeded or failed.
             setIsSubmitting(false);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        const { error } = await authClient.signIn.social({
+            provider: 'google',
+        });
+
+        if (error) {
+            toast.error(error.message || 'there are some issue for signin');
+            return;
         }
     };
 
@@ -119,10 +132,8 @@ export default function SignUpForm() {
             <form aria-label="Create account" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={() =>
-                        setMessage('Google sign-in is not connected yet. Please try again later.')
-                    }
-                    className="flex w-full items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
+                    onClick={handleGoogleSignIn}
+                    className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
                 >
                     <FcGoogle aria-hidden="true" size={20} />
                     Continue with Google

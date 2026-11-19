@@ -1,15 +1,16 @@
 'use client';
 
-import { signOut, useSession } from '@/lib/auth-client';
+import { useSession } from '@/lib/auth-client';
+import { useSignOut } from '@/hooks/common';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { FiChevronDown, FiGrid, FiLogOut } from 'react-icons/fi';
 
 export default function UserMenu() {
     const { data: session, isPending } = useSession();
-    const router = useRouter();
+    const { handleSignOut, isSigningOut } = useSignOut();
     const pathname = usePathname();
     const [openKey, setOpenKey] = useState<string | null>(null);
     const [failedImage, setFailedImage] = useState<string | null>(null);
@@ -61,13 +62,6 @@ export default function UserMenu() {
             </Link>
         );
     }
-
-    //Signout handler function
-    const handleSignOut = async () => {
-        await signOut();
-        router.refresh();
-        router.replace('/sign-in');
-    };
 
     const userName = user.name.trim() || user.email;
     const initial = Array.from(userName)[0]?.toLocaleUpperCase() || 'U';
@@ -136,10 +130,11 @@ export default function UserMenu() {
                     <button
                         type="button"
                         onClick={handleSignOut}
-                        className="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm text-brand transition-colors hover:bg-brand-soft"
+                        disabled={isSigningOut}
+                        className="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm text-brand transition-colors hover:bg-brand-soft disabled:cursor-wait disabled:opacity-60"
                     >
                         <FiLogOut aria-hidden="true" size={16} />
-                        Logout
+                        {isSigningOut ? 'Logging out…' : 'Logout'}
                     </button>
                 </div>
             </div>

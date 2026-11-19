@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn } from '@/lib/auth-client';
+import { authClient, signIn } from '@/lib/auth-client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
@@ -35,9 +35,20 @@ export default function SignInForm() {
         } else {
             toast.success('User sign in successful! ' + 'User Name: ' + resData.user.name);
             form.reset();
-            router.push('/');
+            router.refresh();
+            router.push('/dashboard');
         }
     }
+
+    const hangleGoogleSignIn = async () => {
+        const { error } = await authClient.signIn.social({
+            provider: 'google',
+        });
+
+        if (error) {
+            toast.error('Sign in problem');
+        }
+    };
 
     return (
         <>
@@ -69,10 +80,8 @@ export default function SignInForm() {
             <form aria-label="Sign in" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={() =>
-                        setMessage('Google sign-in is not connected yet. Please try again later.')
-                    }
-                    className="flex w-full items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
+                    onClick={hangleGoogleSignIn}
+                    className="flex w-full items-center cursor-pointer justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
                 >
                     <FcGoogle aria-hidden="true" size={20} />
                     Continue with Google
@@ -150,9 +159,9 @@ export default function SignInForm() {
 
                 <button
                     type="submit"
-                    className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
+                    className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
                 >
-                    Sign In to Atelier
+                    Continue to Login
                     <FiArrowRight aria-hidden="true" size={17} />
                 </button>
                 {message && (

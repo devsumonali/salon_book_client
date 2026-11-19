@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import { Toaster } from 'react-hot-toast';
 
 const manrope = Manrope({
@@ -52,11 +50,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             className={`${manrope.variable} ${liberationSerif.variable} h-full antialiased`}
         >
             <body suppressHydrationWarning className="flex min-h-dvh flex-col">
-                <Navbar />
+                {children}
 
-                <main className="min-w-0 flex-1">{children}</main>
-
-                <Footer />
                 <Toaster position="top-center" reverseOrder={false} />
             </body>
         </html>
