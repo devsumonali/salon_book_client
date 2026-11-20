@@ -41,3 +41,22 @@ export const getServiceProps = async (): Promise<AddServiceData[]> => {
         throw err;
     }
 };
+
+//service single details api fetch
+
+export const getSingleService = async (id: string) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services/${id}`, {
+            cache: 'no-store',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch service');
+        }
+
+        return await res.json();
+    } catch (err) {
+        console.log('Api fetching problem', err);
+        throw err;
+    }
+};
