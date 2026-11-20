@@ -25,7 +25,7 @@ function SidebarContent({ role, onNavigate }: SidebarContentProps) {
     return (
         <div className="flex h-full min-h-0 flex-col bg-surface text-ink">
             <div className="flex items-start justify-between gap-3 px-6 pt-8 pb-9">
-                <Link href="/dashboard" onClick={onNavigate} className="min-w-0">
+                <Link href="/" onClick={onNavigate} className="min-w-0">
                     <span className="block font-serif text-2xl font-bold tracking-tight text-brand">
                         SalonBook
                     </span>

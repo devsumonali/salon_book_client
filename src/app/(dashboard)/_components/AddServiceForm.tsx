@@ -23,7 +23,7 @@ export default function AddServiceForm() {
         const form = event.currentTarget;
         const formData = new FormData(form);
 
-        const servicesData: AddServiceData = {
+        const servicesData: Omit<AddServiceData, '_id'> = {
             name: String(formData.get('name') || '').trim(),
             category: formData.get('category') as AddServiceData['category'],
             price: Number(formData.get('price')),

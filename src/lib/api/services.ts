@@ -1,7 +1,7 @@
-import type { AddServiceData, ServiceData } from '@/types/service';
+import type { AddServiceData } from '@/types/service';
 
 //service post api fetch
-export const getAddServices = async (servicesData: AddServiceData) => {
+export const getAddServices = async (servicesData: Omit<AddServiceData, '_id'>) => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services`, {
             method: 'POST',
@@ -19,7 +19,7 @@ export const getAddServices = async (servicesData: AddServiceData) => {
 };
 
 //service get api fetch
-export const getServiceProps = async (): Promise<ServiceData[]> => {
+export const getServiceProps = async (): Promise<AddServiceData[]> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services`, {
             cache: 'no-store',
@@ -29,7 +29,7 @@ export const getServiceProps = async (): Promise<ServiceData[]> => {
             throw new Error('Failed to fetch services');
         }
 
-        const services: ServiceData[] = await res.json();
+        const services: AddServiceData[] = await res.json();
 
         if (!Array.isArray(services)) {
             throw new Error('Invalid service list returned by the API');

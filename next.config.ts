@@ -1,16 +1,26 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
+    /* config options here */
+    reactCompiler: true,
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**',
+                port: '',
+                pathname: '/**',
+            },
+        ],
     },
-  },
+    turbopack: {
+        rules: {
+            '*.css': {
+                loaders: ['@tailwindcss/turbopack'],
+                as: '*.css',
+            },
+        },
+    },
 };
 
 export default nextConfig;

@@ -1,5 +1,5 @@
 import ManageServicesContent from '@/app/(dashboard)/_components/ManageServicesContent';
-import { formatServicePrice } from '@/app/(dashboard)/_components/service-display';
+import { formatServicePrice } from '@/lib/service-display';
 import { getServiceProps } from '@/lib/api/services';
 import { FiCreditCard, FiFeather } from 'react-icons/fi';
 

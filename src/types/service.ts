@@ -6,6 +6,7 @@ export type ServiceCategory =
     | 'wellness';
 
 export type AddServiceData = {
+    _id: string;
     name: string;
     category: ServiceCategory;
     price: number;
@@ -13,8 +14,4 @@ export type AddServiceData = {
     status: 'active' | 'inactive';
     description: string;
     image?: string;
-};
-
-export type ServiceData = AddServiceData & {
-    _id: string;
 };

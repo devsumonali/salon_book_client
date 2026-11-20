@@ -1,17 +1,17 @@
 'use client';
 
-import type { ServiceCategory, ServiceData } from '@/types/service';
+import type { AddServiceData, ServiceCategory } from '@/types/service';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiChevronLeft, FiChevronRight, FiPlusCircle, FiScissors, FiSearch } from 'react-icons/fi';
 import ManageServiceCard from './ManageServiceCard';
-import { serviceCategories } from './service-display';
+import { serviceCategories } from '@/lib/service-display';
 
 type ManageServicesContentProps = {
-    services: ServiceData[];
+    services: AddServiceData[];
 };
 
-type StatusFilter = 'all' | ServiceData['status'];
+type StatusFilter = 'all' | AddServiceData['status'];
 
 const pageSize = 4;
 

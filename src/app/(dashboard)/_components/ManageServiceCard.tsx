@@ -1,13 +1,13 @@
 'use client';
 
-import type { ServiceData } from '@/types/service';
+import type { AddServiceData } from '@/types/service';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FiClock, FiScissors } from 'react-icons/fi';
-import { formatServicePrice, serviceCategories } from './service-display';
+import { formatServicePrice, serviceCategories } from '@/lib/service-display';
 
 type ManageServiceCardProps = {
-    service: ServiceData;
+    service: AddServiceData;
 };
 
 export default function ManageServiceCard({ service }: ManageServiceCardProps) {
@@ -51,7 +51,9 @@ export default function ManageServiceCard({ service }: ManageServiceCardProps) {
                 <span className="mb-1.5 block text-[10px] font-medium text-subtle md:sr-only">
                     Category
                 </span>
-                <span className={`inline-block max-w-full rounded px-2 py-1 text-[10px] leading-4 ${category?.badgeClass || 'bg-surface text-muted'}`}>
+                <span
+                    className={`inline-block max-w-full rounded px-2 py-1 text-[10px] leading-4 ${category?.badgeClass || 'bg-surface text-muted'}`}
+                >
                     {category?.label || service.category}
                 </span>
             </div>
