@@ -14,3 +14,7 @@ export type AddServiceData = {
     description: string;
     image?: string;
 };
+
+export type ServiceData = AddServiceData & {
+    _id: string;
+};

@@ -3,6 +3,7 @@
 import { getAddServices } from '@/lib/api/services';
 import { uploadImage } from '@/lib/api/upload';
 import { AddServiceData } from '@/types/service';
+import { useRouter } from 'next/navigation';
 import { useState, type SubmitEvent } from 'react';
 import toast from 'react-hot-toast';
 
@@ -15,6 +16,7 @@ const labelClass = 'mb-2 block text-xs font-medium';
 export default function AddServiceForm() {
     const [isloading, setIsLoading] = useState(false);
     const [imageName, setImageName] = useState('');
+    const router = useRouter();
 
     const handleSubmitPost = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -50,6 +52,7 @@ export default function AddServiceForm() {
             if (res.ok) {
                 toast.success('Service Added Successfuly');
                 form.reset();
+                router.push('/dashboard/admin/manage-services');
             } else {
                 toast.error('Failed to add service!');
             }

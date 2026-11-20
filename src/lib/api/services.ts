@@ -1,8 +1,9 @@
-import type { AddServiceData } from '@/types/service';
+import type { AddServiceData, ServiceData } from '@/types/service';
 
+//service post api fetch
 export const getAddServices = async (servicesData: AddServiceData) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/services`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -14,5 +15,29 @@ export const getAddServices = async (servicesData: AddServiceData) => {
     } catch (error) {
         console.error('Error adding service:', error);
         throw error;
+    }
+};
+
+//service get api fetch
+export const getServiceProps = async (): Promise<ServiceData[]> => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services`, {
+            cache: 'no-store',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch services');
+        }
+
+        const services: ServiceData[] = await res.json();
+
+        if (!Array.isArray(services)) {
+            throw new Error('Invalid service list returned by the API');
+        }
+
+        return services;
+    } catch (err) {
+        console.log('Api fetching problem', err);
+        throw err;
     }
 };
