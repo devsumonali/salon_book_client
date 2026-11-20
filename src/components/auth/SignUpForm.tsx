@@ -47,8 +47,6 @@ export default function SignUpForm() {
                 name: userData.name as string,
                 email: userData.email as string,
                 password: userData.password as string,
-                // Include the image field only when a photo was uploaded successfully.
-                // Better Auth expects the hosted URL here, not the original File object.
                 ...(imageUrl ? { image: imageUrl } : {}),
             });
 

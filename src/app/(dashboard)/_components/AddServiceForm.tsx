@@ -1,6 +1,7 @@
 'use client';
 
 import { getAddServices } from '@/lib/api/services';
+import { uploadImage } from '@/lib/api/upload';
 import { AddServiceData } from '@/types/service';
 import { useState, type SubmitEvent } from 'react';
 import toast from 'react-hot-toast';
@@ -12,7 +13,8 @@ const inputClass =
 const labelClass = 'mb-2 block text-xs font-medium';
 
 export default function AddServiceForm() {
-    const [loading, isLoading] = useState('');
+    const [isloading, setIsLoading] = useState(false);
+    const [imageName, setImageName] = useState('');
 
     const handleSubmitPost = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -26,14 +28,26 @@ export default function AddServiceForm() {
             duration: Number(formData.get('duration')),
             status: formData.get('status') as AddServiceData['status'],
             description: String(formData.get('description') || ''),
-            image: String(formData.get('image')),
         };
 
+        const startTime = Date.now();
+        setIsLoading(true);
+
         try {
+            const imageFile = formData.get('image');
+
+            if (!(imageFile instanceof File) || imageFile.size === 0) {
+                toast.error('Please select an image.');
+                return;
+            }
+
+            //image uploaded function call
+            servicesData.image = await uploadImage(imageFile);
+
+            //getaddservice api function call
             const res = await getAddServices(servicesData);
 
             if (res.ok) {
-                isLoading(loading);
                 toast.success('Service Added Successfuly');
                 form.reset();
             } else {
@@ -42,6 +56,16 @@ export default function AddServiceForm() {
         } catch (error) {
             console.error(error);
             toast.error('Something went wrong!');
+        } finally {
+            const remainingTime = 1000 - (Date.now() - startTime);
+
+            if (remainingTime > 0) {
+                await new Promise((resolve) => {
+                    setTimeout(resolve, remainingTime);
+                });
+            }
+
+            setIsLoading(false);
         }
     };
     return (
@@ -197,6 +221,10 @@ export default function AddServiceForm() {
                     <label className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-brand/25 bg-surface/35 px-4 py-6 text-center transition-colors hover:border-brand/50 hover:bg-brand-soft/20 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
                         <input
                             id="service-image"
+                            onChange={(event) => {
+                                const file = event.currentTarget.files?.[0];
+                                setImageName(file?.name || '');
+                            }}
                             name="image"
                             type="file"
                             accept="image/png,image/jpeg"
@@ -215,6 +243,11 @@ export default function AddServiceForm() {
                             PNG or JPG up to 2MB
                         </span>
                     </label>
+                    {imageName && (
+                        <p className="mt-2 break-all text-[12px] text-brand">
+                            Selected: {imageName}
+                        </p>
+                    )}
                 </div>
 
                 <div className="flex justify-end border-t border-line/60 pt-5">
@@ -223,7 +256,7 @@ export default function AddServiceForm() {
                         className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/40 bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-brand-hover sm:w-auto"
                     >
                         <FiPlus aria-hidden="true" size={17} />
-                        {isLoading() ? 'Service Adding ...' : ' Add Service'}
+                        {isloading ? 'Service Adding ...' : ' Add Service'}
                     </button>
                 </div>
             </fieldset>
