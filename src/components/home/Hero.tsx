@@ -40,7 +40,7 @@ const Hero = () => {
                 className="pointer-events-none absolute -top-40 -left-40 -z-10 size-120 rounded-full bg-brand-soft/60 blur-3xl"
             />
 
-            <div className="mx-auto max-w-360 px-4 pt-12 pb-12 sm:px-6 sm:pt-16 sm:pb-16 lg:px-8 lg:pt-14 lg:pb-20 xl:px-12">
+            <div className="mx-auto max-w-360 px-5 pt-12 pb-12 sm:px-6 sm:pt-16 sm:pb-16 lg:px-8 lg:pt-14 lg:pb-20 xl:px-12">
                 <div className="grid items-center gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-10 xl:gap-12">
                     <div className="min-w-0">
                         <p className="inline-flex items-center gap-2 rounded-full bg-panel/80 px-4 py-2 text-[10px] font-semibold tracking-wide text-ink sm:text-xs">

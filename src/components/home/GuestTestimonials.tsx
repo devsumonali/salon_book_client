@@ -27,7 +27,7 @@ const testimonials = [
 export default function GuestTestimonials() {
     return (
         <section aria-labelledby="guest-testimonials-title" className="bg-[#fbf9f6]">
-            <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
+            <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
                 <div className="rounded-3xl border border-line/60 bg-panel p-5 shadow-xs sm:p-8 lg:p-10">
                     <header className="flex items-end justify-between gap-5">
                         <div>

@@ -81,7 +81,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                 ref={dialogRef}
                 id={dialogId}
                 aria-labelledby={`${dialogId}-title`}
-                className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-2xl border border-line bg-panel p-0 text-ink shadow-2xl backdrop:bg-ink/50"
+                className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2.5rem)] max-w-xl overflow-y-auto rounded-2xl border border-line bg-panel p-0 text-ink shadow-2xl backdrop:bg-ink/50"
             >
                 <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-brand-soft/35">
                     {imageUrl && !imageError ? (

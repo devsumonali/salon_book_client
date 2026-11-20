@@ -52,7 +52,7 @@ const Navbar = () => {
             ref={headerRef}
             className="sticky top-0 z-50 w-full shrink-0 border-b border-line bg-surface"
         >
-            <div className="mx-auto flex min-h-18 w-full max-w-360 items-center justify-between gap-3 px-4 sm:min-h-20 sm:px-6 lg:gap-6 lg:px-8 xl:px-12">
+            <div className="mx-auto flex min-h-18 w-full max-w-360 flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 py-3 sm:min-h-20 sm:px-6 lg:flex-nowrap lg:gap-6 lg:px-8 lg:py-0 xl:px-12">
                 <Link
                     href="/"
                     onClick={() => setOpenPathname(null)}
@@ -63,13 +63,13 @@ const Navbar = () => {
 
                 <nav
                     aria-label="Main navigation"
-                    className="hidden items-center gap-1 lg:flex xl:gap-2"
+                    className="order-last flex w-full min-w-0 items-center justify-center gap-1 lg:order-none lg:w-auto lg:justify-start xl:gap-2"
                 >
                     {navLinks.map((link) => (
                         <NavigationLink
                             key={link.href}
                             href={link.href}
-                            className="px-4 py-3 text-sm font-medium"
+                            className="px-3 py-2.5 text-xs font-medium sm:px-4 sm:py-3 sm:text-sm"
                         >
                             {link.label}
                         </NavigationLink>
@@ -93,7 +93,7 @@ const Navbar = () => {
                 id="mobile-navigation"
                 aria-label="Mobile navigation"
                 hidden={!isMenuOpen}
-                className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-line bg-surface px-4 py-4 sm:px-6 lg:hidden"
+                className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-line bg-surface px-5 py-4 sm:px-6 lg:hidden"
             >
                 <div className="mx-auto flex max-w-360 flex-col gap-1">
                     {navLinks.map((link) => (

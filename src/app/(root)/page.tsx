@@ -1,3 +1,4 @@
+import BookingOffer from '@/components/home/BookingOffer';
 import FeaturedListing from '@/components/home/FeaturedListing';
 import GuestTestimonials from '@/components/home/GuestTestimonials';
 import Hero from '@/components/home/Hero';
@@ -12,6 +13,7 @@ export default function Home() {
             <ServiceCategories />
             <SalonDifference />
             <GuestTestimonials />
+            <BookingOffer />
         </>
     );
 }

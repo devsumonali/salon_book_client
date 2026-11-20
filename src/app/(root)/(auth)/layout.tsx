@@ -5,7 +5,7 @@ import { FiArrowUpRight, FiFeather } from 'react-icons/fi';
 
 export default function AuthLayout({ children }: ChildrenProps) {
     return (
-        <section className="bg-surface px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
+        <section className="bg-surface px-5 py-6 sm:px-6 sm:py-10 lg:px-8">
             <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-line bg-[#fcfaf8] shadow-xl shadow-ink/10">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-[#f0ebe5] px-5 py-3 text-[10px] text-muted sm:px-7">
                     <span className="flex items-center gap-2">
@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: ChildrenProps) {
                 </div>
 
                 <div className="grid lg:min-h-180 lg:grid-cols-[0.85fr_1.15fr]">
-                    <aside className="relative isolate flex flex-col justify-between gap-10 overflow-hidden bg-[#211a15] px-6 py-9 text-[#fff8ef] sm:px-10 sm:py-12 lg:gap-16">
+                    <aside className="relative isolate flex min-w-0 flex-col justify-between gap-10 overflow-hidden bg-[#211a15] px-5 py-9 text-[#fff8ef] sm:px-10 sm:py-12 lg:gap-16">
                         <Image
                             src="/images/salon-hero.jpg"
                             alt=""

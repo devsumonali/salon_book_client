@@ -27,7 +27,7 @@ const features = [
 export default function SalonDifference() {
     return (
         <section aria-labelledby="salon-difference-title" className="bg-[#fbf9f6]">
-            <div className="mx-auto grid max-w-7xl gap-8 px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 lg:grid-cols-[0.85fr_1.3fr] lg:items-center lg:gap-10 lg:px-8 lg:pt-20 lg:pb-16">
+            <div className="mx-auto grid max-w-7xl gap-8 px-5 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 lg:grid-cols-[0.85fr_1.3fr] lg:items-center lg:gap-10 lg:px-8 lg:pt-20 lg:pb-16">
                 <header className="max-w-md">
                     <p className="text-[10px] font-semibold tracking-[0.14em] text-brand">
                         A MORE CONSIDERED SALON EXPERIENCE

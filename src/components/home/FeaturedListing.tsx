@@ -7,7 +7,7 @@ const FeaturedListing = async () => {
 
     return (
         <section aria-labelledby="featured-services-title" className="bg-[#fbf9f6]">
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+            <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
                 <header className="mb-8 sm:mb-10">
                     <p className="flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.16em] text-brand">
                         <span aria-hidden="true" className="h-px w-7 bg-brand" />

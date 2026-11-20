@@ -4,7 +4,7 @@ import { FiChevronRight } from 'react-icons/fi';
 
 export default function AddServices() {
     return (
-        <section className="-m-4 min-h-full bg-[#fbf9f6] p-4 sm:-m-6 sm:p-6 lg:min-h-dvh">
+        <section className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh">
             <div className="mx-auto max-w-6xl">
                 <header className="border-b border-line/60 pb-6">
                     <nav aria-label="Breadcrumb" className="mb-1 text-xs">

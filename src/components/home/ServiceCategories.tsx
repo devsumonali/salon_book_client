@@ -23,7 +23,7 @@ const categories = [
 export default function ServiceCategories() {
     return (
         <section aria-labelledby="service-categories-title" className="bg-surface">
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+            <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
                 <header className="mx-auto max-w-2xl text-center">
                     <p className="text-[9px] font-semibold tracking-[0.14em] text-brand sm:text-[10px]">
                         EXPLORE ATELIER DISCIPLINES
