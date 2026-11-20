@@ -1,6 +1,8 @@
 'use client';
 
-import { authClient, signUp } from '@/lib/auth-client';
+import { signUp } from '@/lib/auth-client';
+import { uploadImage } from '@/lib/api/upload';
+import { handleGoogleSignIn } from '@/hooks/common';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
@@ -15,7 +17,6 @@ const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 
 
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
-    const [message, setMessage] = useState('');
     // Track the upload and signup together so the submit button can show a loading state.
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
@@ -38,28 +39,7 @@ export default function SignUpForm() {
 
             // Only upload when the form contains a real file with some content.
             if (imageFile instanceof File && imageFile.size > 0) {
-                // FormData sends the image file as multipart/form-data.
-                // The "image" field name must match what our upload API reads.
-                const uploadData = new FormData();
-                uploadData.append('image', imageFile);
-
-                // Send the file to our server, which uploads it to ImgBB using the private API key.
-                // The browser sets the multipart Content-Type and boundary automatically.
-                const response = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: uploadData,
-                });
-                // Our API returns either { imageUrl: "https://..." } or { error: "..." }.
-                const result = await response.json();
-
-                // Stop before signup if the upload failed or did not return a usable URL string.
-                // Throwing an error sends us to the catch block, which displays a toast.
-                if (!response.ok || typeof result.imageUrl !== 'string' || !result.imageUrl) {
-                    throw new Error(result.error || 'Image upload failed. Please try again.');
-                }
-
-                // Save the hosted image URL so Better Auth can store it with the new user.
-                imageUrl = result.imageUrl;
+                imageUrl = await uploadImage(imageFile);
             }
 
             // The server assigns the default 'user' role; role input is disabled in auth.ts.
@@ -88,17 +68,6 @@ export default function SignUpForm() {
         } finally {
             // Always re-enable the submit button, whether the request succeeded or failed.
             setIsSubmitting(false);
-        }
-    };
-
-    const handleGoogleSignIn = async () => {
-        const { error } = await authClient.signIn.social({
-            provider: 'google',
-        });
-
-        if (error) {
-            toast.error(error.message || 'there are some issue for signin');
-            return;
         }
     };
 
@@ -262,14 +231,6 @@ export default function SignUpForm() {
                     {isSubmitting ? 'Creating your account...' : 'Create My Account'}
                     <FiArrowRight aria-hidden="true" size={17} />
                 </button>
-                {message && (
-                    <p
-                        role="status"
-                        className="rounded-lg bg-brand-soft px-3 py-2 text-xs leading-5 text-brand"
-                    >
-                        {message}
-                    </p>
-                )}
             </form>
 
             <p className="mt-6 text-center text-xs leading-6 text-muted">

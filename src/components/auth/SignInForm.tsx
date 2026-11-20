@@ -1,6 +1,7 @@
 'use client';
 
-import { authClient, signIn } from '@/lib/auth-client';
+import { signIn } from '@/lib/auth-client';
+import { handleGoogleSignIn } from '@/hooks/common';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
@@ -14,9 +15,9 @@ const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 
 
 export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
-    const [message, setMessage] = useState('');
     const router = useRouter();
 
+    //form event handaler function
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const form = event.currentTarget;
@@ -39,16 +40,6 @@ export default function SignInForm() {
             router.push('/dashboard');
         }
     }
-
-    const hangleGoogleSignIn = async () => {
-        const { error } = await authClient.signIn.social({
-            provider: 'google',
-        });
-
-        if (error) {
-            toast.error('Sign in problem');
-        }
-    };
 
     return (
         <>
@@ -80,7 +71,7 @@ export default function SignInForm() {
             <form aria-label="Sign in" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={hangleGoogleSignIn}
+                    onClick={handleGoogleSignIn}
                     className="flex w-full items-center cursor-pointer justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
                 >
                     <FcGoogle aria-hidden="true" size={20} />
@@ -164,14 +155,6 @@ export default function SignInForm() {
                     Continue to Login
                     <FiArrowRight aria-hidden="true" size={17} />
                 </button>
-                {message && (
-                    <p
-                        role="status"
-                        className="rounded-lg bg-brand-soft px-3 py-2 text-xs leading-5 text-brand"
-                    >
-                        {message}
-                    </p>
-                )}
             </form>
 
             <p className="mt-6 text-center text-xs leading-6 text-muted">

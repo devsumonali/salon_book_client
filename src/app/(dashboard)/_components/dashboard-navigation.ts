@@ -21,7 +21,7 @@ export const dashboardNavigation: Record<DashboardRole, DashboardNavigationItem[
     admin: [
         { label: 'Overview', href: '/dashboard/admin/overview', icon: FiGrid },
         { label: 'Manage Services', href: '/dashboard/admin/manage-services', icon: FiScissors },
-        { label: 'Add/Update Service', href: '/dashboard/admin/add-services', icon: FiEdit3 },
+        { label: 'Add Services', href: '/dashboard/admin/add-services', icon: FiEdit3 },
         {
             label: 'Manage Appointments',
             href: '/dashboard/admin/manage-appointments',

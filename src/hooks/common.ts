@@ -1,6 +1,6 @@
 'use client';
 
-import { signOut } from '@/lib/auth-client';
+import { authClient, signOut } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -33,4 +33,18 @@ export const useSignOut = () => {
     }
 
     return { handleSignOut, isSigningOut };
+};
+
+export const handleGoogleSignIn = async () => {
+    try {
+        const { error } = await authClient.signIn.social({
+            provider: 'google',
+        });
+
+        if (error) {
+            toast.error(error.message || 'Google sign-in failed. Please try again.');
+        }
+    } catch {
+        toast.error('Google sign-in failed. Please try again.');
+    }
 };
