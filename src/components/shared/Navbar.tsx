@@ -9,7 +9,7 @@ import UserMenu from './UserMenu';
 
 const navLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Browse Services', href: '/browse-service' },
+    { label: 'Browse Services', href: '/service' },
     { label: 'About', href: '/about' },
 ];
 
@@ -78,7 +78,7 @@ const Navbar = () => {
 
                 <div className="flex shrink-0 items-center gap-2 sm:gap-4">
                     <Link
-                        href="/browse-service"
+                        href="/service"
                         className="hidden min-h-11 items-center justify-center gap-2 rounded-md bg-brand px-4 py-3 text-xs font-semibold text-panel transition-colors hover:bg-brand-hover sm:flex"
                     >
                         <FiCalendar size={16} aria-hidden="true" />
@@ -107,7 +107,7 @@ const Navbar = () => {
                         </NavigationLink>
                     ))}
                     <Link
-                        href="/browse-service"
+                        href="/service"
                         onClick={() => setOpenPathname(null)}
                         className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand px-4 py-3 text-sm font-semibold text-panel transition-colors hover:bg-brand-hover sm:hidden"
                     >

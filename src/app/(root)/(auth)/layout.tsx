@@ -71,7 +71,7 @@ export default function AuthLayout({ children }: ChildrenProps) {
                                 </div>
                             </div>
                             <Link
-                                href="/browse-service"
+                                href="/service"
                                 className="mt-7 flex items-center justify-between text-xs text-[#edc5ae] transition-colors hover:text-white"
                             >
                                 Explore our signature rituals

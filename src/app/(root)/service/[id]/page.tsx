@@ -1,4 +1,4 @@
-﻿import { getSingleService } from '@/lib/api/services';
+import { getSingleService } from '@/lib/api/services';
 import { formatServicePrice, serviceCategories } from '@/lib/service-display';
 import type { AddServiceData } from '@/types/service';
 import Link from 'next/link';
@@ -20,7 +20,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
     });
 
     if (!session) {
-        const callbackUrl = `/browse-service/${encodeURIComponent(id)}`;
+        const callbackUrl = `/service/${encodeURIComponent(id)}`;
         redirect(`/sign-in?${new URLSearchParams({ callbackUrl })}`);
     }
 
@@ -53,7 +53,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
                                 <FiChevronRight size={12} />
                             </li>
                             <li>
-                                <Link href="/browse-service" className="hover:text-brand">
+                                <Link href="/service" className="hover:text-brand">
                                     Browse Services
                                 </Link>
                             </li>

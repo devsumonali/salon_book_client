@@ -68,7 +68,7 @@ const Hero = () => {
                         </p>
 
                         <Form
-                            action="/browse-service"
+                            action="/service"
                             aria-label="Find salon services"
                             className="mt-8 grid min-w-0 gap-3 rounded-2xl bg-panel p-3 shadow-lg shadow-ink/5 sm:grid-cols-2 xl:mt-10 xl:grid-cols-[1fr_1.1fr_1.25fr_auto]"
                         >
@@ -172,7 +172,7 @@ const Hero = () => {
                                 <p className="text-muted">3 slots with Senior Colorist</p>
                             </div>
                             <Link
-                                href="/browse-service"
+                                href="/service"
                                 className="inline-flex min-h-11 shrink-0 items-center px-1 text-xs font-semibold text-brand hover:underline sm:px-2"
                             >
                                 Reserve

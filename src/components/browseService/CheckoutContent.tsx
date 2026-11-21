@@ -60,7 +60,7 @@ const CheckoutContent = () => {
                     No booking details found. Please select a service first.
                 </p>
                 <Link
-                    href="/browse-service"
+                    href="/service"
                     className="mt-4 inline-block font-semibold text-brand underline underline-offset-4"
                 >
                     Browse services

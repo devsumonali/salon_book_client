@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { FiInstagram, FiFacebook, FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
 
 const quickLinks = [
-    { label: 'Browse Services', href: '/browse-service' },
+    { label: 'Browse Services', href: '/service' },
     { label: 'Master Stylists', href: '/stylists' },
     { label: 'Atelier Gift Cards', href: '/gift-cards' },
-    { label: 'Treatment Pricing', href: '/browse-service' },
+    { label: 'Treatment Pricing', href: '/service' },
 ];
 
 const policyLinks = [
