@@ -15,3 +15,7 @@ export type AddServiceData = {
     description: string;
     image?: string;
 };
+
+export type UpdateServiceData = Omit<AddServiceData, '_id' | 'image'> & {
+    image?: string;
+};

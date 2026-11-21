@@ -122,12 +122,13 @@ export default function ManageServicesContent({ services }: ManageServicesConten
             </section>
 
             <section aria-label="Salon service catalog" className="overflow-hidden rounded-xl border border-line/50 bg-panel shadow-xs">
-                <div aria-hidden="true" className="hidden items-center gap-x-4 bg-surface px-5 py-4 text-[10px] font-semibold tracking-[0.04em] text-muted md:grid md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px]">
+                <div aria-hidden="true" className="hidden items-center gap-x-4 bg-surface px-5 py-4 text-[10px] font-semibold tracking-[0.04em] text-muted md:grid md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px_96px]">
                     <span>SERVICE DETAILS</span>
                     <span>CATEGORY</span>
                     <span>DURATION</span>
                     <span>PRICING</span>
                     <span>STATUS</span>
+                    <span className="text-right">ACTIONS</span>
                 </div>
 
                 <div aria-live="polite" aria-atomic="true" className="sr-only">

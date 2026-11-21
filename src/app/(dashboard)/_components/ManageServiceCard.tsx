@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { FiClock, FiScissors } from 'react-icons/fi';
 import { formatServicePrice, serviceCategories } from '@/lib/service-display';
+import UpdateBtn from './UpdateBtn';
+import DeleteBtn from './DeleteBtn';
 
 type ManageServiceCardProps = {
     service: AddServiceData;
@@ -17,7 +19,7 @@ export default function ManageServiceCard({ service }: ManageServiceCardProps) {
     const hasImage = service.image?.startsWith('https://') && !imageError;
 
     return (
-        <li className="grid grid-cols-2 items-center gap-x-4 gap-y-4 px-4 py-5 transition-colors hover:bg-surface/40 sm:px-5 md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px] md:gap-x-4 md:py-6">
+        <li className="grid grid-cols-2 items-center gap-x-4 gap-y-4 px-4 py-5 transition-colors hover:bg-surface/40 sm:px-5 md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px_96px] md:gap-x-4 md:py-6">
             <div className="col-span-2 flex min-w-0 items-center gap-3 md:col-span-1">
                 <div className="relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-line/70 bg-brand-soft/40">
                     {hasImage ? (
@@ -90,6 +92,11 @@ export default function ManageServiceCard({ service }: ManageServiceCardProps) {
                 >
                     <span className="size-3.5 rounded-full bg-white shadow-xs" />
                 </span>
+            </div>
+
+            <div className="col-span-2 flex items-center justify-end gap-2 md:col-span-1">
+                <UpdateBtn service={service} />
+                <DeleteBtn service={service} />
             </div>
         </li>
     );
