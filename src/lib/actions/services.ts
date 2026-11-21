@@ -20,3 +20,18 @@ export const getUpdateService = async (id: string, serviceUpdateData: UpdateServ
         throw error;
     }
 };
+
+export const getDeleteService = async (id: string) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services/${id}`, {
+            method: 'DELETE',
+        });
+        if (!res.ok) {
+            throw new Error('Faild to update service');
+        }
+        return await res.json();
+    } catch (error) {
+        console.log('update Api error:', error);
+        throw error;
+    }
+};

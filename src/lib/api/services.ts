@@ -11,7 +11,7 @@ export const getAddServices = async (servicesData: Omit<AddServiceData, '_id'>) 
             body: JSON.stringify(servicesData),
         });
 
-        return res.json();
+        return res;
     } catch (error) {
         console.error('Error adding service:', error);
         throw error;

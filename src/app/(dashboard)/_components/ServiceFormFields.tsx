@@ -170,7 +170,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                         }}
                         name="image"
                         type="file"
-                        accept="image/png,image/jpeg"
+                        accept="image/png,image/jpeg,image/webp"
                         aria-describedby={`${id}-image-hint`}
                         className="sr-only"
                     />
@@ -183,7 +183,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                         </span>
                     </span>
                     <span id={`${id}-image-hint`} className="mt-2 text-[10px] text-subtle">
-                        PNG or JPG up to 2MB
+                        PNG, JPG or WebP up to 2MB
                     </span>
                 </label>
                 {imageName && (
