@@ -1,3 +1,5 @@
-export default function Transactions() {
+const Transactions = () => {
     return <div>Transactions</div>;
-}
+};
+
+export default Transactions;

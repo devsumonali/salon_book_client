@@ -5,6 +5,8 @@ export const metadata: Metadata = {
     title: 'Create Account | SalonBook',
 };
 
-export default function SignUpPage() {
+const SignUpPage = () => {
     return <SignUpForm />;
-}
+};
+
+export default SignUpPage;

@@ -151,10 +151,13 @@ const ServiceSinglePage = async ({ params }: Props) => {
                 <aside aria-label="Appointment booking" className="min-w-0 lg:sticky lg:top-28">
                     <ServiceBookingForm
                         serviceName={service.name}
+                        serviceCategory={category?.label || service.category}
+                        serviceImage={service.image || '/images/salon-hero.jpg'}
                         price={service.price}
                         duration={service.duration}
                         status={service.status}
                         today={today}
+                        id={service._id}
                     />
                 </aside>
             </div>

@@ -5,7 +5,7 @@ import Hero from '@/components/home/Hero';
 import ServiceCategories from '@/components/home/ServiceCategories';
 import SalonDifference from '@/components/home/SalonDifference';
 
-export default function Home() {
+const Home = () => {
     return (
         <>
             <Hero />
@@ -16,4 +16,6 @@ export default function Home() {
             <BookingOffer />
         </>
     );
-}
+};
+
+export default Home;

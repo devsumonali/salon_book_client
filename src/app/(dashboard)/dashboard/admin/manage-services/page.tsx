@@ -3,7 +3,7 @@ import { formatServicePrice } from '@/lib/service-display';
 import { getServiceProps } from '@/lib/api/services';
 import { FiCreditCard, FiFeather } from 'react-icons/fi';
 
-export default async function ManageService() {
+const ManageService = async () => {
     const services = await getServiceProps();
     const activeCount = services.filter((service) => service.status === 'active').length;
     const averagePrice = services.length > 0
@@ -56,4 +56,6 @@ export default async function ManageService() {
             </div>
         </section>
     );
-}
+};
+
+export default ManageService;

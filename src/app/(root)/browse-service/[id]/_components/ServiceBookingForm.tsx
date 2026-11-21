@@ -1,22 +1,26 @@
 'use client';
 
+import { authClient } from '@/lib/auth-client';
 import { formatServicePrice } from '@/lib/service-display';
 import type { AddServiceData } from '@/types/service';
-import { useId, useState } from 'react';
+import type { PendingBookingData } from '@/types/checkout.data';
+import { useId, useState, type SubmitEvent } from 'react';
 import {
     FiCalendar,
     FiChevronLeft,
     FiChevronRight,
     FiClock,
     FiEdit3,
-    FiInfo,
     FiLock,
-    FiUser,
 } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 type ServiceBookingFormProps = Pick<AddServiceData, 'price' | 'duration' | 'status'> & {
     serviceName: string;
+    serviceCategory: string;
+    serviceImage: string;
     today: string;
+    id: string;
 };
 
 const preferredTimes = ['09:30 AM', '11:00 AM', '01:30 PM', '03:00 PM', '05:00 PM'];
@@ -33,11 +37,16 @@ function dateKey(year: number, month: number, day: number) {
 
 export default function ServiceBookingForm({
     serviceName,
+    serviceCategory,
+    serviceImage,
     price,
     duration,
     status,
     today,
+    id,
 }: ServiceBookingFormProps) {
+    const { data: session } = authClient.useSession();
+    const router = useRouter();
     const formId = useId();
     const [selectedDate, setSelectedDate] = useState(today);
     const [selectedTime, setSelectedTime] = useState('11:00 AM');
@@ -63,10 +72,36 @@ export default function ServiceBookingForm({
         year: 'numeric',
     });
 
+    const handleServiceBooking = async (e: SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!session?.user) return;
+
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        const bookingData: PendingBookingData = {
+            date: selectedDate,
+            time: selectedTime,
+            notes: String(formData.get('notes') || ''),
+            userId: session.user.id,
+            name: session.user.name,
+            email: session.user.email,
+            service: {
+                name: serviceName,
+                category: serviceCategory,
+                image: serviceImage,
+                duration,
+                price,
+            },
+        };
+        localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
+        router.push(`/checkout?bookingId=${id}`);
+    };
+
     return (
         <form
             aria-labelledby={`${formId}-title`}
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleServiceBooking}
             className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_8px_24px_-12px_rgba(36,32,30,0.3)]"
         >
             <div className="border-b border-line/70 bg-[#eeebe7] px-5 py-6 sm:px-6">
@@ -189,61 +224,6 @@ export default function ServiceBookingForm({
                     </p>
                 </fieldset>
 
-                <fieldset>
-                    <legend className="mb-3 inline-flex items-center gap-2 text-sm font-semibold">
-                        <FiUser aria-hidden="true" size={15} className="text-brand" />
-                        3. Your details
-                    </legend>
-                    <div className="space-y-4">
-                        <div>
-                            <label htmlFor={`${formId}-name`} className="mb-2 block text-sm font-medium">
-                                Full name <span aria-hidden="true" className="text-brand">*</span>
-                            </label>
-                            <input
-                                id={`${formId}-name`}
-                                name="fullName"
-                                type="text"
-                                autoComplete="name"
-                                required
-                                maxLength={100}
-                                placeholder="Enter your full name"
-                                className="block min-h-12 w-full rounded-xl border border-transparent bg-surface px-3.5 py-3 text-sm text-ink placeholder:text-subtle focus:border-brand/40"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor={`${formId}-email`} className="mb-2 block text-sm font-medium">
-                                Email address <span aria-hidden="true" className="text-brand">*</span>
-                            </label>
-                            <input
-                                id={`${formId}-email`}
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                maxLength={254}
-                                placeholder="you@example.com"
-                                className="block min-h-12 w-full rounded-xl border border-transparent bg-surface px-3.5 py-3 text-sm text-ink placeholder:text-subtle focus:border-brand/40"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor={`${formId}-phone`} className="mb-2 block text-sm font-medium">
-                                Phone number <span aria-hidden="true" className="text-brand">*</span>
-                            </label>
-                            <input
-                                id={`${formId}-phone`}
-                                name="phone"
-                                type="tel"
-                                inputMode="tel"
-                                autoComplete="tel"
-                                required
-                                maxLength={30}
-                                placeholder="Enter your phone number"
-                                className="block min-h-12 w-full rounded-xl border border-transparent bg-surface px-3.5 py-3 text-sm text-ink placeholder:text-subtle focus:border-brand/40"
-                            />
-                        </div>
-                    </div>
-                </fieldset>
-
                 <div>
                     <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                         <label
@@ -251,7 +231,7 @@ export default function ServiceBookingForm({
                             className="inline-flex items-center gap-2 text-sm font-semibold"
                         >
                             <FiEdit3 aria-hidden="true" size={15} className="text-brand" />
-                            4. Special requests
+                            3. Special requests
                         </label>
                         <span className="text-xs text-subtle">Optional</span>
                     </div>
@@ -287,30 +267,14 @@ export default function ServiceBookingForm({
                 <div>
                     <button
                         type="submit"
-                        disabled
                         aria-describedby={`${formId}-booking-note`}
-                        className="flex min-h-12 w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-brand-hover/30 bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm"
+                        className="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/30 bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm"
                     >
                         <FiCalendar aria-hidden="true" size={16} />
                         {status === 'inactive'
                             ? 'Service currently unavailable'
                             : 'Submit Appointment Request'}
                     </button>
-                    <p
-                        id={`${formId}-booking-note`}
-                        className="mt-3 flex items-start gap-2 text-xs leading-5 text-muted"
-                    >
-                        <FiInfo
-                            aria-hidden="true"
-                            size={14}
-                            className="mt-0.5 shrink-0 text-brand"
-                        />
-                        <span>
-                            {status === 'inactive'
-                                ? 'This service is currently unavailable for booking.'
-                                : 'Online booking will be available soon. No appointment is reserved or payment collected yet.'}
-                        </span>
-                    </p>
                 </div>
             </div>
         </form>
