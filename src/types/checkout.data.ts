@@ -1,4 +1,5 @@
 export type ServiceBookingData = {
+    serviceId: string;
     date: string;
     time: string;
     notes: string;
@@ -27,5 +28,20 @@ export type CheckoutBooking = {
 
 export type PendingBookingData = ServiceBookingData & {
     service: CheckoutBooking['service'];
+};
+
+export type CheckoutSessionData = {
+    id: string;
+    bookingId: string;
+    name: string;
+    email: string;
+    serviceName: string;
+    date: string;
+    time: string;
+    notes?: string;
+    amountTotal: number | null;
+    currency: string | null;
+    paymentStatus: 'paid' | 'unpaid' | 'no_payment_required';
+    status: 'open' | 'complete' | 'expired' | null;
 };
 

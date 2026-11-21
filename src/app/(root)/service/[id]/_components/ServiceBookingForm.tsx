@@ -74,12 +74,13 @@ export default function ServiceBookingForm({
 
     const handleServiceBooking = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!session?.user) return;
+        if (!session?.user || status === 'inactive') return;
 
         const form = e.currentTarget;
         const formData = new FormData(form);
 
         const bookingData: PendingBookingData = {
+            serviceId: id,
             date: selectedDate,
             time: selectedTime,
             notes: String(formData.get('notes') || ''),
@@ -267,6 +268,7 @@ export default function ServiceBookingForm({
                 <div>
                     <button
                         type="submit"
+                        disabled={status === 'inactive'}
                         aria-describedby={`${formId}-booking-note`}
                         className="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/30 bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm"
                     >
