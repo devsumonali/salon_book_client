@@ -99,7 +99,7 @@ export default function SignUpForm() {
             <form aria-label="Create account" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={handleGoogleSignIn}
+                    onClick={() => handleGoogleSignIn()}
                     className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
                 >
                     <FcGoogle aria-hidden="true" size={20} />

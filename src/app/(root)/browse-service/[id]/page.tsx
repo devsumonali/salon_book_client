@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { FiChevronRight, FiClock, FiHome, FiScissors } from 'react-icons/fi';
 import ServiceDetailImage from './_components/ServiceDetailImage';
 import ServiceBookingForm from './_components/ServiceBookingForm';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 interface Props {
     params: Promise<{ id: string }>;
@@ -12,6 +15,15 @@ interface Props {
 
 const ServiceSinglePage = async ({ params }: Props) => {
     const { id } = await params;
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    if (!session) {
+        const callbackUrl = `/browse-service/${encodeURIComponent(id)}`;
+        redirect(`/sign-in?${new URLSearchParams({ callbackUrl })}`);
+    }
+
     const service: AddServiceData = await getSingleService(id);
 
     const category = serviceCategories[service.category];
@@ -25,7 +37,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
     return (
         <div className="bg-[#fbf9f6]">
             <div className="border-b border-line/70 bg-surface/70">
-                <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex w-full max-w-360 flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-4 sm:px-6 lg:px-8 xl:px-12">
                     <nav aria-label="Breadcrumb" className="min-w-0">
                         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-6 text-muted sm:text-sm">
                             <li>
@@ -62,7 +74,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
                 </div>
             </div>
 
-            <div className="mx-auto grid max-w-7xl items-start gap-8 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,1fr)] lg:gap-10 lg:px-8 lg:py-12">
+            <div className="mx-auto grid w-full max-w-360 items-start gap-8 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,1fr)] lg:gap-10 lg:px-8 lg:py-12 xl:px-12">
                 <div className="min-w-0 space-y-6">
                     <ServiceDetailImage
                         image={service.image}

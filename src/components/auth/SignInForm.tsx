@@ -13,7 +13,7 @@ const inputClass =
     'w-full min-w-0 rounded-xl border border-line bg-white py-3.5 pr-12 pl-11 text-sm text-ink placeholder:text-subtle/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15';
 const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-brand/70';
 
-export default function SignInForm() {
+export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl?: string }) {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
@@ -37,7 +37,7 @@ export default function SignInForm() {
             toast.success('User sign in successful! ' + 'User Name: ' + resData.user.name);
             form.reset();
             router.refresh();
-            router.push('/dashboard');
+            router.replace(callbackUrl);
         }
     }
 
@@ -71,7 +71,7 @@ export default function SignInForm() {
             <form aria-label="Sign in" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={handleGoogleSignIn}
+                    onClick={() => handleGoogleSignIn(callbackUrl)}
                     className="flex w-full items-center cursor-pointer justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
                 >
                     <FcGoogle aria-hidden="true" size={20} />

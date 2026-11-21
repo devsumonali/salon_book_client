@@ -35,10 +35,11 @@ export const useSignOut = () => {
     return { handleSignOut, isSigningOut };
 };
 
-export const handleGoogleSignIn = async () => {
+export const handleGoogleSignIn = async (callbackURL?: string) => {
     try {
         const { error } = await authClient.signIn.social({
             provider: 'google',
+            callbackURL,
         });
 
         if (error) {
