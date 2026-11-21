@@ -4,13 +4,14 @@ import { authClient } from '@/lib/auth-client';
 import { formatServicePrice } from '@/lib/service-display';
 import type { AddServiceData } from '@/types/service';
 import type { PendingBookingData } from '@/types/checkout.data';
-import { useId, useState, type SubmitEvent } from 'react';
+import { useId, useState, useTransition, type SubmitEvent } from 'react';
 import {
     FiCalendar,
     FiChevronLeft,
     FiChevronRight,
     FiClock,
     FiEdit3,
+    FiLoader,
     FiLock,
 } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
@@ -47,6 +48,7 @@ export default function ServiceBookingForm({
 }: ServiceBookingFormProps) {
     const { data: session } = authClient.useSession();
     const router = useRouter();
+    const [isLoading, startTransition] = useTransition();
     const formId = useId();
     const [selectedDate, setSelectedDate] = useState(today);
     const [selectedTime, setSelectedTime] = useState('11:00 AM');
@@ -74,7 +76,7 @@ export default function ServiceBookingForm({
 
     const handleServiceBooking = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!session?.user || status === 'inactive') return;
+        if (!session?.user || status === 'inactive' || isLoading) return;
 
         const form = e.currentTarget;
         const formData = new FormData(form);
@@ -96,7 +98,9 @@ export default function ServiceBookingForm({
             },
         };
         localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
-        router.push(`/checkout?bookingId=${id}`);
+        startTransition(() => {
+            router.push(`/checkout?bookingId=${id}`);
+        });
     };
 
     return (
@@ -268,14 +272,21 @@ export default function ServiceBookingForm({
                 <div>
                     <button
                         type="submit"
-                        disabled={status === 'inactive'}
+                        disabled={status === 'inactive' || isLoading}
+                        aria-busy={isLoading}
                         aria-describedby={`${formId}-booking-note`}
-                        className="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/30 bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm"
+                        className="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/30 bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                        <FiCalendar aria-hidden="true" size={16} />
+                        {isLoading ? (
+                            <FiLoader aria-hidden="true" size={16} className="animate-spin" />
+                        ) : (
+                            <FiCalendar aria-hidden="true" size={16} />
+                        )}
                         {status === 'inactive'
                             ? 'Service currently unavailable'
-                            : 'Submit Appointment Request'}
+                            : isLoading
+                              ? 'Processing...'
+                              : 'Submit Appointment Request'}
                     </button>
                 </div>
             </div>
