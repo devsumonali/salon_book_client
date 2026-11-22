@@ -1,6 +1,6 @@
 'use client';
 
-export default function DashboardError({ reset }: { reset: () => void }) {
+export default function DashboardError({ retry }: { retry: () => void }) {
     return (
         <div className="dashboard-page">
             <section className="ui-card p-8 text-center">
@@ -8,7 +8,7 @@ export default function DashboardError({ reset }: { reset: () => void }) {
                 <p className="mt-3 text-base text-muted">
                     Please try again. If your login expired, sign in again.
                 </p>
-                <button onClick={reset} className="ui-button mt-5">
+                <button onClick={retry} className="ui-button mt-5">
                     Try again
                 </button>
             </section>

@@ -5,6 +5,7 @@ import { jwt } from 'better-auth/plugins';
 import { APIError, createAuthMiddleware } from 'better-auth/api';
 
 const client = new MongoClient(process.env.MONGODB_URI as string);
+await client.connect();
 const db = client.db('salon_booking_db');
 const authUrl = (process.env.BETTER_AUTH_URL || 'http://localhost:3000').replace(/\/$/, '');
 
