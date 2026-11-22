@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 
 import CheckoutContent from '@/components/browseService/CheckoutContent';
+import { requireUser } from '@/lib/auth-session';
 
 export const metadata: Metadata = {
     title: 'Checkout | SalonBook',
     description: 'Review your salon appointment, booking details, and payment summary.',
 };
 
-const CheckoutPage = () => {
+const CheckoutPage = async () => {
+    await requireUser('user');
     return (
         <div className="flex min-h-dvh flex-1 flex-col bg-surface/70">
             <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8 sm:px-8 sm:py-12">

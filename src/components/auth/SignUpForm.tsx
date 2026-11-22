@@ -31,6 +31,11 @@ export default function SignUpForm() {
         const userData = Object.fromEntries(formData.entries());
         // Read the file input using its name="image" attribute. This is a File, not a URL.
         const imageFile = formData.get('image');
+        const password = String(userData.password || '');
+        if (password.length < 6 || !/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
+            toast.error('Use at least 6 characters with an uppercase and a lowercase letter.');
+            return;
+        }
         setIsSubmitting(true);
 
         try {
@@ -57,7 +62,8 @@ export default function SignUpForm() {
 
             toast.success('User registration successful! ' + 'User Name: ' + resData.user.name);
             form.reset();
-            router.push('/');
+            router.refresh();
+            router.push('/dashboard');
         } catch (error) {
             // Show upload, network or unexpected signup errors without reloading the page.
             toast.error(
@@ -196,7 +202,8 @@ export default function SignUpForm() {
                             autoComplete="new-password"
                             placeholder="Create a password"
                             required
-                            minLength={8}
+                            minLength={6}
+                            pattern="(?=.*[a-z])(?=.*[A-Z]).{6,}"
                             aria-describedby="password-hint"
                             className={inputClass}
                         />
@@ -215,7 +222,7 @@ export default function SignUpForm() {
                         </button>
                     </div>
                     <p id="password-hint" className="mt-2 text-xs text-subtle">
-                        Use at least 8 characters.
+                        Use at least 6 characters, including uppercase and lowercase letters.
                     </p>
                 </div>
 

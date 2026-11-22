@@ -77,7 +77,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                             name="price"
                             defaultValue={service?.price ?? ''}
                             type="number"
-                            min="0"
+                            min="0.01"
                             step="0.01"
                             placeholder="0.00"
                             required
@@ -124,7 +124,9 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                                     type="radio"
                                     name="status"
                                     value={status.toLowerCase()}
-                                    defaultChecked={service?.status === status.toLowerCase()}
+                                    defaultChecked={
+                                        (service?.status || 'active') === status.toLowerCase()
+                                    }
                                     className="peer sr-only"
                                 />
                                 <span className="flex w-full items-center justify-center rounded-md border border-transparent px-2 py-2 text-[10px] font-medium text-muted transition-colors peer-checked:border-brand-hover/40 peer-checked:bg-brand peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
@@ -187,9 +189,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                     </span>
                 </label>
                 {imageName && (
-                    <p className="mt-2 break-all text-[12px] text-brand">
-                        Selected: {imageName}
-                    </p>
+                    <p className="mt-2 break-all text-[12px] text-brand">Selected: {imageName}</p>
                 )}
             </div>
         </>

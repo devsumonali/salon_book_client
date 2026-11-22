@@ -1,7 +1,9 @@
 import type { ChildrenProps } from '@/types/types';
 import DashboardSideBar from '../_components/DashboardSideBar';
+import { requireUser } from '@/lib/auth-session';
 
-export default function DashboardLayout({ children }: ChildrenProps) {
+export default async function DashboardLayout({ children }: ChildrenProps) {
+    await requireUser();
     return (
         <div className="min-h-dvh lg:flex">
             <DashboardSideBar />

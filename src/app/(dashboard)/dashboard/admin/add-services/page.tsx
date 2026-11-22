@@ -1,8 +1,10 @@
-import AddServiceForm from '@/app/(dashboard)/_components/AddServiceForm';
+import { requireUser } from '@/lib/auth-session';
+import AddServiceForm from '@/app/(dashboard)/_components/admin/AddServiceForm';
 import Link from 'next/link';
 import { FiChevronRight } from 'react-icons/fi';
 
-const AddServices = () => {
+const AddServices = async () => {
+    await requireUser('admin');
     return (
         <section className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh">
             <div className="mx-auto max-w-6xl">

@@ -1,13 +1,11 @@
 import { getSingleService } from '@/lib/api/services';
 import { formatServicePrice, serviceCategories } from '@/lib/service-display';
-import type { AddServiceData } from '@/types/service';
 import Link from 'next/link';
 import { FiChevronRight, FiClock, FiHome, FiScissors } from 'react-icons/fi';
 import ServiceDetailImage from './_components/ServiceDetailImage';
 import ServiceBookingForm from './_components/ServiceBookingForm';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { getApiToken, requireUser } from '@/lib/auth-session';
 
 interface Props {
     params: Promise<{ id: string }>;
@@ -15,16 +13,9 @@ interface Props {
 
 const ServiceSinglePage = async ({ params }: Props) => {
     const { id } = await params;
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    if (!session) {
-        const callbackUrl = `/service/${encodeURIComponent(id)}`;
-        redirect(`/sign-in?${new URLSearchParams({ callbackUrl })}`);
-    }
-
-    const service: AddServiceData = await getSingleService(id);
+    const session = await requireUser();
+    const service = await getSingleService(id, await getApiToken());
+    if (!service) notFound();
 
     const category = serviceCategories[service.category];
     const today = new Intl.DateTimeFormat('en-CA', {
@@ -149,7 +140,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
                 </div>
 
                 <aside aria-label="Appointment booking" className="min-w-0 lg:sticky lg:top-28">
-                    <ServiceBookingForm
+                    {session.user.role === 'user' ? <ServiceBookingForm
                         serviceName={service.name}
                         serviceCategory={category?.label || service.category}
                         serviceImage={service.image || '/images/salon-hero.jpg'}
@@ -158,7 +149,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
                         status={service.status}
                         today={today}
                         id={service._id}
-                    />
+                    /> : <div className="rounded-2xl border border-line bg-panel p-6"><h2 className="text-2xl">Admin preview</h2><p className="mt-3 text-base leading-7 text-muted">Appointment requests are available to customer accounts.</p><Link href="/dashboard/admin/manage-services" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand underline">Manage services</Link></div>}
                 </aside>
             </div>
         </div>

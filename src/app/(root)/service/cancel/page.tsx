@@ -61,11 +61,11 @@ const CancelPage = () => {
 
                     <div className="mt-8 grid gap-3 sm:grid-cols-2">
                         <Link
-                            href="/checkout"
+                            href="/dashboard/customer/my-appointments"
                             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-hover"
                         >
                             <FiCreditCard aria-hidden="true" size={18} />
-                            Return to checkout
+                            My Appointments
                         </Link>
                         <Link
                             href="/service"

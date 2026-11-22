@@ -63,7 +63,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
                 <div className="mt-auto pt-6">
                     <Link
-                        href={`/service/${service._id}`}
+                        href={`/services/${service._id}`}
                         className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#edeae5] px-4 py-3 text-xs font-semibold text-ink transition-colors hover:bg-brand hover:text-white"
                     >
                         View Details

@@ -3,7 +3,7 @@ import ServiceCard from './ServiceCard';
 
 const FeaturedListing = async () => {
     const services = await getServiceProps();
-    const activeServices = services.filter((service) => service.status === 'active');
+    const activeServices = services.filter((service) => service.status === 'active').slice(0, 6);
 
     return (
         <section aria-labelledby="featured-services-title" className="bg-[#fbf9f6]">

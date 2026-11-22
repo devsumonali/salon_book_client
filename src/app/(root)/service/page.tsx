@@ -3,15 +3,17 @@ import { FiSearch, FiScissors } from 'react-icons/fi';
 import { getServiceProps } from '@/lib/api/services';
 import ServiceCard from '@/components/home/ServiceCard';
 import ServiceCategoryFilter from '@/components/browseService/ServiceCategoryFilter';
+import ServiceSort from '@/components/browseService/ServiceSort';
 
 export default async function BrowseServicePage({ searchParams }: {
-    searchParams: Promise<{ search?: string | string[]; category?: string | string[] }>;
+    searchParams: Promise<{ search?: string | string[]; category?: string | string[]; sort?: string }>;
 }) {
     const params = await searchParams;
     const search = typeof params.search === 'string' ? params.search.trim() : '';
     const categories = search ? [] : (Array.isArray(params.category) ? params.category : [params.category || '']).filter(Boolean);
     const filters = search ? { search, status: 'active' as const } : { category: categories, status: 'active' as const };
-    const services = await getServiceProps(filters);
+    const sort = ['price-asc', 'price-desc'].includes(params.sort || '') ? params.sort! : '';
+    const services = await getServiceProps({ ...filters, sort });
 
     return (
         <section className="bg-[#fbf9f6]">
@@ -23,6 +25,7 @@ export default async function BrowseServicePage({ searchParams }: {
                 </header>
                 <div className="mt-8 rounded-2xl border border-line bg-panel p-4 sm:p-5">
                     <form action="/service" method="GET" className="flex flex-wrap items-center gap-3">
+                    {sort && <input type="hidden" name="sort" value={sort} />}
                     <label className="flex min-w-0 flex-1 basis-64 items-center gap-3 rounded-xl border border-line px-4">
                         <FiSearch size={18} aria-hidden="true" className="shrink-0 text-muted" />
                         <input key={search} name="search" type="search" aria-label="Search services" defaultValue={search} placeholder="Search services…" maxLength={120} className="min-h-12 w-full min-w-0 bg-transparent text-base outline-none" />
@@ -30,9 +33,9 @@ export default async function BrowseServicePage({ searchParams }: {
                     <button type="submit" className="min-h-12 cursor-pointer rounded-xl bg-brand px-6 text-sm font-semibold text-white hover:bg-brand-hover">Search</button>
                     {(search || categories.length > 0) && <Link href="/service" className="inline-flex min-h-12 items-center px-2 text-sm font-semibold text-brand underline underline-offset-4">Clear filters</Link>}
                     </form>
-                    <ServiceCategoryFilter categories={categories} />
+                    <ServiceCategoryFilter categories={categories} sort={sort} />
                 </div>
-                <p className="mt-6 text-sm text-muted">{services.length} {services.length === 1 ? 'service' : 'services'} found</p>
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-3"><p className="text-sm text-muted">{services.length} {services.length === 1 ? 'service' : 'services'} found</p><ServiceSort sort={sort} search={search} categories={categories} /></div>
                 {services.length ? (
                     <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{services.map(service => <ServiceCard key={service._id} service={service} />)}</div>
                 ) : (

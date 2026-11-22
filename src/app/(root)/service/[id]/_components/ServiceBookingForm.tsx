@@ -76,7 +76,7 @@ export default function ServiceBookingForm({
 
     const handleServiceBooking = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!session?.user || status === 'inactive' || isLoading) return;
+        if (!session?.user || session.user.role !== 'user' || session.user.isBlocked || status === 'inactive' || isLoading) return;
 
         const form = e.currentTarget;
         const formData = new FormData(form);

@@ -35,7 +35,7 @@ export const useSignOut = () => {
     return { handleSignOut, isSigningOut };
 };
 
-export const handleGoogleSignIn = async (callbackURL?: string) => {
+export const handleGoogleSignIn = async (callbackURL = '/dashboard') => {
     try {
         const { error } = await authClient.signIn.social({
             provider: 'google',

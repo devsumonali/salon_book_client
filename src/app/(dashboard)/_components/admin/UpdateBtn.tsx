@@ -4,7 +4,7 @@ import type { AddServiceData } from '@/types/service';
 import { useId, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiEdit2 } from 'react-icons/fi';
-import ServiceDialog from './ServiceDialog';
+import ServiceDialog from '../ServiceDialog';
 import UpdateServiceForm from './UpdateServiceForm';
 
 export default function UpdateBtn({ service }: { service: AddServiceData }) {

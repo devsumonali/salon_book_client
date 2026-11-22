@@ -1,11 +1,8 @@
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { requireUser } from '@/lib/auth-session';
 
 const DashboardPage = async () => {
-    const session = await auth.api.getSession({ headers: await headers() });
-
-    if (!session) redirect('/sign-in');
+    const session = await requireUser();
 
     redirect(
         session.user.role === 'admin'

@@ -1,14 +1,16 @@
-import ManageServicesContent from '@/app/(dashboard)/_components/ManageServicesContent';
+import ManageServicesContent from '@/app/(dashboard)/_components/admin/ManageServicesContent';
 import { formatServicePrice } from '@/lib/service-display';
-import { getServiceProps } from '@/lib/api/services';
+import { getAdminServicesProps } from '@/lib/api/admin';
+import { getApiToken, requireUser } from '@/lib/auth-session';
 import { FiCreditCard, FiFeather } from 'react-icons/fi';
 
 const ManageService = async () => {
-    const services = await getServiceProps();
+    const services = await getAdminServicesProps(await getApiToken());
     const activeCount = services.filter((service) => service.status === 'active').length;
-    const averagePrice = services.length > 0
-        ? services.reduce((total, service) => total + service.price, 0) / services.length
-        : 0;
+    const averagePrice =
+        services.length > 0
+            ? services.reduce((total, service) => total + service.price, 0) / services.length
+            : 0;
 
     return (
         <section className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh">
@@ -22,8 +24,8 @@ const ManageService = async () => {
                             Manage Salon Services
                         </h1>
                         <p className="mt-2 max-w-xl text-xs leading-6 text-muted">
-                            Catalog management, pricing controls, and live booking availability
-                            for your salon services.
+                            Catalog management, pricing controls, and live booking availability for
+                            your salon services.
                         </p>
                     </div>
 
@@ -34,7 +36,9 @@ const ManageService = async () => {
                             </span>
                             <div>
                                 <p className="text-[10px] leading-4 text-muted">Active Offerings</p>
-                                <p className="mt-0.5 text-lg font-semibold leading-6">{activeCount}</p>
+                                <p className="mt-0.5 text-lg font-semibold leading-6">
+                                    {activeCount}
+                                </p>
                                 <p className="text-[10px] text-subtle">Services</p>
                             </div>
                         </div>
@@ -43,7 +47,9 @@ const ManageService = async () => {
                                 <FiCreditCard aria-hidden="true" size={17} />
                             </span>
                             <div>
-                                <p className="text-[10px] leading-4 text-muted">Avg. Service Price</p>
+                                <p className="text-[10px] leading-4 text-muted">
+                                    Avg. Service Price
+                                </p>
                                 <p className="mt-0.5 text-lg font-semibold leading-6">
                                     {formatServicePrice(averagePrice)}
                                 </p>

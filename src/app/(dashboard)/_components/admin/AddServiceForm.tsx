@@ -1,6 +1,6 @@
 'use client';
 
-import { getAddServices } from '@/lib/api/services';
+import { createAdminService } from '@/lib/actions/services';
 import { uploadImage } from '@/lib/api/upload';
 import { AddServiceData } from '@/types/service';
 import { useRouter } from 'next/navigation';
@@ -16,6 +16,7 @@ export default function AddServiceForm() {
 
     const handleSubmitPost = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (isloading) return;
         const form = event.currentTarget;
         const formData = new FormData(form);
 
@@ -43,9 +44,9 @@ export default function AddServiceForm() {
             servicesData.image = await uploadImage(imageFile);
 
             //getaddservice api function call
-            const res = await getAddServices(servicesData);
+            const res = await createAdminService(servicesData);
 
-            if (res.ok) {
+            if (res.insertedId) {
                 toast.success('Service Added Successfuly');
                 form.reset();
                 router.push('/dashboard/admin/manage-services');
@@ -54,7 +55,7 @@ export default function AddServiceForm() {
             }
         } catch (error) {
             console.error(error);
-            toast.error('Something went wrong!');
+            toast.error(error instanceof Error ? error.message : 'Failed to add service');
         } finally {
             const remainingTime = 1000 - (Date.now() - startTime);
 
@@ -80,6 +81,7 @@ export default function AddServiceForm() {
                 <div className="flex justify-end border-t border-line/60 pt-5">
                     <button
                         type="submit"
+                        disabled={isloading}
                         className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/40 bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-brand-hover sm:w-auto"
                     >
                         <FiPlus aria-hidden="true" size={17} />

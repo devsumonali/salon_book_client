@@ -52,7 +52,10 @@ export default function ManageServicesContent({ services }: ManageServicesConten
 
     return (
         <div className="mt-6 space-y-5">
-            <section aria-label="Service filters" className="rounded-xl border border-line/50 bg-panel p-3.5 shadow-xs sm:p-4">
+            <section
+                aria-label="Service filters"
+                className="rounded-xl border border-line/50 bg-panel p-3.5 shadow-xs sm:p-4"
+            >
                 <div className="flex flex-wrap items-center gap-3">
                     <label className="flex min-h-11 min-w-0 basis-56 grow items-center gap-2.5 rounded-lg bg-surface px-3.5 focus-within:ring-2 focus-within:ring-brand/30">
                         <FiSearch aria-hidden="true" size={15} className="shrink-0 text-subtle" />
@@ -69,7 +72,11 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                         />
                     </label>
 
-                    <div role="group" aria-label="Filter by service status" className="flex min-h-11 items-center rounded-lg bg-surface p-1">
+                    <div
+                        role="group"
+                        aria-label="Filter by service status"
+                        className="flex min-h-11 items-center rounded-lg bg-surface p-1"
+                    >
                         {statusFilters.map((filter) => (
                             <button
                                 key={filter.value}
@@ -86,13 +93,20 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                         ))}
                     </div>
 
-                    <Link href="/dashboard/admin/add-services" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-hover/40 bg-brand px-4 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-brand-hover">
+                    <Link
+                        href="/dashboard/admin/add-services"
+                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-hover/40 bg-brand px-4 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-brand-hover"
+                    >
                         <FiPlusCircle aria-hidden="true" size={16} />
                         Add New Service
                     </Link>
                 </div>
 
-                <div role="group" aria-label="Filter by service category" className="mt-3 flex flex-wrap gap-2">
+                <div
+                    role="group"
+                    aria-label="Filter by service category"
+                    className="mt-3 flex flex-wrap gap-2"
+                >
                     <button
                         type="button"
                         aria-pressed={category === 'all'}
@@ -121,8 +135,14 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                 </div>
             </section>
 
-            <section aria-label="Salon service catalog" className="overflow-hidden rounded-xl border border-line/50 bg-panel shadow-xs">
-                <div aria-hidden="true" className="hidden items-center gap-x-4 bg-surface px-5 py-4 text-[10px] font-semibold tracking-[0.04em] text-muted md:grid md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px_96px]">
+            <section
+                aria-label="Salon service catalog"
+                className="overflow-hidden rounded-xl border border-line/50 bg-panel shadow-xs"
+            >
+                <div
+                    aria-hidden="true"
+                    className="hidden items-center gap-x-4 bg-surface px-5 py-4 text-[10px] font-semibold tracking-[0.04em] text-muted md:grid md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px_96px]"
+                >
                     <span>SERVICE DETAILS</span>
                     <span>CATEGORY</span>
                     <span>DURATION</span>
@@ -132,7 +152,8 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                 </div>
 
                 <div aria-live="polite" aria-atomic="true" className="sr-only">
-                    {filteredServices.length} services found. Page {currentPage} of {Math.max(1, pageCount)}.
+                    {filteredServices.length} services found. Page {currentPage} of{' '}
+                    {Math.max(1, pageCount)}.
                 </div>
 
                 {visibleServices.length > 0 ? (
@@ -147,17 +168,28 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                             <FiScissors aria-hidden="true" size={21} />
                         </span>
                         <h2 className="mt-4 text-2xl">
-                            {services.length === 0 ? 'Your service menu starts here' : 'No matching services'}
+                            {services.length === 0
+                                ? 'Your service menu starts here'
+                                : 'No matching services'}
                         </h2>
                         <p className="mt-2 text-xs leading-6 text-muted">
-                            {services.length === 0 ? 'Add your first salon service to build your booking catalog.' : 'Try a different search or clear your filters.'}
+                            {services.length === 0
+                                ? 'Add your first salon service to build your booking catalog.'
+                                : 'Try a different search or clear your filters.'}
                         </p>
                         {services.length === 0 ? (
-                            <Link href="/dashboard/admin/add-services" className="mt-4 text-xs font-semibold text-brand underline underline-offset-4">
+                            <Link
+                                href="/dashboard/admin/add-services"
+                                className="mt-4 text-xs font-semibold text-brand underline underline-offset-4"
+                            >
                                 Add your first service
                             </Link>
                         ) : (
-                            <button type="button" onClick={clearFilters} className="mt-4 cursor-pointer text-xs font-semibold text-brand underline underline-offset-4">
+                            <button
+                                type="button"
+                                onClick={clearFilters}
+                                className="mt-4 cursor-pointer text-xs font-semibold text-brand underline underline-offset-4"
+                            >
                                 Clear filters
                             </button>
                         )}
@@ -166,11 +198,16 @@ export default function ManageServicesContent({ services }: ManageServicesConten
 
                 <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-line/40 bg-surface/60 px-4 py-4 sm:px-5">
                     <p className="text-[10px] leading-5 text-muted">
-                        Showing {filteredServices.length === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + pageSize, filteredServices.length)} of {filteredServices.length} services
+                        Showing {filteredServices.length === 0 ? 0 : startIndex + 1}–
+                        {Math.min(startIndex + pageSize, filteredServices.length)} of{' '}
+                        {filteredServices.length} services
                     </p>
 
                     {pageCount > 1 && (
-                        <nav aria-label="Service pagination" className="flex flex-wrap items-center gap-1.5">
+                        <nav
+                            aria-label="Service pagination"
+                            className="flex flex-wrap items-center gap-1.5"
+                        >
                             <button
                                 type="button"
                                 aria-label="Previous page"
@@ -180,18 +217,20 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                             >
                                 <FiChevronLeft aria-hidden="true" size={15} />
                             </button>
-                            {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-                                <button
-                                    key={number}
-                                    type="button"
-                                    aria-label={`Page ${number}`}
-                                    aria-current={currentPage === number ? 'page' : undefined}
-                                    onClick={() => setPage(number)}
-                                    className={`flex size-9 cursor-pointer items-center justify-center rounded-lg text-xs font-medium transition-colors ${currentPage === number ? 'bg-brand text-white' : 'bg-panel text-ink hover:bg-brand-soft'}`}
-                                >
-                                    {number}
-                                </button>
-                            ))}
+                            {Array.from({ length: pageCount }, (_, index) => index + 1).map(
+                                (number) => (
+                                    <button
+                                        key={number}
+                                        type="button"
+                                        aria-label={`Page ${number}`}
+                                        aria-current={currentPage === number ? 'page' : undefined}
+                                        onClick={() => setPage(number)}
+                                        className={`flex size-9 cursor-pointer items-center justify-center rounded-lg text-xs font-medium transition-colors ${currentPage === number ? 'bg-brand text-white' : 'bg-panel text-ink hover:bg-brand-soft'}`}
+                                    >
+                                        {number}
+                                    </button>
+                                ),
+                            )}
                             <button
                                 type="button"
                                 aria-label="Next page"

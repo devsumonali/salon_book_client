@@ -1,5 +1,7 @@
 'use server';
 
+import { getApiToken } from '@/lib/auth-session';
+
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
@@ -19,7 +21,7 @@ export async function updateCustomerAppointment(
                 error: 'Please sign in again',
             };
         if (!['cancel', 'checkout'].includes(action)) return { error: 'Invalid action' };
-        const data = await getAppointmentActionProps(id, action, session.session.token);
+        const data = await getAppointmentActionProps(id, action, await getApiToken());
         revalidatePath('/dashboard', 'layout');
         return data;
     } catch (error) {
@@ -34,7 +36,7 @@ export async function requestCustomerAppointment(
         const session = await auth.api.getSession({ headers: await headers() });
         if (!session) return { error: 'Please sign in again' };
 
-        const res = await getBookingProps(booking, session.session.token);
+        const res = await getBookingProps(booking, await getApiToken());
         const data = await res.json();
 
         if (!res.ok) return { error: data.message || 'Unable to request appointment' };
@@ -49,7 +51,7 @@ export async function updateCustomerProfile(profile: CustomerProfileUpdate): Pro
     try {
         const session = await auth.api.getSession({ headers: await headers() });
         if (!session) return { error: 'Please sign in again' };
-        const data = await getUpdateProfileProps(profile, session.session.token);
+        const data = await getUpdateProfileProps(profile, await getApiToken());
         revalidatePath('/dashboard', 'layout');
         return data;
     } catch (error) {

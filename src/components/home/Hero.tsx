@@ -4,10 +4,8 @@ import Link from 'next/link';
 import {
     FiArrowRight,
     FiAward,
-    FiCalendar,
     FiCheckCircle,
     FiCreditCard,
-    FiFeather,
     FiMessageSquare,
     FiSearch,
     FiShield,
@@ -24,8 +22,8 @@ const trustItems = [
     },
     {
         icon: FiMessageSquare,
-        title: 'Instant SMS Confirmation',
-        description: 'Automated calendar sync',
+        title: 'Appointment Updates',
+        description: 'Follow requests in your dashboard',
     },
 ];
 
@@ -63,14 +61,14 @@ const Hero = () => {
                             Discover premier salon artisans, explore tailored beauty treatments,
                             <span className="sm:block">
                                 {' '}
-                                and effortlessly book confirmed appointments in real-time.
+                                and request a time for your next moment of care.
                             </span>
                         </p>
 
                         <Form
                             action="/service"
                             aria-label="Find salon services"
-                            className="mt-8 grid min-w-0 gap-3 rounded-2xl bg-panel p-3 shadow-lg shadow-ink/5 sm:grid-cols-2 xl:mt-10 xl:grid-cols-[1fr_1.1fr_1.25fr_auto]"
+                            className="mt-8 grid min-w-0 gap-3 rounded-2xl bg-panel p-3 shadow-lg shadow-ink/5 sm:grid-cols-[1fr_auto] xl:mt-10"
                         >
                             <label className="flex min-w-0 items-center gap-3 rounded-lg bg-surface px-3 py-3 focus-within:ring-2 focus-within:ring-brand">
                                 <FiSearch
@@ -83,51 +81,10 @@ const Hero = () => {
                                         Treatment
                                     </span>
                                     <input
-                                        name="treatment"
+                                        name="search"
                                         type="search"
                                         placeholder="e.g. Balayage"
                                         className="block w-full min-w-0 bg-transparent py-0.5 text-xs text-ink outline-none placeholder:text-subtle"
-                                    />
-                                </span>
-                            </label>
-
-                            <label className="flex min-w-0 items-center gap-3 rounded-lg bg-surface px-3 py-3 focus-within:ring-2 focus-within:ring-brand">
-                                <FiFeather
-                                    aria-hidden="true"
-                                    className="shrink-0 text-brand"
-                                    size={19}
-                                />
-                                <span className="min-w-0 flex-1">
-                                    <span className="block text-[11px] font-medium tracking-wide text-muted">
-                                        Discipline
-                                    </span>
-                                    <select
-                                        name="discipline"
-                                        defaultValue=""
-                                        className="block w-full min-w-0 cursor-pointer bg-transparent py-0.5 text-xs text-ink outline-none"
-                                    >
-                                        <option value="">All Rituals</option>
-                                        <option value="hair">Hair</option>
-                                        <option value="skin">Skin</option>
-                                        <option value="wellness">Wellness</option>
-                                    </select>
-                                </span>
-                            </label>
-
-                            <label className="flex min-w-0 items-center gap-3 rounded-lg bg-surface px-3 py-3 focus-within:ring-2 focus-within:ring-brand">
-                                <FiCalendar
-                                    aria-hidden="true"
-                                    className="shrink-0 text-brand"
-                                    size={19}
-                                />
-                                <span className="min-w-0 flex-1">
-                                    <span className="block text-[11px] font-medium tracking-wide text-muted">
-                                        Preferred Date
-                                    </span>
-                                    <input
-                                        name="date"
-                                        type="date"
-                                        className="block w-full min-w-0 bg-transparent py-0.5 text-xs text-ink outline-none"
                                     />
                                 </span>
                             </label>

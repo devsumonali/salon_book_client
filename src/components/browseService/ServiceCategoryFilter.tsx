@@ -4,7 +4,7 @@ import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { serviceCategories } from '@/lib/service-display';
 
-export default function ServiceCategoryFilter({ categories }: { categories: string[] }) {
+export default function ServiceCategoryFilter({ categories, sort = '' }: { categories: string[]; sort?: string }) {
     const router = useRouter();
     const [pending, startTransition] = useTransition();
 
@@ -12,6 +12,7 @@ export default function ServiceCategoryFilter({ categories }: { categories: stri
         <form action="/service" method="GET" className="mt-5" aria-busy={pending} onChange={(event) => {
             const values = new FormData(event.currentTarget).getAll('category');
             const params = new URLSearchParams();
+            if (sort) params.set('sort', sort);
             values.forEach(value => params.append('category', String(value)));
             startTransition(() => router.push(params.size ? `/service?${params}` : '/service', { scroll: false }));
         }}>

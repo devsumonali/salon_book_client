@@ -1,3 +1,4 @@
+import { getApiToken, requireUser } from '@/lib/auth-session';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import Link from 'next/link';
@@ -28,8 +29,10 @@ const SuccessPage = async ({
             redirect(`/sign-in?${new URLSearchParams({ callbackUrl })}`);
         }
 
+        await requireUser('user');
+
         try {
-            checkout = await getCheckoutSession(sessionId, session.session.token);
+            checkout = await getCheckoutSession(sessionId, await getApiToken());
         } catch {
             checkout = null;
         }

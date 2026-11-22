@@ -3,15 +3,15 @@ import { FiInstagram, FiFacebook, FiMail, FiMapPin, FiPhone } from 'react-icons/
 
 const quickLinks = [
     { label: 'Browse Services', href: '/service' },
-    { label: 'Master Stylists', href: '/stylists' },
-    { label: 'Atelier Gift Cards', href: '/gift-cards' },
+    { label: 'Your Dashboard', href: '/dashboard' },
+    { label: 'Skincare Services', href: '/service?category=skin-care' },
     { label: 'Treatment Pricing', href: '/service' },
 ];
 
 const policyLinks = [
-    { label: 'Privacy Policy', href: '/privacy-policy' },
-    { label: 'Terms of Service', href: '/terms-of-service' },
-    { label: 'Cancellation Policy', href: '/cancellation-policy' },
+    { label: 'Contact the Salon', href: '/#salon-contact' },
+    { label: 'Browse Services', href: '/service' },
+    { label: 'Your Appointments', href: '/dashboard' },
 ];
 
 const Footer = () => {
@@ -84,7 +84,9 @@ const Footer = () => {
 
                     {/* Hours & Location */}
                     <div className="min-w-0">
-                        <h3 className="mb-4 text-lg font-bold">Atelier Hours & Location</h3>
+                        <h3 id="salon-contact" className="mb-4 scroll-mt-28 text-lg font-bold">
+                            Atelier Hours & Location
+                        </h3>
 
                         <div className="space-y-4 text-sm leading-6 text-muted">
                             <div>
@@ -123,28 +125,18 @@ const Footer = () => {
 
                     {/* Newsletter */}
                     <div className="min-w-0">
-                        <h3 className="mb-4 text-lg font-bold">Private Circle</h3>
+                        <h3 className="mb-4 text-lg font-bold">Plan Your Next Visit</h3>
 
                         <p className="mb-5 text-sm leading-6 text-muted">
-                            Receive seasonal treatment collections and 15% off your premier booking.
+                            Explore our salon services and choose a time that works for you.
                         </p>
 
-                        {/* Static Newsletter UI */}
-                        <div className="space-y-3">
-                            <input
-                                type="email"
-                                placeholder="Enter your email address"
-                                aria-label="Email address"
-                                className="h-11 w-full min-w-0 rounded-md border border-line bg-panel px-3 text-sm text-ink outline-none placeholder:text-subtle focus:border-brand"
-                            />
-
-                            <button
-                                type="button"
-                                className="h-11 w-full rounded-md bg-brand px-3 text-sm font-medium text-panel transition-colors hover:bg-brand-hover"
-                            >
-                                Join Atelier Circle
-                            </button>
-                        </div>
+                        <Link
+                            href="/service"
+                            className="inline-flex min-h-11 items-center justify-center rounded-md bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-hover"
+                        >
+                            Book an Appointment
+                        </Link>
                     </div>
                 </div>
 

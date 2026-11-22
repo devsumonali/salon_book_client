@@ -1,8 +1,6 @@
+import { getApiToken, requireUser } from '@/lib/auth-session';
 import { getCustomerProps } from '@/lib/api/user/user';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import {
     FiCalendar,
     FiCheckCircle,
@@ -43,16 +41,10 @@ const AppointmentStatus = ({ status }: { status: string }) => {
 
 export default async function CustomerOverview() {
     // Check logged-in user
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    if (!session) {
-        redirect('/sign-in?callbackUrl=%2Fdashboard%2Fcustomer%2Foverview');
-    }
+    const session = await requireUser('user', '/dashboard/customer/overview');
 
     // Fetch customer overview
-    const customer = await getCustomerProps(session.session.token);
+    const customer = await getCustomerProps(await getApiToken());
 
     const {
         totalAppointments,

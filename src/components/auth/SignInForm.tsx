@@ -16,28 +16,37 @@ const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 
 export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl?: string }) {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     //form event handaler function
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const form = event.currentTarget;
-        const formData = new FormData(form);
-        const userData = Object.fromEntries(formData.entries());
-        // console.log(userData);
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        try {
+            const form = event.currentTarget;
+            const formData = new FormData(form);
+            const userData = Object.fromEntries(formData.entries());
+            // console.log(userData);
 
-        const { data: resData, error } = await signIn.email({
-            email: userData.email as string,
-            password: userData.password as string,
-            rememberMe: true,
-        });
+            const { data: resData, error } = await signIn.email({
+                email: userData.email as string,
+                password: userData.password as string,
+                rememberMe: true,
+            });
 
-        if (error) {
-            toast.error(error.message || 'Sign in failed! Please try again.');
-        } else {
-            toast.success('User sign in successful! ' + 'User Name: ' + resData.user.name);
-            form.reset();
-            router.refresh();
-            router.replace(callbackUrl);
+            if (error) {
+                toast.error(error.message || 'Sign in failed! Please try again.');
+            } else {
+                toast.success('User sign in successful! ' + 'User Name: ' + resData.user.name);
+                form.reset();
+                router.refresh();
+                router.replace(callbackUrl);
+            }
+        } catch {
+            toast.error('Unable to sign in. Please try again.');
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -150,9 +159,10 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
 
                 <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
                 >
-                    Continue to Login
+                    {isSubmitting ? 'Signing in...' : 'Continue to Login'}
                     <FiArrowRight aria-hidden="true" size={17} />
                 </button>
             </form>

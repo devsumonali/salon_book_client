@@ -10,7 +10,7 @@ import UserMenu from './UserMenu';
 const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Browse Services', href: '/service' },
-    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/#salon-contact' },
 ];
 
 const Navbar = () => {
