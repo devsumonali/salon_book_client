@@ -6,7 +6,7 @@ import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { getAppointmentActionProps, getUpdateProfileProps } from '@/lib/api/user/user';
-import { getBookingProps } from '@/lib/api/booking';
+import { getBookingProps, verifyCheckoutSession } from '@/lib/api/booking';
 import type { ServiceBookingData } from '@/types/checkout.data';
 import type {
     CustomerActionResult,
@@ -62,5 +62,25 @@ export async function updateCustomerProfile(
         return data;
     } catch (error) {
         return { error: error instanceof Error ? error.message : 'Unable to update profile' };
+    }
+}
+
+// Confirm payment on the server, then clear cached dashboard pages.
+export async function verifyCheckoutPayment(
+    sessionId: string,
+): Promise<{ paid: boolean; error?: string }> {
+    try {
+        const checkout = await verifyCheckoutSession(sessionId, await getApiToken());
+        const paid = checkout.appointmentPaymentStatus === 'paid';
+        if (paid) {
+            revalidatePath('/dashboard', 'layout');
+            revalidatePath('/service/success');
+        }
+        return { paid };
+    } catch (error) {
+        return {
+            paid: false,
+            error: error instanceof Error ? error.message : 'Unable to verify payment',
+        };
     }
 }

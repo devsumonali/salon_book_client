@@ -34,6 +34,11 @@ export default function ServiceCard({ service }: { service: AddServiceData }) {
                 </span>
             </div>
             <div className="flex flex-1 flex-col p-5 lg:p-6">
+                {service.status === 'inactive' && (
+                    <span className="mb-3 self-start rounded-full bg-surface px-3 py-1 text-xs font-semibold text-muted">
+                        Currently unavailable
+                    </span>
+                )}
                 <h3 className="line-clamp-2 text-2xl leading-7 tracking-tight" title={service.name}>
                     {service.name}
                 </h3>

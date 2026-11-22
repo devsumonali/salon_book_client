@@ -42,6 +42,7 @@ export type CheckoutSessionData = {
     amountTotal: number | null;
     currency: string | null;
     paymentStatus: 'paid' | 'unpaid' | 'no_payment_required';
+    appointmentPaymentStatus: 'paid' | 'unpaid';
     status: 'open' | 'complete' | 'expired' | null;
 };
 

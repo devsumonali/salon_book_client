@@ -9,7 +9,8 @@ export async function createAdminService(service: Omit<AddServiceData, '_id'>) {
     const res = await getAddServices(service, await getApiToken());
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Failed to add service');
-    revalidatePath('/dashboard/admin/manage-services');
+    // Refresh the service list and overview after adding a service.
+    revalidatePath('/dashboard', 'layout');
     revalidatePath('/service');
     revalidatePath('/');
     return data;

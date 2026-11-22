@@ -7,6 +7,7 @@ import { FiCalendar, FiCheck, FiClock, FiHeart, FiHome, FiInfo } from 'react-ico
 import { getCheckoutSession } from '@/lib/api/booking';
 import { auth } from '@/lib/auth';
 import type { CheckoutSessionData } from '@/types/checkout.data';
+import PaymentVerification from '@/components/browseService/PaymentVerification';
 
 export const metadata: Metadata = {
     title: 'Thank You | SalonBook',
@@ -40,6 +41,7 @@ const SuccessPage = async ({
 
     const isPaid =
         checkout?.status === 'complete' &&
+        checkout.appointmentPaymentStatus === 'paid' &&
         (checkout.paymentStatus === 'paid' || checkout.paymentStatus === 'no_payment_required');
     const StatusIcon = isPaid ? FiCheck : checkout ? FiClock : FiInfo;
     const statusLabel = isPaid
@@ -190,6 +192,10 @@ const SuccessPage = async ({
                                 </p>
                             </div>
                         </div>
+                    )}
+
+                    {checkout?.status === 'complete' && !isPaid && (
+                        <PaymentVerification sessionId={checkout.id} />
                     )}
 
                     <div className="mt-8 grid gap-3 sm:grid-cols-2">

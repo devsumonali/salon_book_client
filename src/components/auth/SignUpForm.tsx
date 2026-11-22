@@ -14,7 +14,8 @@ import { LuImage } from 'react-icons/lu';
 const inputClass = 'ui-input pr-12 pl-11';
 const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-brand/70';
 
-export default function SignUpForm() {
+export default function SignUpForm({ callbackUrl = '/dashboard' }: { callbackUrl?: string }) {
+    const callbackQuery = new URLSearchParams({ callbackUrl }).toString();
     const [showPassword, setShowPassword] = useState(false);
     // Track the upload and signup together so the submit button can show a loading state.
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +63,7 @@ export default function SignUpForm() {
             toast.success('User registration successful! ' + 'User Name: ' + resData.user.name);
             form.reset();
             router.refresh();
-            router.push('/dashboard');
+            router.replace(callbackUrl);
         } catch (error) {
             // Show upload, network or unexpected signup errors without reloading the page.
             toast.error(
@@ -87,13 +88,13 @@ export default function SignUpForm() {
                 className="mt-6 flex rounded-xl border border-line bg-surface p-1 text-sm font-semibold"
             >
                 <Link
-                    href="/sign-in"
+                    href={`/sign-in?${callbackQuery}`}
                     className="flex-1 rounded-xl px-3 py-2.5 text-center text-muted transition-colors hover:text-brand"
                 >
                     Sign In
                 </Link>
                 <Link
-                    href="/sign-up"
+                    href={`/sign-up?${callbackQuery}`}
                     aria-current="page"
                     className="flex-1 rounded-xl bg-white px-3 py-2.5 text-center text-ink shadow-sm"
                 >
@@ -104,7 +105,7 @@ export default function SignUpForm() {
             <form aria-label="Create account" className="mt-7 space-y-5" onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={() => handleGoogleSignIn()}
+                    onClick={() => handleGoogleSignIn(callbackUrl)}
                     className="ui-button-secondary w-full"
                 >
                     <FcGoogle aria-hidden="true" size={20} />
@@ -238,7 +239,10 @@ export default function SignUpForm() {
 
             <p className="mt-6 text-center text-sm leading-6 text-muted">
                 Already have an Atelier profile?{' '}
-                <Link href="/sign-in" className="font-semibold text-brand hover:underline">
+                <Link
+                    href={`/sign-in?${callbackQuery}`}
+                    className="font-semibold text-brand hover:underline"
+                >
                     Sign In
                 </Link>
             </p>

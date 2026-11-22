@@ -7,7 +7,11 @@ export default async function DashboardLayout({ children }: ChildrenProps) {
     const session = await requireUser();
     return (
         <div className="min-h-dvh bg-surface lg:flex">
-            <DashboardSideBar />
+            <DashboardSideBar
+                role={session.user.role === 'admin' ? 'admin' : 'user'}
+                name={session.user.name}
+                email={session.user.email}
+            />
             <div className="min-w-0 flex-1">
                 <DashboardHeader role={session.user.role === 'admin' ? 'admin' : 'user'} />
                 <main className="min-w-0">{children}</main>

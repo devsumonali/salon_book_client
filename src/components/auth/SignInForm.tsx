@@ -13,6 +13,7 @@ const inputClass = 'ui-input pr-12 pl-11';
 const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-brand/70';
 
 export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl?: string }) {
+    const callbackQuery = new URLSearchParams({ callbackUrl }).toString();
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,14 +63,14 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
                 className="mt-6 flex rounded-xl border border-line bg-surface p-1 text-sm font-semibold"
             >
                 <Link
-                    href="/sign-in"
+                    href={`/sign-in?${callbackQuery}`}
                     aria-current="page"
                     className="flex-1 rounded-xl bg-white px-3 py-2.5 text-center text-ink shadow-sm"
                 >
                     Sign In
                 </Link>
                 <Link
-                    href="/sign-up"
+                    href={`/sign-up?${callbackQuery}`}
                     className="flex-1 rounded-xl px-3 py-2.5 text-center text-muted transition-colors hover:text-brand"
                 >
                     Create Account
@@ -163,7 +164,10 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
 
             <p className="mt-6 text-center text-sm leading-6 text-muted">
                 New to the Atelier?{' '}
-                <Link href="/sign-up" className="font-semibold text-brand hover:underline">
+                <Link
+                    href={`/sign-up?${callbackQuery}`}
+                    className="font-semibold text-brand hover:underline"
+                >
                     Create Account
                 </Link>
             </p>

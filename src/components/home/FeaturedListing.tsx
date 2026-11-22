@@ -3,7 +3,7 @@ import ServiceCard from './ServiceCard';
 import Link from 'next/link';
 
 const FeaturedListing = async () => {
-    const services = await getServiceProps();
+    const services = await getServiceProps({ status: 'active' });
     const activeServices = services.filter((service) => service.status === 'active').slice(0, 6);
 
     return (

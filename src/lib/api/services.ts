@@ -9,9 +9,14 @@ export const getAddServices = async (servicesData: Omit<AddServiceData, '_id'>, 
     });
 };
 
-// Public active services: search, category selection, and price sorting.
+// Public services. Home requests active services; the service page shows all statuses.
 export const getServiceProps = async (
-    filters: { search?: string; category?: string | string[]; sort?: string } = {},
+    filters: {
+        search?: string;
+        category?: string | string[];
+        sort?: string;
+        status?: 'active' | 'inactive';
+    } = {},
 ): Promise<AddServiceData[]> => {
     const params = new URLSearchParams();
     for (const [key, value] of Object.entries(filters)) {

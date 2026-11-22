@@ -13,7 +13,7 @@ interface Props {
 
 const ServiceSinglePage = async ({ params }: Props) => {
     const { id } = await params;
-    const session = await requireUser();
+    const session = await requireUser(undefined, `/services/${encodeURIComponent(id)}`);
     const service = await getSingleService(id, await getApiToken());
     if (!service) notFound();
 

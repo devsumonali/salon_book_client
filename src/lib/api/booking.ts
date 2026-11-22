@@ -40,3 +40,21 @@ export const getCheckoutSession = async (
 
     return res.json();
 };
+
+// Verify payment with Stripe and save it if a webhook has not updated the booking yet.
+export const verifyCheckoutSession = async (
+    sessionId: string,
+    token: string,
+): Promise<CheckoutSessionData> => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/checkout-session/${encodeURIComponent(sessionId)}/verify`,
+        {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            cache: 'no-store',
+        },
+    );
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Unable to verify payment');
+    return data;
+};

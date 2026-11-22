@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from '@/lib/auth-client';
 import { useSignOut } from '@/hooks/common';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -57,6 +56,7 @@ function SidebarContent({
                             <li key={href}>
                                 <Link
                                     href={href}
+                                    prefetch={true}
                                     onClick={onNavigate}
                                     aria-current={isActive ? 'page' : undefined}
                                     className={
@@ -109,11 +109,17 @@ function SidebarContent({
     );
 }
 
-export default function DashboardSideBar() {
-    const { data: session, isPending } = useSession();
+export default function DashboardSideBar({
+    role,
+    name,
+    email,
+}: {
+    role: DashboardRole;
+    name?: string;
+    email?: string;
+}) {
     const drawerRef = useRef<HTMLDialogElement>(null);
-    const role: DashboardRole = session?.user.role === 'admin' ? 'admin' : 'user';
-    const account = { role, name: session?.user.name, email: session?.user.email };
+    const account = { role, name, email };
     return (
         <div className="lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0">
             <div className="flex min-h-20 items-center justify-between gap-3 border-b border-line bg-panel px-4 sm:px-6 lg:hidden">
@@ -127,7 +133,6 @@ export default function DashboardSideBar() {
                         aria-label="Open dashboard navigation"
                         aria-haspopup="dialog"
                         aria-controls="dashboard-mobile-navigation"
-                        disabled={isPending}
                         onClick={() => drawerRef.current?.showModal()}
                         className="flex size-11 items-center justify-center rounded-xl border border-line text-ink hover:bg-surface"
                     >
@@ -136,13 +141,7 @@ export default function DashboardSideBar() {
                 </div>
             </div>
             <aside className="hidden h-full border-r border-line lg:block">
-                {isPending ? (
-                    <div role="status" className="h-full bg-panel px-6 py-8 text-sm text-muted">
-                        Loading dashboard menu...
-                    </div>
-                ) : (
-                    <SidebarContent {...account} />
-                )}
+                <SidebarContent {...account} />
             </aside>
             <dialog
                 ref={drawerRef}
