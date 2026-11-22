@@ -1,7 +1,6 @@
-import React from 'react';
+import CustomerAppointmentsContent from '@/app/(dashboard)/_components/CustomerAppointmentsContent';
+import { demoAppointments } from '@/app/(dashboard)/_components/customer-appointment-demo';
 
-const MyAppointmentsCustomer = () => {
-    return <div>appointment</div>;
-};
-
-export default MyAppointmentsCustomer;
+export default function MyAppointmentsCustomer() {
+    return <CustomerAppointmentsContent appointments={demoAppointments} />;
+}

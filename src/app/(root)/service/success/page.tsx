@@ -81,12 +81,12 @@ const SuccessPage = async ({
             aria-labelledby="success-title"
             className="flex min-h-[75dvh] items-center justify-center bg-surface px-5 py-12 sm:px-8 sm:py-20"
         >
-            <div className="w-full max-w-2xl text-center">
+            <div className="w-full max-w-5xl text-center">
                 <p className="mb-6 text-sm font-semibold tracking-[0.2em] text-brand uppercase">
                     A little time, just for you
                 </p>
 
-                <div className="relative overflow-hidden rounded-3xl border border-line bg-panel px-6 py-10 shadow-[0_20px_70px_-35px_rgba(36,32,30,0.2)] sm:px-12 sm:py-12">
+                <div className="relative overflow-hidden rounded-3xl border border-line bg-panel px-6 py-10 shadow-[0_20px_70px_-35px_rgba(36,32,30,0.2)] sm:px-12 sm:py-12 lg:px-16">
                     <div
                         aria-hidden="true"
                         className={`absolute inset-x-0 top-0 h-1.5 ${isPaid ? 'bg-[#71846b]' : 'bg-brand'}`}
@@ -105,7 +105,7 @@ const SuccessPage = async ({
                     </p>
                     <h1
                         id="success-title"
-                        className="mx-auto mt-3 max-w-md text-4xl leading-tight tracking-tight sm:text-5xl"
+                        className="mx-auto mt-3 max-w-2xl text-4xl leading-tight tracking-tight sm:text-5xl"
                     >
                         {isPaid
                             ? 'A lovely moment awaits.'
@@ -113,7 +113,7 @@ const SuccessPage = async ({
                               ? 'Your payment is not confirmed yet.'
                               : "Let's find your checkout."}
                     </h1>
-                    <p className="mx-auto mt-5 max-w-md text-base leading-7 text-muted">
+                    <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted">
                         {isPaid
                             ? 'Thank you for choosing SalonBook. We look forward to making your next moment of self-care feel special.'
                             : checkout
