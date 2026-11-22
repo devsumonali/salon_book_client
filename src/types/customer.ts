@@ -1,5 +1,11 @@
 import type { ServiceBookingData } from './checkout.data';
 
+export type CustomerActionResult = {
+    error?: string;
+    message?: string;
+    url?: string;
+};
+
 export type CustomerAppointment = {
     id: string;
     serviceName: string;
@@ -24,6 +30,20 @@ export type CustomerBooking = Omit<ServiceBookingData, 'email'> & {
     status: 'pending' | 'confirmed' | 'cancelled';
     paymentStatus: 'unpaid' | 'paid';
     createdAt: string;
+    confirmedAt?: string;
+    cancelledAt?: string;
+    paidAt?: string;
+    paymentReference?: string;
+    amountPaid?: number;
+    currency?: string;
+    isPast: boolean;
+    service: {
+        name: string;
+        image: string;
+        category: string;
+        price: number | null;
+        duration: number | null;
+    };
 };
 
 export type BookingManageData = {
@@ -31,11 +51,4 @@ export type BookingManageData = {
     total: number;
     page: number;
     totalPages: number;
-};
-
-export type BookingManageFilters = {
-    status?: CustomerBooking['status'] | 'all';
-    search?: string;
-    page?: number;
-    limit?: number;
 };

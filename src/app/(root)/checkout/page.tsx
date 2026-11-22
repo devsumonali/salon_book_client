@@ -23,7 +23,7 @@ const CheckoutPage = () => {
                         </h1>
                         <p className="mt-3 max-w-xl text-base leading-7 text-muted">
                             A little time for yourself, all planned out. Check your details below
-                            before continuing to payment.
+                            before sending your appointment request.
                         </p>
                     </div>
                 </div>

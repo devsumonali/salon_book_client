@@ -19,9 +19,14 @@ export const getAddServices = async (servicesData: Omit<AddServiceData, '_id'>) 
 };
 
 //service get api fetch
-export const getServiceProps = async (): Promise<AddServiceData[]> => {
+export const getServiceProps = async (filters: { search?: string; category?: string | string[]; status?: 'active' | 'inactive' } = {}): Promise<AddServiceData[]> => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services`, {
+        const params = new URLSearchParams();
+        for (const [key, value] of Object.entries(filters)) {
+            if (Array.isArray(value)) value.forEach(item => params.append(key, item));
+            else if (value) params.set(key, value);
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/services?${params}`, {
             cache: 'no-store',
         });
 

@@ -1,6 +1,5 @@
 import type {
     BookingManageData,
-    BookingManageFilters,
     CustomerOverviewData,
 } from '@/types/customer';
 
@@ -27,19 +26,10 @@ export const getCustomerProps = async (token: string): Promise<CustomerOverviewD
 };
 export const getBookingManageProps = async (
     token: string,
-    filters: BookingManageFilters = {},
 ): Promise<BookingManageData> => {
     try {
-        const params = new URLSearchParams();
-
-        for (const [key, value] of Object.entries(filters)) {
-            if (value !== undefined) {
-                params.set(key, String(value));
-            }
-        }
-
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/customer/appointments?${params.toString()}`,
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/customer/appointments`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -57,4 +47,14 @@ export const getBookingManageProps = async (
         console.error('Customer appointments error:', error);
         throw error;
     }
+};
+
+export const getAppointmentActionProps = async (id: string, action: 'cancel' | 'checkout', token: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/customer/appointments/${encodeURIComponent(id)}/${action}`, {
+        method: action === 'cancel' ? 'PATCH' : 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    const data: { message?: string; url?: string } = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Unable to update appointment');
+    return data;
 };

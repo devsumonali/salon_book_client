@@ -1,11 +1,15 @@
-import { FiCreditCard, FiLock } from 'react-icons/fi';
-import { FaCcAmex, FaCcMastercard, FaCcVisa } from 'react-icons/fa';
+'use client';
+
+import { FiCalendar, FiLock } from 'react-icons/fi';
 import { formatServicePrice } from '@/lib/service-display';
-import { getBookingProps } from '@/lib/api/booking';
+import { requestCustomerAppointment } from '@/lib/actions/customer';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function PaymentSummary({ price }: { price: number }) {
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     const handlePayment = async () => {
         setIsLoading(true);
         try {
@@ -16,16 +20,16 @@ export default function PaymentSummary({ price }: { price: number }) {
             }
 
             const bookingData = JSON.parse(savedBooking);
-            const res = await getBookingProps(bookingData);
-            const data = await res.json();
+            const data = await requestCustomerAppointment(bookingData);
 
-            if (!res.ok || !data.url) {
-                throw new Error(data.error || data.message || 'Payment failed');
-            }
+            if (data.error) throw new Error(data.error);
 
-            window.location.assign(data.url);
+            localStorage.removeItem('pendingBooking');
+            toast.success(data.message || 'Appointment requested');
+            router.push('/dashboard/customer/my-appointments');
+            router.refresh();
         } catch (error) {
-            console.error('Payment failed:', error);
+            toast.error(error instanceof Error ? error.message : 'Unable to request appointment');
         } finally {
             setIsLoading(false);
         }
@@ -52,7 +56,7 @@ export default function PaymentSummary({ price }: { price: number }) {
                             <dd className="font-medium">{formatServicePrice(0)}</dd>
                         </div>
                         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-                            <dt className="font-semibold">Total due today</dt>
+                            <dt className="font-semibold">Service total</dt>
                             <dd className="font-serif text-4xl text-brand">
                                 {formatServicePrice(price)}
                             </dd>
@@ -61,41 +65,33 @@ export default function PaymentSummary({ price }: { price: number }) {
 
                     <div className="mt-7 rounded-xl border border-line bg-surface/70 p-4">
                         <div className="flex items-center gap-2.5">
-                            <FiCreditCard
+                            <FiCalendar
                                 aria-hidden="true"
                                 size={20}
                                 className="shrink-0 text-brand"
                             />
-                            <p className="text-base font-semibold">Pay with Stripe</p>
+                            <p className="text-base font-semibold">Request your appointment</p>
                         </div>
                         <p className="mt-2 text-sm leading-6 text-muted">
-                            Complete your payment on Stripe&apos;s checkout page.
+                            Your request will be Pending. Once the salon confirms it, you can pay
+                            securely through Stripe from My Appointments.
                         </p>
-                        <div
-                            aria-label="Card payment options"
-                            className="mt-3 flex items-center gap-3 text-3xl text-muted"
-                        >
-                            <FaCcVisa role="img" aria-label="Visa" />
-                            <FaCcMastercard role="img" aria-label="Mastercard" />
-                            <FaCcAmex role="img" aria-label="American Express" />
-                        </div>
                     </div>
 
                     <button
                         type="button"
                         onClick={handlePayment}
                         disabled={isLoading}
-                        aria-describedby="payment-availability"
                         className="mt-6 flex min-h-13 w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-brand px-5 py-3.5 text-base font-semibold text-white shadow-sm disabled:cursor-not-allowed"
                     >
                         <FiLock aria-hidden="true" size={17} />
-                        {isLoading ? 'Processing...' : 'Pay Now'}
+                        {isLoading ? 'Requesting...' : 'Request Appointment'}
                     </button>
                 </div>
             </div>
 
             <p className="mt-5 px-4 text-center text-sm leading-6 text-muted">
-                Take a moment to check your appointment details before paying.
+                Check your details before sending your appointment request. No payment is taken now.
             </p>
         </aside>
     );

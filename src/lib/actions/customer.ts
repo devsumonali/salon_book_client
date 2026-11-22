@@ -1,0 +1,46 @@
+'use server';
+
+import { headers } from 'next/headers';
+import { revalidatePath } from 'next/cache';
+import { auth } from '@/lib/auth';
+import { getAppointmentActionProps } from '@/lib/api/user/user';
+import { getBookingProps } from '@/lib/api/booking';
+import type { ServiceBookingData } from '@/types/checkout.data';
+import type { CustomerActionResult } from '@/types/customer';
+
+export async function updateCustomerAppointment(
+    id: string,
+    action: 'cancel' | 'checkout',
+): Promise<CustomerActionResult> {
+    try {
+        const session = await auth.api.getSession({ headers: await headers() });
+        if (!session)
+            return {
+                error: 'Please sign in again',
+            };
+        if (!['cancel', 'checkout'].includes(action)) return { error: 'Invalid action' };
+        const data = await getAppointmentActionProps(id, action, session.session.token);
+        revalidatePath('/dashboard', 'layout');
+        return data;
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : 'Unable to update appointment' };
+    }
+}
+
+export async function requestCustomerAppointment(
+    booking: Pick<ServiceBookingData, 'serviceId' | 'date' | 'time' | 'notes'>,
+): Promise<CustomerActionResult> {
+    try {
+        const session = await auth.api.getSession({ headers: await headers() });
+        if (!session) return { error: 'Please sign in again' };
+
+        const res = await getBookingProps(booking, session.session.token);
+        const data = await res.json();
+
+        if (!res.ok) return { error: data.message || 'Unable to request appointment' };
+        revalidatePath('/dashboard', 'layout');
+        return { message: data.message as string };
+    } catch {
+        return { error: 'Unable to request appointment. Please try again.' };
+    }
+}

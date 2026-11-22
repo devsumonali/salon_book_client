@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { updateCustomerAppointment } from '@/lib/actions/customer';
 import {
     FiCalendar,
     FiCheckCircle,
@@ -24,14 +27,19 @@ import {
     appointmentStatusStyles,
     formatAppointmentDate,
     formatAppointmentEvent,
+    formatAppointmentPrice,
     type AppointmentDisplayData,
-} from './customer-appointment-demo';
+} from './customer-appointment-display';
 
 type View = 'appointments' | 'history' | 'payments';
 type DialogView = 'details' | 'cancel' | 'payment';
 type StatusFilter = 'all' | AppointmentDisplayData['status'];
 type PaymentFilter = 'all' | AppointmentDisplayData['paymentStatus'];
 const pageSize = 4;
+const categoryLabel = (category: string) =>
+    serviceCategories[category as keyof typeof serviceCategories]?.label ||
+    category ||
+    'Unavailable';
 
 function StatusBadge({ status }: { status: AppointmentDisplayData['status'] }) {
     const style = appointmentStatusStyles[status];
@@ -68,11 +76,39 @@ export default function CustomerAppointmentsContent({
     const [selected, setSelected] = useState<AppointmentDisplayData | null>(null);
     const [dialogView, setDialogView] = useState<DialogView>('details');
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const router = useRouter();
+    const [busy, setBusy] = useState(false);
+
+    async function handleAction(action: 'cancel' | 'checkout') {
+        if (!selected || busy) return;
+        setBusy(true);
+        try {
+            const result = await updateCustomerAppointment(selected.id, action);
+            if ('error' in result) {
+                toast.error(result.error || 'Unable to update appointment');
+                router.refresh();
+                return;
+            }
+            if (result.url) {
+                window.location.assign(result.url);
+                return;
+            }
+            toast.success(result.message || 'Appointment updated');
+            dialogRef.current?.close();
+            router.refresh();
+        } catch {
+            toast.error('Unable to update appointment. Please try again.');
+        } finally {
+            setBusy(false);
+        }
+    }
 
     const paidAppointments = appointments.filter(
         (appointment) => appointment.paymentStatus === 'paid',
     );
-    const historicalAppointments = appointments.filter((appointment) => appointment.isPast);
+    const historicalAppointments = appointments.filter(
+        (appointment) => appointment.isPast || appointment.status === 'cancelled',
+    );
     const summaryCards = [
         {
             label: 'All Appointments',
@@ -112,7 +148,7 @@ export default function CustomerAppointmentsContent({
               : appointments;
     const query = search.trim().toLowerCase();
     const filtered = source.filter((appointment) => {
-        const category = serviceCategories[appointment.service.category].label;
+        const category = categoryLabel(appointment.service.category);
         return (
             `${appointment.id} ${appointment.service.name} ${category} ${appointment.paymentReference ?? ''}`
                 .toLowerCase()
@@ -178,9 +214,6 @@ export default function CustomerAppointmentsContent({
 
                 <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
                     <p>Keep track of every appointment, from request to your next visit.</p>
-                    <span className="rounded-full border border-brand/15 bg-brand-soft/50 px-3 py-1 text-xs font-medium text-brand">
-                        Design preview · Sample data
-                    </span>
                 </div>
 
                 <dl className="grid grid-cols-2 gap-3 xl:grid-cols-4 xl:gap-4">
@@ -305,7 +338,8 @@ export default function CustomerAppointmentsContent({
                                 <span className="font-semibold text-ink">
                                     {formatServicePrice(
                                         paidAppointments.reduce(
-                                            (sum, item) => sum + item.service.price,
+                                            (sum, item) =>
+                                                sum + (item.amountPaid ?? item.service.price ?? 0),
                                             0,
                                         ),
                                     )}{' '}
@@ -324,9 +358,15 @@ export default function CustomerAppointmentsContent({
                             <span className="flex size-14 items-center justify-center rounded-full bg-brand-soft/50 text-brand">
                                 <FiCalendar size={24} aria-hidden="true" />
                             </span>
-                            <h2 className="mt-4 text-2xl">No matching records</h2>
+                            <h2 className="mt-4 text-2xl">
+                                {appointments.length
+                                    ? 'No matching records'
+                                    : 'No appointments yet'}
+                            </h2>
                             <p className="mt-2 text-sm leading-6 text-muted">
-                                Try another search or clear your filters.
+                                {appointments.length
+                                    ? 'Try another search or clear your filters.'
+                                    : 'Book a service to request your first appointment.'}
                             </p>
                             <button
                                 type="button"
@@ -340,7 +380,7 @@ export default function CustomerAppointmentsContent({
                         <div className="overflow-x-auto">
                             <table className="w-full min-w-175 text-left text-sm">
                                 <caption className="sr-only">
-                                    Sample payment history for salon appointments
+                                    Payment history for your salon appointments
                                 </caption>
                                 <thead className="border-b border-line/60 bg-surface/60 text-muted">
                                     <tr>
@@ -372,21 +412,22 @@ export default function CustomerAppointmentsContent({
                                                     {appointment.service.name}
                                                 </p>
                                                 <p className="mt-1 text-xs text-muted">
-                                                    {appointment.paymentReference}
+                                                    {appointment.paymentReference ||
+                                                        'Reference unavailable'}
                                                 </p>
                                             </th>
                                             <td className="px-4 py-5">
                                                 <p>
-                                                    {formatAppointmentDate(
-                                                        appointment.paidAt!.slice(0, 10),
-                                                    )}
+                                                    {appointment.paidAt
+                                                        ? formatAppointmentEvent(appointment.paidAt)
+                                                        : 'Date unavailable'}
                                                 </p>
                                                 <p className="mt-1 text-xs text-muted">
                                                     Stripe · Card payment
                                                 </p>
                                             </td>
                                             <td className="px-4 py-5 font-semibold">
-                                                {formatServicePrice(appointment.service.price)}
+                                                {formatAppointmentPrice(appointment)}
                                             </td>
                                             <td className="px-4 py-5">
                                                 <PaymentBadge status={appointment.paymentStatus} />
@@ -419,7 +460,10 @@ export default function CustomerAppointmentsContent({
                                         <div className="flex flex-wrap items-start justify-between gap-4">
                                             <div className="flex min-w-0 flex-1 basis-64 items-center gap-4">
                                                 <Image
-                                                    src={appointment.service.image}
+                                                    src={
+                                                        appointment.service.image ||
+                                                        '/images/salon-hero.jpg'
+                                                    }
                                                     alt={appointment.service.name}
                                                     width={80}
                                                     height={80}
@@ -437,11 +481,9 @@ export default function CustomerAppointmentsContent({
                                                         {appointment.service.name}
                                                     </h2>
                                                     <p className="mt-1 text-sm text-muted">
-                                                        {
-                                                            serviceCategories[
-                                                                appointment.service.category
-                                                            ].label
-                                                        }
+                                                        {categoryLabel(
+                                                            appointment.service.category,
+                                                        )}
                                                     </p>
                                                 </div>
                                             </div>
@@ -474,7 +516,9 @@ export default function CustomerAppointmentsContent({
                                             <div>
                                                 <dt className="text-sm text-muted">Duration</dt>
                                                 <dd className="mt-1.5 text-sm font-semibold">
-                                                    {appointment.service.duration} minutes
+                                                    {appointment.service.duration !== null
+                                                        ? `${appointment.service.duration} minutes`
+                                                        : 'Unavailable'}
                                                 </dd>
                                             </div>
                                             <div>
@@ -482,7 +526,7 @@ export default function CustomerAppointmentsContent({
                                                     Service price
                                                 </dt>
                                                 <dd className="mt-1 text-lg font-semibold text-brand">
-                                                    {formatServicePrice(appointment.service.price)}
+                                                    {formatAppointmentPrice(appointment)}
                                                 </dd>
                                             </div>
                                         </dl>
@@ -510,19 +554,23 @@ export default function CustomerAppointmentsContent({
                                                     <FiEye size={16} aria-hidden="true" />
                                                     View Details
                                                 </button>
-                                                {appointment.status === 'pending' && (
-                                                    <button
-                                                        type="button"
-                                                        onClick={() =>
-                                                            openDialog(appointment, 'cancel')
-                                                        }
-                                                        aria-label={`Cancel appointment ${appointment.id}`}
-                                                        className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-[#e7c8c1] px-3.5 text-sm font-medium text-[#9b493f] transition-colors hover:bg-[#faeae6]"
-                                                    >
-                                                        <FiXCircle size={16} aria-hidden="true" />
-                                                        Cancel Appointment
-                                                    </button>
-                                                )}
+                                                {appointment.status === 'pending' &&
+                                                    appointment.paymentStatus === 'unpaid' && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                openDialog(appointment, 'cancel')
+                                                            }
+                                                            aria-label={`Cancel appointment ${appointment.id}`}
+                                                            className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-[#e7c8c1] px-3.5 text-sm font-medium text-[#9b493f] transition-colors hover:bg-[#faeae6]"
+                                                        >
+                                                            <FiXCircle
+                                                                size={16}
+                                                                aria-hidden="true"
+                                                            />
+                                                            Cancel Appointment
+                                                        </button>
+                                                    )}
                                                 {appointment.status === 'confirmed' &&
                                                     appointment.paymentStatus === 'unpaid' && (
                                                         <button
@@ -605,7 +653,7 @@ export default function CustomerAppointmentsContent({
 
             <ServiceDialog
                 dialogRef={dialogRef}
-                id="customer-appointment-preview"
+                id="customer-appointment-details"
                 title={
                     dialogView === 'cancel'
                         ? 'Cancel appointment'
@@ -614,12 +662,13 @@ export default function CustomerAppointmentsContent({
                           : 'Appointment details'
                 }
                 compact={dialogView !== 'details'}
+                busy={busy}
             >
                 {selected && (
                     <div className="space-y-5">
                         <div className="flex items-center gap-4">
                             <Image
-                                src={selected.service.image}
+                                src={selected.service.image || '/images/salon-hero.jpg'}
                                 alt={selected.service.name}
                                 width={72}
                                 height={72}
@@ -630,7 +679,7 @@ export default function CustomerAppointmentsContent({
                                 <p className="text-xs font-medium text-subtle">#{selected.id}</p>
                                 <h3 className="mt-1 text-2xl">{selected.service.name}</h3>
                                 <p className="mt-1 text-sm text-muted">
-                                    {serviceCategories[selected.service.category].label}
+                                    {categoryLabel(selected.service.category)}
                                 </p>
                             </div>
                         </div>
@@ -652,13 +701,15 @@ export default function CustomerAppointmentsContent({
                             <div>
                                 <dt className="text-sm text-muted">Duration</dt>
                                 <dd className="mt-1.5 text-sm font-semibold">
-                                    {selected.service.duration} minutes
+                                    {selected.service.duration !== null
+                                        ? `${selected.service.duration} minutes`
+                                        : 'Unavailable'}
                                 </dd>
                             </div>
                             <div>
                                 <dt className="text-sm text-muted">Service price</dt>
                                 <dd className="mt-1.5 text-base font-semibold text-brand">
-                                    {formatServicePrice(selected.service.price)}
+                                    {formatAppointmentPrice(selected)}
                                 </dd>
                             </div>
                         </dl>
@@ -736,7 +787,8 @@ export default function CustomerAppointmentsContent({
                                     Cancel this pending appointment?
                                 </p>
                                 <p className="mt-2 text-sm leading-6 text-muted">
-                                    This is a design preview. Your appointment will stay unchanged.
+                                    This will cancel your pending request. You can book another
+                                    appointment at any time.
                                 </p>
                             </div>
                         ) : (
@@ -744,15 +796,15 @@ export default function CustomerAppointmentsContent({
                                 <div className="flex items-center justify-between gap-3">
                                     <p className="text-sm font-medium">Total to pay</p>
                                     <p className="text-2xl font-semibold text-brand">
-                                        {formatServicePrice(selected.service.price)}
+                                        {formatAppointmentPrice(selected)}
                                     </p>
                                 </div>
                                 <p className="mt-3 flex items-center gap-2 text-sm text-muted">
                                     <FiLock size={15} aria-hidden="true" />
-                                    Stripe checkout · Design preview
+                                    Secure Stripe checkout
                                 </p>
                                 <p className="mt-2 text-sm leading-6 text-muted">
-                                    No payment will be taken in this preview.
+                                    You will continue to Stripe to complete your payment securely.
                                 </p>
                             </div>
                         )}
@@ -760,6 +812,7 @@ export default function CustomerAppointmentsContent({
                             <button
                                 type="button"
                                 onClick={() => dialogRef.current?.close()}
+                                disabled={busy}
                                 className="min-h-11 cursor-pointer rounded-lg border border-line px-4 text-sm font-semibold hover:bg-surface"
                             >
                                 {dialogView === 'cancel' ? 'Keep Appointment' : 'Close'}
@@ -767,19 +820,21 @@ export default function CustomerAppointmentsContent({
                             {dialogView === 'cancel' && (
                                 <button
                                     type="button"
-                                    disabled
-                                    className="min-h-11 cursor-not-allowed rounded-lg bg-[#9b493f] px-4 text-sm font-semibold text-white opacity-50"
+                                    disabled={busy}
+                                    onClick={() => handleAction('cancel')}
+                                    className="min-h-11 cursor-pointer rounded-lg bg-[#9b493f] px-4 text-sm font-semibold text-white disabled:cursor-wait disabled:opacity-50"
                                 >
-                                    Confirm Cancellation · Preview
+                                    {busy ? 'Cancelling…' : 'Confirm Cancellation'}
                                 </button>
                             )}
                             {dialogView === 'payment' && (
                                 <button
                                     type="button"
-                                    disabled
-                                    className="min-h-11 cursor-not-allowed rounded-lg bg-brand px-4 text-sm font-semibold text-white opacity-50"
+                                    disabled={busy}
+                                    onClick={() => handleAction('checkout')}
+                                    className="min-h-11 cursor-pointer rounded-lg bg-brand px-4 text-sm font-semibold text-white disabled:cursor-wait disabled:opacity-50"
                                 >
-                                    Continue to Stripe · Preview
+                                    {busy ? 'Opening Stripe…' : 'Continue to Stripe'}
                                 </button>
                             )}
                         </div>

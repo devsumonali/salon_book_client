@@ -1,13 +1,14 @@
 import type { CheckoutSessionData, ServiceBookingData } from '@/types/checkout.data';
 
-export const getBookingProps = async (bookingData: ServiceBookingData) => {
+export const getBookingProps = async (bookingData: Pick<ServiceBookingData, 'serviceId' | 'date' | 'time' | 'notes'>, token: string) => {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/create-checkout-session`,
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/customer/appointments`,
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
                 cache: 'no-store',
                 body: JSON.stringify(bookingData),
