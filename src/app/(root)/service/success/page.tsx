@@ -89,7 +89,7 @@ const SuccessPage = async ({
                     A little time, just for you
                 </p>
 
-                <div className="relative overflow-hidden rounded-3xl border border-line bg-panel px-6 py-10 shadow-[0_20px_70px_-35px_rgba(36,32,30,0.2)] sm:px-12 sm:py-12 lg:px-16">
+                <div className="relative overflow-hidden rounded-3xl border border-line bg-panel px-6 py-10 shadow-card sm:px-12 sm:py-12 lg:px-16">
                     <div
                         aria-hidden="true"
                         className={`absolute inset-x-0 top-0 h-1.5 ${isPaid ? 'bg-[#71846b]' : 'bg-brand'}`}
@@ -181,10 +181,12 @@ const SuccessPage = async ({
                                 className="mt-0.5 shrink-0 text-brand"
                             />
                             <div>
-                                <h2 className="font-sans text-base font-semibold">Before your visit</h2>
+                                <h2 className="font-sans text-base font-semibold">
+                                    Before your visit
+                                </h2>
                                 <p className="mt-1.5 text-base leading-7 text-muted">
-                                    Keep your chosen date and time handy. Have a preference or special
-                                    request? Share it with your stylist when you arrive.
+                                    Keep your chosen date and time handy. Have a preference or
+                                    special request? Share it with your stylist when you arrive.
                                 </p>
                             </div>
                         </div>

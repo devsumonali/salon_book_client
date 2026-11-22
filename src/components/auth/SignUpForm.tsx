@@ -8,11 +8,10 @@ import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
-import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail, FiUser } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { LuImage } from 'react-icons/lu';
 
-const inputClass =
-    'w-full min-w-0 rounded-xl border border-line bg-white py-3.5 pr-12 pl-11 text-sm text-ink placeholder:text-subtle/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15';
+const inputClass = 'ui-input pr-12 pl-11';
 const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-brand/70';
 
 export default function SignUpForm() {
@@ -77,26 +76,26 @@ export default function SignUpForm() {
 
     return (
         <>
-            <p className="text-[10px] font-bold tracking-[0.2em] text-brand">ATELIER PORTAL</p>
-            <h1 className="mt-2 text-4xl tracking-tight">Begin Your Ritual</h1>
+            <p className="text-sm font-bold tracking-[0.2em] text-brand">WELCOME TO SALONBOOK</p>
+            <h1 className="mt-2 text-4xl tracking-tight">Make time for you.</h1>
             <p className="mt-2 text-sm leading-6 text-muted">
                 Create your profile for a more personal beauty experience.
             </p>
 
             <nav
                 aria-label="Account access"
-                className="mt-6 flex rounded-full border border-line bg-[#f0ebe5] p-1 text-xs font-semibold"
+                className="mt-6 flex rounded-xl border border-line bg-surface p-1 text-sm font-semibold"
             >
                 <Link
                     href="/sign-in"
-                    className="flex-1 rounded-full px-3 py-2.5 text-center text-muted transition-colors hover:text-brand"
+                    className="flex-1 rounded-xl px-3 py-2.5 text-center text-muted transition-colors hover:text-brand"
                 >
                     Sign In
                 </Link>
                 <Link
                     href="/sign-up"
                     aria-current="page"
-                    className="flex-1 rounded-full bg-white px-3 py-2.5 text-center text-ink shadow-sm"
+                    className="flex-1 rounded-xl bg-white px-3 py-2.5 text-center text-ink shadow-sm"
                 >
                     Create Account
                 </Link>
@@ -106,13 +105,13 @@ export default function SignUpForm() {
                 <button
                     type="button"
                     onClick={() => handleGoogleSignIn()}
-                    className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
+                    className="ui-button-secondary w-full"
                 >
                     <FcGoogle aria-hidden="true" size={20} />
                     Continue with Google
                 </button>
 
-                <div className="flex items-center gap-3 text-[10px] tracking-wider text-muted">
+                <div className="flex items-center gap-3 text-sm tracking-wider text-muted">
                     <span aria-hidden="true" className="h-px flex-1 bg-line" />
                     OR REGISTER WITH EMAIL
                     <span aria-hidden="true" className="h-px flex-1 bg-line" />
@@ -121,7 +120,7 @@ export default function SignUpForm() {
                 <div>
                     <label
                         htmlFor="full-name"
-                        className="mb-2 block text-[10px] font-semibold tracking-wide"
+                        className="mb-2 block text-sm font-semibold tracking-wide"
                     >
                         FULL NAME
                     </label>
@@ -143,7 +142,7 @@ export default function SignUpForm() {
                 <div>
                     <label
                         htmlFor="email"
-                        className="mb-2 block text-[10px] font-semibold tracking-wide"
+                        className="mb-2 block text-sm font-semibold tracking-wide"
                     >
                         EMAIL ADDRESS
                     </label>
@@ -165,7 +164,7 @@ export default function SignUpForm() {
                 <div>
                     <label
                         htmlFor="profile-image"
-                        className="mb-2 flex items-center justify-between gap-3 text-[10px] font-semibold tracking-wide"
+                        className="mb-2 flex items-center justify-between gap-3 text-sm font-semibold tracking-wide"
                     >
                         PROFILE PHOTO
                         <span className="font-normal tracking-normal text-subtle">Optional</span>
@@ -178,10 +177,10 @@ export default function SignUpForm() {
                             name="image"
                             accept="image/jpeg,image/png,image/webp,image/gif"
                             aria-describedby="profile-image-hint"
-                            className="block w-full min-w-0 cursor-pointer rounded-xl border border-line bg-white py-2.5 pr-3 pl-11 text-xs text-muted transition-colors file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand-soft file:px-3 file:py-2 file:text-xs file:font-semibold file:text-brand hover:border-brand/40 hover:file:bg-avatar focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15"
+                            className="block w-full min-w-0 cursor-pointer rounded-xl border border-line bg-white py-2.5 pr-3 pl-11 text-sm text-muted transition-colors file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand-soft file:px-3 file:py-2 file:text-sm file:font-semibold file:text-brand hover:border-brand/40 hover:file:bg-avatar focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15"
                         />
                     </div>
-                    <p id="profile-image-hint" className="mt-2 text-xs text-subtle">
+                    <p id="profile-image-hint" className="mt-2 text-sm text-subtle">
                         JPG, PNG, WebP or GIF. Maximum 2 MB.
                     </p>
                 </div>
@@ -189,7 +188,7 @@ export default function SignUpForm() {
                 <div>
                     <label
                         htmlFor="password"
-                        className="mb-2 block text-[10px] font-semibold tracking-wide"
+                        className="mb-2 block text-sm font-semibold tracking-wide"
                     >
                         PASSWORD
                     </label>
@@ -221,7 +220,7 @@ export default function SignUpForm() {
                             )}
                         </button>
                     </div>
-                    <p id="password-hint" className="mt-2 text-xs text-subtle">
+                    <p id="password-hint" className="mt-2 text-sm text-subtle">
                         Use at least 6 characters, including uppercase and lowercase letters.
                     </p>
                 </div>
@@ -231,14 +230,13 @@ export default function SignUpForm() {
                     type="submit"
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand disabled:cursor-not-allowed disabled:opacity-60"
+                    className="ui-button w-full"
                 >
                     {isSubmitting ? 'Creating your account...' : 'Create My Account'}
-                    <FiArrowRight aria-hidden="true" size={17} />
                 </button>
             </form>
 
-            <p className="mt-6 text-center text-xs leading-6 text-muted">
+            <p className="mt-6 text-center text-sm leading-6 text-muted">
                 Already have an Atelier profile?{' '}
                 <Link href="/sign-in" className="font-semibold text-brand hover:underline">
                     Sign In

@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { FiCalendar } from 'react-icons/fi';
+import { FiCalendar, FiMenu, FiX } from 'react-icons/fi';
+import BrandLogo from './BrandLogo';
 import NavigationLink from './NavigationLink';
 import UserMenu from './UserMenu';
 
@@ -50,26 +51,26 @@ const Navbar = () => {
     return (
         <header
             ref={headerRef}
-            className="sticky top-0 z-50 w-full shrink-0 border-b border-line bg-surface"
+            className="sticky top-0 z-50 w-full shrink-0 border-b border-line/80 bg-panel/95 shadow-[0_2px_16px_-10px_rgba(30,40,50,0.15)] backdrop-blur-xl"
         >
-            <div className="mx-auto flex min-h-18 w-full max-w-360 flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 py-3 sm:min-h-20 sm:px-6 lg:flex-nowrap lg:gap-6 lg:px-8 lg:py-0 xl:px-12">
+            <div className="site-container flex min-h-20 items-center justify-between gap-3 py-3 lg:gap-6">
                 <Link
                     href="/"
                     onClick={() => setOpenPathname(null)}
                     className="shrink-0 font-serif text-xl font-bold tracking-tight text-ink sm:text-2xl"
                 >
-                    SalonBook
+                    <BrandLogo />
                 </Link>
 
                 <nav
                     aria-label="Main navigation"
-                    className="order-last flex w-full min-w-0 items-center justify-center gap-1 lg:order-none lg:w-auto lg:justify-start xl:gap-2"
+                    className="hidden min-w-0 items-center gap-1 lg:flex xl:gap-2"
                 >
                     {navLinks.map((link) => (
                         <NavigationLink
                             key={link.href}
                             href={link.href}
-                            className="px-3 py-2.5 text-xs font-medium sm:px-4 sm:py-3 sm:text-sm"
+                            className="px-4 py-2.5 text-sm font-semibold"
                         >
                             {link.label}
                         </NavigationLink>
@@ -77,14 +78,26 @@ const Navbar = () => {
                 </nav>
 
                 <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-                    <Link
-                        href="/service"
-                        className="hidden min-h-11 items-center justify-center gap-2 rounded-md bg-brand px-4 py-3 text-xs font-semibold text-panel transition-colors hover:bg-brand-hover sm:flex"
-                    >
+                    <Link href="/service" className="ui-button hidden sm:inline-flex">
                         <FiCalendar size={16} aria-hidden="true" />
                         <span>Book Appointment</span>
                     </Link>
                     <UserMenu />
+                    <button
+                        ref={toggleRef}
+                        type="button"
+                        aria-label={isMenuOpen ? 'Close navigation' : 'Open navigation'}
+                        aria-expanded={isMenuOpen}
+                        aria-controls="mobile-navigation"
+                        onClick={() => setOpenPathname(isMenuOpen ? null : pathname)}
+                        className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-line bg-panel text-ink lg:hidden"
+                    >
+                        {isMenuOpen ? (
+                            <FiX size={21} aria-hidden="true" />
+                        ) : (
+                            <FiMenu size={21} aria-hidden="true" />
+                        )}
+                    </button>
                 </div>
             </div>
 
@@ -93,7 +106,7 @@ const Navbar = () => {
                 id="mobile-navigation"
                 aria-label="Mobile navigation"
                 hidden={!isMenuOpen}
-                className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-line bg-surface px-5 py-4 sm:px-6 lg:hidden"
+                className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-line bg-panel px-5 py-4 shadow-soft sm:px-6 lg:hidden"
             >
                 <div className="mx-auto flex max-w-360 flex-col gap-1">
                     {navLinks.map((link) => (

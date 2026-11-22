@@ -13,14 +13,14 @@ const ManageService = async () => {
             : 0;
 
     return (
-        <section className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh">
+        <section className="dashboard-page">
             <div className="mx-auto max-w-7xl">
                 <header className="flex flex-wrap items-center justify-between gap-6">
                     <div className="min-w-0 flex-1 basis-80">
-                        <p className="text-[10px] font-semibold tracking-[0.18em] text-brand">
+                        <p className="text-sm font-semibold tracking-[0.18em] text-brand">
                             ATELIER SERVICE MENU
                         </p>
-                        <h1 className="mt-1.5 text-[32px] leading-tight tracking-tight">
+                        <h1 className="mt-1.5 leading-tight tracking-tight">
                             Manage Salon Services
                         </h1>
                         <p className="mt-2 max-w-xl text-xs leading-6 text-muted">
@@ -35,11 +35,11 @@ const ManageService = async () => {
                                 <FiFeather aria-hidden="true" size={17} />
                             </span>
                             <div>
-                                <p className="text-[10px] leading-4 text-muted">Active Offerings</p>
+                                <p className="text-sm leading-4 text-muted">Active Offerings</p>
                                 <p className="mt-0.5 text-lg font-semibold leading-6">
                                     {activeCount}
                                 </p>
-                                <p className="text-[10px] text-subtle">Services</p>
+                                <p className="text-sm text-subtle">Services</p>
                             </div>
                         </div>
                         <div className="flex min-w-32 items-center gap-3 rounded-xl border border-line/40 bg-panel px-4 py-3.5">
@@ -47,9 +47,7 @@ const ManageService = async () => {
                                 <FiCreditCard aria-hidden="true" size={17} />
                             </span>
                             <div>
-                                <p className="text-[10px] leading-4 text-muted">
-                                    Avg. Service Price
-                                </p>
+                                <p className="text-sm leading-4 text-muted">Avg. Service Price</p>
                                 <p className="mt-0.5 text-lg font-semibold leading-6">
                                     {formatServicePrice(averagePrice)}
                                 </p>

@@ -1,15 +1,18 @@
 import Image from 'next/image';
 import { FiCalendar, FiClock, FiScissors } from 'react-icons/fi';
-import { formatServicePrice } from '@/lib/service-display';
+import { formatServicePrice, serviceCategories } from '@/lib/service-display';
 import { CheckoutBooking } from '@/types/checkout.data';
 
 export default function BookingSummary({ booking }: { booking: CheckoutBooking }) {
     const { service, date, time } = booking;
+    const category =
+        serviceCategories[service.category as keyof typeof serviceCategories]?.label ||
+        service.category;
 
     return (
         <section
             aria-labelledby="appointment-title"
-            className="overflow-hidden rounded-2xl border border-line bg-panel"
+            className="overflow-hidden rounded-2xl border border-line bg-panel shadow-card"
         >
             <div className="flex items-center gap-3 border-b border-line/70 px-5 py-5 sm:px-7">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-soft/70 text-brand">
@@ -30,7 +33,7 @@ export default function BookingSummary({ booking }: { booking: CheckoutBooking }
                         className="h-28 w-26 shrink-0 rounded-xl object-cover"
                     />
                     <div className="min-w-0 flex-1 basis-44">
-                        <p className="text-sm font-medium text-brand">{service.category}</p>
+                        <p className="text-sm font-medium text-brand">{category}</p>
                         <h3 className="mt-1.5 text-2xl leading-tight">{service.name}</h3>
                         <p className="mt-2 flex items-center gap-2 text-sm text-muted">
                             <FiClock aria-hidden="true" size={15} />

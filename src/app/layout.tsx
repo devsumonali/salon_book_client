@@ -52,7 +52,22 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             <body suppressHydrationWarning className="flex min-h-dvh flex-col">
                 {children}
 
-                <Toaster position="top-center" reverseOrder={false} />
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                    toastOptions={{
+                        style: {
+                            border: '1px solid #e8ebee',
+                            borderRadius: '16px',
+                            padding: '14px 18px',
+                            fontSize: '14px',
+                            color: '#252b31',
+                            boxShadow: 'var(--shadow-card)',
+                        },
+                        success: { iconTheme: { primary: '#617660', secondary: '#ffffff' } },
+                        error: { iconTheme: { primary: '#a24e38', secondary: '#ffffff' } },
+                    }}
+                />
             </body>
         </html>
     );

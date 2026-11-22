@@ -1,27 +1,28 @@
 import { getServiceProps } from '@/lib/api/services';
 import ServiceCard from './ServiceCard';
+import Link from 'next/link';
 
 const FeaturedListing = async () => {
     const services = await getServiceProps();
     const activeServices = services.filter((service) => service.status === 'active').slice(0, 6);
 
     return (
-        <section aria-labelledby="featured-services-title" className="bg-[#fbf9f6]">
-            <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-                <header className="mb-8 sm:mb-10">
-                    <p className="flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.16em] text-brand">
-                        <span aria-hidden="true" className="h-px w-7 bg-brand" />
-                        CURATED SALON RITUALS
-                    </p>
-                    <h2
-                        id="featured-services-title"
-                        className="mt-3 text-3xl leading-tight tracking-tight text-ink sm:text-4xl lg:text-[42px]"
-                    >
-                        Featured Salon Services
-                    </h2>
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
-                        A little time for yourself. Discover the treatments that make it special.
-                    </p>
+        <section aria-labelledby="featured-services-title" className="section-space bg-panel">
+            <div className="site-container">
+                <header className="mb-8 flex flex-wrap items-end justify-between gap-5 sm:mb-10">
+                    <div>
+                        <p className="page-kicker">THE SERVICE EDIT</p>
+                        <h2 id="featured-services-title" className="section-heading mt-3">
+                            Featured Salon Services
+                        </h2>
+                        <p className="mt-3 max-w-xl text-base leading-7 text-muted">
+                            A little time for yourself. Discover the treatments that make it
+                            special.
+                        </p>
+                    </div>
+                    <Link href="/service" className="ui-button-secondary">
+                        Explore all services
+                    </Link>
                 </header>
 
                 {activeServices.length > 0 ? (

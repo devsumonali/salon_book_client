@@ -11,7 +11,7 @@ const colors: Record<string, string> = {
 export function AdminBadge({ value }: { value: string }) {
     return (
         <span
-            className={`inline-flex rounded-full px-3 py-1.5 text-sm font-medium capitalize ${colors[value] || 'bg-surface text-muted'}`}
+            className={`inline-flex rounded-lg px-2.5 py-1.5 text-sm font-semibold capitalize ${colors[value] || 'bg-surface text-muted'}`}
         >
             {value}
         </span>
@@ -36,6 +36,6 @@ export function eventDate(value?: string) {
 }
 
 export const tableClass =
-    'w-full min-w-225 text-left text-sm [&_th]:px-4 [&_th]:py-4 [&_th]:font-medium [&_td]:px-4 [&_td]:py-4';
+    'w-full min-w-225 text-left text-sm [&_th]:px-5 [&_th]:py-4 [&_th]:font-semibold [&_td]:px-5 [&_td]:py-5';
 export const buttonClass =
-    'inline-flex min-h-11 cursor-pointer items-center justify-center rounded-lg border border-line px-3 text-sm font-semibold text-brand hover:bg-brand-soft/50 disabled:cursor-wait disabled:opacity-50';
+    'inline-flex min-h-11 cursor-pointer items-center justify-center rounded-xl border border-line bg-panel px-3.5 text-sm font-semibold text-brand shadow-xs hover:bg-brand-soft/50 disabled:cursor-wait disabled:opacity-50';

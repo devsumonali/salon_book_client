@@ -76,7 +76,14 @@ export default function ServiceBookingForm({
 
     const handleServiceBooking = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!session?.user || session.user.role !== 'user' || session.user.isBlocked || status === 'inactive' || isLoading) return;
+        if (
+            !session?.user ||
+            session.user.role !== 'user' ||
+            session.user.isBlocked ||
+            status === 'inactive' ||
+            isLoading
+        )
+            return;
 
         const form = e.currentTarget;
         const formData = new FormData(form);
@@ -107,9 +114,9 @@ export default function ServiceBookingForm({
         <form
             aria-labelledby={`${formId}-title`}
             onSubmit={handleServiceBooking}
-            className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_8px_24px_-12px_rgba(36,32,30,0.3)]"
+            className="ui-card overflow-hidden"
         >
-            <div className="border-b border-line/70 bg-[#eeebe7] px-5 py-6 sm:px-6">
+            <div className="border-b border-line/70 bg-brand-soft/60 px-5 py-6 sm:px-6">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="text-xs font-semibold tracking-widest text-brand uppercase">
                         Session reservation
@@ -138,7 +145,7 @@ export default function ServiceBookingForm({
                     <legend className="mb-3 flex w-full flex-wrap items-center justify-between gap-2 text-sm font-semibold">
                         <span className="inline-flex items-center gap-2">
                             <FiCalendar aria-hidden="true" size={15} className="text-brand" />
-                            1. Select date
+                            Select a date
                         </span>
                         <span className="text-sm font-medium text-brand">{selectedDateLabel}</span>
                     </legend>
@@ -205,7 +212,7 @@ export default function ServiceBookingForm({
                 <fieldset>
                     <legend className="mb-3 inline-flex items-center gap-2 text-sm font-semibold">
                         <FiClock aria-hidden="true" size={15} className="text-brand" />
-                        2. Preferred time
+                        Choose your time
                     </legend>
                     <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
                         {preferredTimes.map((time) => (
@@ -218,13 +225,13 @@ export default function ServiceBookingForm({
                                     onChange={() => setSelectedTime(time)}
                                     className="peer sr-only"
                                 />
-                                <span className="flex min-h-11 items-center justify-center rounded-lg border border-transparent bg-surface px-1.5 py-2 text-sm font-semibold transition-colors peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand hover:border-brand/30">
+                                <span className="flex min-h-11 items-center justify-center rounded-xl border border-line bg-surface px-1.5 py-2 text-sm font-semibold transition-colors peer-checked:border-brand/40 peer-checked:bg-brand-soft peer-checked:text-brand peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand hover:border-brand/30">
                                     {time}
                                 </span>
                             </label>
                         ))}
                     </div>
-                    <p className="mt-2 text-xs leading-5 text-subtle">
+                    <p className="mt-2 text-sm leading-6 text-muted">
                         Preferred times are subject to confirmation.
                     </p>
                 </fieldset>
@@ -236,7 +243,7 @@ export default function ServiceBookingForm({
                             className="inline-flex items-center gap-2 text-sm font-semibold"
                         >
                             <FiEdit3 aria-hidden="true" size={15} className="text-brand" />
-                            3. Special requests
+                            Special requests
                         </label>
                         <span className="text-xs text-subtle">Optional</span>
                     </div>
@@ -275,7 +282,7 @@ export default function ServiceBookingForm({
                         disabled={status === 'inactive' || isLoading}
                         aria-busy={isLoading}
                         aria-describedby={`${formId}-booking-note`}
-                        className="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-brand-hover/30 bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:opacity-70"
+                        className="ui-button w-full"
                     >
                         {isLoading ? (
                             <FiLoader aria-hidden="true" size={16} className="animate-spin" />

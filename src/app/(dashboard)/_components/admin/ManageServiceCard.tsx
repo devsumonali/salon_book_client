@@ -19,8 +19,8 @@ export default function ManageServiceCard({ service }: ManageServiceCardProps) {
     const hasImage = service.image?.startsWith('https://') && !imageError;
 
     return (
-        <li className="grid grid-cols-2 items-center gap-x-4 gap-y-4 px-4 py-5 transition-colors hover:bg-surface/40 sm:px-5 md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px_96px] md:gap-x-4 md:py-6">
-            <div className="col-span-2 flex min-w-0 items-center gap-3 md:col-span-1">
+        <li className="grid grid-cols-2 items-center gap-x-4 gap-y-4 px-4 py-5 transition-colors hover:bg-surface/40 sm:px-5 xl:grid-cols-[minmax(0,1fr)_136px_88px_100px_80px_96px] xl:gap-x-4 xl:py-6">
+            <div className="col-span-2 flex min-w-0 items-center gap-3 xl:col-span-1">
                 <div className="relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-line/70 bg-brand-soft/40">
                     {hasImage ? (
                         <Image
@@ -43,25 +43,25 @@ export default function ManageServiceCard({ service }: ManageServiceCardProps) {
                     >
                         {service.name}
                     </h2>
-                    <p className="mt-1 truncate text-[11px] leading-5 text-subtle">
+                    <p className="mt-1 truncate text-sm leading-5 text-subtle">
                         {service.description || 'No description provided.'}
                     </p>
                 </div>
             </div>
 
             <div className="min-w-0">
-                <span className="mb-1.5 block text-[10px] font-medium text-subtle md:sr-only">
+                <span className="mb-1.5 block text-sm font-medium text-subtle xl:sr-only">
                     Category
                 </span>
                 <span
-                    className={`inline-block max-w-full rounded px-2 py-1 text-[10px] leading-4 ${category?.badgeClass || 'bg-surface text-muted'}`}
+                    className={`inline-block max-w-full rounded px-2 py-1 text-sm leading-4 ${category?.badgeClass || 'bg-surface text-muted'}`}
                 >
                     {category?.label || service.category}
                 </span>
             </div>
 
             <div>
-                <span className="mb-1.5 block text-[10px] font-medium text-subtle md:sr-only">
+                <span className="mb-1.5 block text-sm font-medium text-subtle xl:sr-only">
                     Duration
                 </span>
                 <p className="flex items-center gap-1.5 whitespace-nowrap text-xs text-muted">
@@ -71,30 +71,27 @@ export default function ManageServiceCard({ service }: ManageServiceCardProps) {
             </div>
 
             <div>
-                <span className="mb-1.5 block text-[10px] font-medium text-subtle md:sr-only">
+                <span className="mb-1.5 block text-sm font-medium text-subtle xl:sr-only">
                     Pricing
                 </span>
                 <p className={`text-base font-medium ${isActive ? 'text-ink' : 'text-muted'}`}>
                     {formatServicePrice(service.price)}
                 </p>
-                <p className="mt-0.5 text-[10px] text-subtle">Per service</p>
+                <p className="mt-0.5 text-sm text-subtle">Per service</p>
             </div>
 
             <div>
-                <span className="mb-1.5 block text-[10px] font-medium text-subtle md:sr-only">
+                <span className="mb-1.5 block text-sm font-medium text-subtle xl:sr-only">
                     Status
                 </span>
                 <span
-                    role="img"
-                    aria-label={isActive ? 'Active service' : 'Inactive service'}
-                    title={isActive ? 'Active' : 'Inactive'}
-                    className={`flex h-5 w-9 items-center rounded-full border p-0.5 ${isActive ? 'justify-end border-brand-hover/40 bg-brand' : 'justify-start border-line bg-[#efede9]'}`}
+                    className={`inline-flex rounded-lg px-2.5 py-1.5 text-sm font-semibold ${isActive ? 'bg-sage-soft text-sage' : 'bg-surface text-muted'}`}
                 >
-                    <span className="size-3.5 rounded-full bg-white shadow-xs" />
+                    {isActive ? 'Active' : 'Inactive'}
                 </span>
             </div>
 
-            <div className="col-span-2 flex items-center justify-end gap-2 md:col-span-1">
+            <div className="col-span-2 flex items-center justify-end gap-2 xl:col-span-1">
                 <UpdateBtn service={service} />
                 <DeleteBtn service={service} />
             </div>

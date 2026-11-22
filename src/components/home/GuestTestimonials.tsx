@@ -26,12 +26,12 @@ const testimonials = [
 
 export default function GuestTestimonials() {
     return (
-        <section aria-labelledby="guest-testimonials-title" className="bg-[#fbf9f6]">
-            <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
-                <div className="rounded-3xl border border-line/60 bg-panel p-5 shadow-xs sm:p-8 lg:p-10">
+        <section aria-labelledby="guest-testimonials-title" className="bg-panel">
+            <div className="site-container pb-16 sm:pb-20">
+                <div className="rounded-3xl border border-line bg-surface/70 p-5 shadow-soft sm:p-8 lg:p-10">
                     <header className="flex items-end justify-between gap-5">
                         <div>
-                            <p className="text-[10px] font-semibold tracking-[0.14em] text-brand">
+                            <p className="text-sm font-semibold tracking-[0.14em] text-brand">
                                 ATELIER STORIES
                             </p>
                             <h2
@@ -47,7 +47,7 @@ export default function GuestTestimonials() {
                         {testimonials.map(({ quote, name, detail, initials, avatarClass }) => (
                             <figure
                                 key={name}
-                                className="flex min-w-0 flex-col rounded-2xl bg-surface p-5 sm:p-6"
+                                className="flex min-w-0 flex-col rounded-2xl border border-line bg-panel p-5 shadow-soft sm:p-6"
                             >
                                 <div
                                     role="img"
@@ -63,23 +63,21 @@ export default function GuestTestimonials() {
                                         />
                                     ))}
                                 </div>
-                                <blockquote className="mt-5 flex-1 text-xs leading-6 text-ink italic">
+                                <blockquote className="mt-5 flex-1 text-base leading-7 text-ink italic">
                                     &ldquo;{quote}&rdquo;
                                 </blockquote>
                                 <figcaption className="mt-6 flex items-center gap-3">
                                     <span
                                         aria-hidden="true"
-                                        className={`flex size-9 shrink-0 items-center justify-center rounded-full border border-panel text-[10px] font-semibold ${avatarClass}`}
+                                        className={`flex size-9 shrink-0 items-center justify-center rounded-full border border-panel text-sm font-semibold ${avatarClass}`}
                                     >
                                         {initials}
                                     </span>
                                     <div className="min-w-0">
-                                        <p className="text-[11px] font-semibold leading-5 text-ink">
+                                        <p className="text-sm font-semibold leading-5 text-ink">
                                             {name}
                                         </p>
-                                        <p className="text-[10px] leading-4 text-subtle">
-                                            {detail}
-                                        </p>
+                                        <p className="text-sm leading-4 text-subtle">{detail}</p>
                                     </div>
                                 </figcaption>
                             </figure>

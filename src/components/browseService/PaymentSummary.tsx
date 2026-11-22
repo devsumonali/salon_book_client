@@ -36,8 +36,8 @@ export default function PaymentSummary({ price }: { price: number }) {
     };
 
     return (
-        <aside aria-labelledby="payment-title" className="min-w-0 lg:sticky lg:top-8">
-            <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_10px_40px_-20px_rgba(36,32,30,0.25)]">
+        <aside aria-labelledby="payment-title" className="min-w-0 lg:sticky lg:top-28">
+            <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-card ">
                 <div className="border-b border-line bg-brand-soft/50 px-5 py-6 sm:px-7">
                     <p className="text-sm font-medium text-brand">A little time, just for you</p>
                     <h2 id="payment-title" className="mt-2 text-3xl">

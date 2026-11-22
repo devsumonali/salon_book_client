@@ -1,153 +1,133 @@
 import Form from 'next/form';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-    FiArrowRight,
-    FiAward,
-    FiCheckCircle,
-    FiCreditCard,
-    FiMessageSquare,
-    FiSearch,
-    FiShield,
-    FiStar,
-} from 'react-icons/fi';
+import { FiCalendar, FiCheck, FiHeart, FiSearch, FiShield } from 'react-icons/fi';
 
-const trustItems = [
-    { icon: FiStar, title: '4.98 Salon Rating', description: '2,400+ verified guests' },
-    { icon: FiShield, title: 'Verified Stylists', description: 'Master guild credentials' },
+const benefits = [
     {
-        icon: FiCreditCard,
-        title: 'Stripe Protection',
-        description: 'Zero hidden booking surcharges',
+        icon: FiCalendar,
+        title: 'A time that suits you',
+        description: 'Simple appointment requests',
     },
     {
-        icon: FiMessageSquare,
-        title: 'Appointment Updates',
-        description: 'Follow requests in your dashboard',
+        icon: FiHeart,
+        title: 'Care, made personal',
+        description: 'Services for your everyday rituals',
+    },
+    {
+        icon: FiShield,
+        title: 'Book with confidence',
+        description: 'Clear pricing. Secure Stripe payments.',
     },
 ];
 
-const Hero = () => {
+export default function Hero() {
     return (
-        <section
-            aria-labelledby="hero-title"
-            className="relative isolate overflow-hidden bg-surface"
-        >
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -top-40 -left-40 -z-10 size-120 rounded-full bg-brand-soft/60 blur-3xl"
-            />
-
-            <div className="mx-auto max-w-360 px-5 pt-12 pb-12 sm:px-6 sm:pt-16 sm:pb-16 lg:px-8 lg:pt-14 lg:pb-20 xl:px-12">
-                <div className="grid items-center gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-10 xl:gap-12">
-                    <div className="min-w-0">
-                        <p className="inline-flex items-center gap-2 rounded-full bg-panel/80 px-4 py-2 text-[10px] font-semibold tracking-wide text-ink sm:text-xs">
-                            <span
-                                aria-hidden="true"
-                                className="size-2 shrink-0 rounded-full bg-brand"
-                            />
-                            ATELIER APPOINTMENTS NOW OPEN
+        <section aria-labelledby="hero-title" className="relative overflow-hidden bg-[#fcfaf8]">
+            <div className="site-container pt-10 pb-8 sm:pt-14 lg:pt-16">
+                <div className="grid items-center gap-10 lg:grid-cols-[1.08fr_1fr] lg:gap-14">
+                    <div className="max-w-xl py-2 lg:py-6">
+                        <p className="page-kicker inline-flex items-center gap-2.5 rounded-full border border-brand/10 bg-brand-soft/70 px-4 py-2">
+                            <FiHeart size={14} aria-hidden="true" /> Beauty, on your terms
                         </p>
-
                         <h1
                             id="hero-title"
-                            className="mt-6 text-4xl leading-[1.12] tracking-tight text-ink sm:text-5xl lg:text-[clamp(2.75rem,4vw,3.75rem)]"
+                            className="mt-6 text-[clamp(2.75rem,5.2vw,4.75rem)] leading-[1.06] tracking-[-0.045em] text-ink"
                         >
-                            Indulge in Artful Hair, Skin{' '}
-                            <span className="sm:block">&amp; Wellness Rituals</span>
+                            A little care.
+                            <br />A beautiful <span className="italic text-brand">you.</span>
                         </h1>
-
-                        <p className="mt-6 max-w-xl text-sm leading-7 text-muted sm:text-base">
-                            Discover premier salon artisans, explore tailored beauty treatments,
-                            <span className="sm:block">
-                                {' '}
-                                and request a time for your next moment of care.
-                            </span>
+                        <p className="mt-6 max-w-md text-base leading-8 text-muted sm:text-lg">
+                            Discover your next favorite salon ritual. Beautiful hair, glowing skin,
+                            and a moment that is entirely yours.
                         </p>
-
                         <Form
                             action="/service"
                             aria-label="Find salon services"
-                            className="mt-8 grid min-w-0 gap-3 rounded-2xl bg-panel p-3 shadow-lg shadow-ink/5 sm:grid-cols-[1fr_auto] xl:mt-10"
+                            className="mt-8 flex flex-col gap-2 rounded-2xl border border-line bg-panel p-2 shadow-card sm:flex-row"
                         >
-                            <label className="flex min-w-0 items-center gap-3 rounded-lg bg-surface px-3 py-3 focus-within:ring-2 focus-within:ring-brand">
+                            <label className="flex min-h-12 min-w-0 flex-1 items-center gap-3 px-3">
                                 <FiSearch
-                                    aria-hidden="true"
-                                    className="shrink-0 text-brand"
                                     size={19}
+                                    className="shrink-0 text-brand"
+                                    aria-hidden="true"
                                 />
-                                <span className="min-w-0 flex-1">
-                                    <span className="block text-[11px] font-medium tracking-wide text-muted">
-                                        Treatment
-                                    </span>
-                                    <input
-                                        name="search"
-                                        type="search"
-                                        placeholder="e.g. Balayage"
-                                        className="block w-full min-w-0 bg-transparent py-0.5 text-xs text-ink outline-none placeholder:text-subtle"
-                                    />
-                                </span>
+                                <span className="sr-only">Search salon services</span>
+                                <input
+                                    name="search"
+                                    type="search"
+                                    placeholder="What are you looking for?"
+                                    className="w-full min-w-0 bg-transparent text-base outline-none placeholder:text-subtle"
+                                />
                             </label>
-
-                            <button
-                                type="submit"
-                                className="flex min-h-14 items-center justify-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold whitespace-nowrap text-panel transition-colors hover:bg-brand-hover"
-                            >
-                                Find Services <FiArrowRight aria-hidden="true" size={18} />
+                            <button type="submit" className="ui-button shrink-0">
+                                Find your service
                             </button>
                         </Form>
+                        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
+                            <span className="inline-flex items-center gap-1.5">
+                                <FiCheck className="text-sage" aria-hidden="true" /> Upfront pricing
+                            </span>
+                            <span className="inline-flex items-center gap-1.5">
+                                <FiCheck className="text-sage" aria-hidden="true" /> Pay after
+                                confirmation
+                            </span>
+                        </div>
                     </div>
-
-                    <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-                        <div className="relative aspect-4/5 overflow-hidden rounded-2xl bg-brand-soft shadow-2xl shadow-ink/20">
+                    <div className="relative mx-auto w-full max-w-xl pb-7 pl-4 sm:pl-7">
+                        <div
+                            className="absolute top-7 right-5 bottom-0 left-0 rounded-[2rem] bg-[#e9e2d8]"
+                            aria-hidden="true"
+                        />
+                        <div className="relative aspect-[1.05] overflow-hidden rounded-[1.75rem] bg-brand-soft shadow-lift lg:aspect-[0.98]">
                             <Image
                                 src="/images/salon-hero.jpg"
-                                alt="A smiling hairstylist styling a guest's hair in a sunlit salon"
+                                alt="A hairstylist caring for a guest in a bright, welcoming salon"
                                 fill
                                 preload
-                                sizes="(min-width: 1440px) 518px, (min-width: 1024px) 38vw, (min-width: 560px) 512px, calc(100vw - 32px)"
+                                sizes="(min-width: 1024px) 560px, (min-width: 640px) 550px, 90vw"
                                 className="object-cover object-[58%_center]"
                             />
-                        </div>
-
-                        <div className="absolute -top-5 left-3 flex max-w-[calc(100%-1.5rem)] items-center gap-3 rounded-2xl bg-panel px-4 py-3 shadow-lg shadow-ink/10 sm:-left-5 sm:px-5">
-                            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-surface text-brand">
-                                <FiAward aria-hidden="true" size={20} />
-                            </span>
-                            <div className="text-xs leading-5">
-                                <p className="font-semibold text-ink">Top 1% Artisans</p>
-                                <p className="text-muted">Vetted Beverly Hills Guild</p>
+                            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-ink/65 to-transparent px-6 pt-20 pb-20 text-white">
+                                <p className="text-sm font-medium text-white/85">
+                                    YOUR EVERYDAY ESCAPE
+                                </p>
+                                <p className="mt-1 font-serif text-3xl">
+                                    Feel good. Look like you.
+                                </p>
                             </div>
                         </div>
-
-                        <div className="absolute right-3 bottom-4 left-3 flex items-center gap-3 rounded-xl border border-panel/60 bg-surface/95 p-3 shadow-lg shadow-ink/10 sm:right-5 sm:bottom-5 sm:left-5 sm:p-4">
-                            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-avatar text-brand">
-                                <FiCheckCircle aria-hidden="true" size={20} />
+                        <div className="absolute right-3 -bottom-1 flex items-center gap-3 rounded-2xl border border-line/70 bg-panel px-4 py-3.5 shadow-lift sm:right-7 sm:px-5">
+                            <span className="flex size-11 items-center justify-center rounded-xl bg-sage-soft text-sage">
+                                <FiCalendar size={21} aria-hidden="true" />
                             </span>
-                            <div className="min-w-0 flex-1 text-xs leading-5">
-                                <p className="font-semibold text-ink">Available Today</p>
-                                <p className="text-muted">3 slots with Senior Colorist</p>
+                            <div>
+                                <p className="text-sm font-bold">Your next moment of care</p>
+                                <Link
+                                    href="/service"
+                                    className="text-sm text-muted underline decoration-line underline-offset-4 hover:text-brand"
+                                >
+                                    Explore our salon services
+                                </Link>
                             </div>
-                            <Link
-                                href="/service"
-                                className="inline-flex min-h-11 shrink-0 items-center px-1 text-xs font-semibold text-brand hover:underline sm:px-2"
-                            >
-                                Reserve
-                            </Link>
                         </div>
                     </div>
                 </div>
-
                 <ul
                     aria-label="Why book with SalonBook"
-                    className="mt-12 grid gap-6 rounded-2xl border border-line/40 bg-line/30 p-5 sm:grid-cols-2 sm:p-6 lg:mt-16 lg:grid-cols-4 lg:gap-5 xl:mt-18"
+                    className="mt-12 grid divide-y divide-line rounded-2xl border border-line/80 bg-panel px-6 shadow-soft sm:grid-cols-3 sm:divide-x sm:divide-y-0 lg:mt-14"
                 >
-                    {trustItems.map(({ icon: Icon, title, description }) => (
-                        <li key={title} className="flex min-w-0 items-center gap-3">
-                            <Icon aria-hidden="true" size={22} className="shrink-0 text-brand" />
-                            <div className="min-w-0 text-xs leading-5">
-                                <p className="font-semibold text-ink">{title}</p>
-                                <p className="text-muted">{description}</p>
+                    {benefits.map(({ icon: Icon, title, description }) => (
+                        <li
+                            key={title}
+                            className="flex items-center gap-3 py-5 sm:justify-center sm:px-4 lg:py-6"
+                        >
+                            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
+                                <Icon size={20} aria-hidden="true" />
+                            </span>
+                            <div>
+                                <p className="text-sm font-bold">{title}</p>
+                                <p className="mt-0.5 text-xs leading-5 text-muted">{description}</p>
                             </div>
                         </li>
                     ))}
@@ -155,6 +135,4 @@ const Hero = () => {
             </div>
         </section>
     );
-};
-
-export default Hero;
+}

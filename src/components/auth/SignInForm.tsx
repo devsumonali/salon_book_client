@@ -7,10 +7,9 @@ import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
-import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
 
-const inputClass =
-    'w-full min-w-0 rounded-xl border border-line bg-white py-3.5 pr-12 pl-11 text-sm text-ink placeholder:text-subtle/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15';
+const inputClass = 'ui-input pr-12 pl-11';
 const iconClass = 'pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-brand/70';
 
 export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl?: string }) {
@@ -52,7 +51,7 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
 
     return (
         <>
-            <p className="text-[10px] font-bold tracking-[0.2em] text-brand">ATELIER PORTAL</p>
+            <p className="text-sm font-bold tracking-[0.2em] text-brand">WELCOME TO SALONBOOK</p>
             <h1 className="mt-2 text-4xl tracking-tight">Welcome Back</h1>
             <p className="mt-2 text-sm leading-6 text-muted">
                 Access your appointments and your next moment of care.
@@ -60,18 +59,18 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
 
             <nav
                 aria-label="Account access"
-                className="mt-6 flex rounded-full border border-line bg-[#f0ebe5] p-1 text-xs font-semibold"
+                className="mt-6 flex rounded-xl border border-line bg-surface p-1 text-sm font-semibold"
             >
                 <Link
                     href="/sign-in"
                     aria-current="page"
-                    className="flex-1 rounded-full bg-white px-3 py-2.5 text-center text-ink shadow-sm"
+                    className="flex-1 rounded-xl bg-white px-3 py-2.5 text-center text-ink shadow-sm"
                 >
                     Sign In
                 </Link>
                 <Link
                     href="/sign-up"
-                    className="flex-1 rounded-full px-3 py-2.5 text-center text-muted transition-colors hover:text-brand"
+                    className="flex-1 rounded-xl px-3 py-2.5 text-center text-muted transition-colors hover:text-brand"
                 >
                     Create Account
                 </Link>
@@ -81,13 +80,13 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
                 <button
                     type="button"
                     onClick={() => handleGoogleSignIn(callbackUrl)}
-                    className="flex w-full items-center cursor-pointer justify-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium transition-colors hover:bg-surface"
+                    className="ui-button-secondary w-full"
                 >
                     <FcGoogle aria-hidden="true" size={20} />
                     Continue with Google
                 </button>
 
-                <div className="flex items-center gap-3 text-[10px] tracking-wider text-muted">
+                <div className="flex items-center gap-3 text-sm tracking-wider text-muted">
                     <span aria-hidden="true" className="h-px flex-1 bg-line" />
                     OR SIGN IN WITH EMAIL
                     <span aria-hidden="true" className="h-px flex-1 bg-line" />
@@ -96,7 +95,7 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
                 <div>
                     <label
                         htmlFor="email"
-                        className="mb-2 block text-[10px] font-semibold tracking-wide"
+                        className="mb-2 block text-sm font-semibold tracking-wide"
                     >
                         EMAIL ADDRESS
                     </label>
@@ -117,7 +116,7 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
                 <div>
                     <label
                         htmlFor="password"
-                        className="mb-2 block text-[10px] font-semibold tracking-wide"
+                        className="mb-2 block text-sm font-semibold tracking-wide"
                     >
                         PASSWORD
                     </label>
@@ -148,7 +147,7 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
                     </div>
                 </div>
 
-                <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-muted">
+                <label className="flex w-fit cursor-pointer items-center gap-2 text-sm text-muted">
                     <input
                         name="remember"
                         type="checkbox"
@@ -157,17 +156,12 @@ export default function SignInForm({ callbackUrl = '/dashboard' }: { callbackUrl
                     Remember me on this device
                 </label>
 
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex min-h-12 cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-brand bg-[#b65c3e] px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand"
-                >
-                    {isSubmitting ? 'Signing in...' : 'Continue to Login'}
-                    <FiArrowRight aria-hidden="true" size={17} />
+                <button type="submit" disabled={isSubmitting} className="ui-button w-full">
+                    {isSubmitting ? 'Signing in...' : 'Sign In'}
                 </button>
             </form>
 
-            <p className="mt-6 text-center text-xs leading-6 text-muted">
+            <p className="mt-6 text-center text-sm leading-6 text-muted">
                 New to the Atelier?{' '}
                 <Link href="/sign-up" className="font-semibold text-brand hover:underline">
                     Create Account

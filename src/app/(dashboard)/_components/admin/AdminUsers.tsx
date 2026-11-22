@@ -42,7 +42,7 @@ export default function AdminUsers({ users }: { users: AdminUser[] }) {
 
     return (
         <>
-            <div className="overflow-x-auto rounded-2xl border border-line bg-panel">
+            <div className="overflow-x-auto rounded-2xl border border-line bg-panel shadow-card">
                 <table className={tableClass}>
                     <thead className="bg-surface text-muted">
                         <tr>

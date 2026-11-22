@@ -13,7 +13,7 @@ export default function CustomerDetails({ customer }: { customer: CheckoutBookin
     return (
         <section
             aria-labelledby="customer-title"
-            className="rounded-2xl border border-line bg-panel"
+            className="rounded-2xl border border-line bg-panel shadow-card"
         >
             <div className="flex items-center gap-3 border-b border-line/70 px-5 py-5 sm:px-7">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-soft/70 text-brand">

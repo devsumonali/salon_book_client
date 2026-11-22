@@ -18,7 +18,7 @@ export default function NavigationLink({
             {...props}
             href={href}
             aria-current={isActive ? 'page' : undefined}
-            className={`rounded-md transition-colors ${
+            className={`rounded-xl transition-colors ${
                 isActive
                     ? 'bg-brand-soft text-brand'
                     : 'text-muted hover:bg-brand-soft hover:text-brand'

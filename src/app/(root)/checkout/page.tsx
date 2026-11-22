@@ -11,18 +11,14 @@ export const metadata: Metadata = {
 const CheckoutPage = async () => {
     await requireUser('user');
     return (
-        <div className="flex min-h-dvh flex-1 flex-col bg-surface/70">
+        <div className="flex min-h-dvh flex-1 flex-col bg-surface">
             <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8 sm:px-8 sm:py-12">
                 <div className="mt-5 flex flex-wrap items-start justify-between gap-6">
                     <div>
                         <div className="flex flex-wrap items-center gap-3">
-                            <p className="text-sm font-semibold tracking-widest text-brand uppercase">
-                                Your next moment of care
-                            </p>
+                            <p className="page-kicker">Your next moment of care</p>
                         </div>
-                        <h1 className="mt-3 text-4xl tracking-tight sm:text-5xl">
-                            Review your booking
-                        </h1>
+                        <h1 className="mt-3 page-heading">Review your booking</h1>
                         <p className="mt-3 max-w-xl text-base leading-7 text-muted">
                             A little time for yourself, all planned out. Check your details below
                             before sending your appointment request.

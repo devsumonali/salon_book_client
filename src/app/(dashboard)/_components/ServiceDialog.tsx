@@ -29,10 +29,10 @@ export default function ServiceDialog({
             onCancel={(event) => {
                 if (busy) event.preventDefault();
             }}
-            className={`fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-y-auto rounded-2xl border border-line bg-panel p-5 text-ink shadow-xl backdrop:bg-ink/50 sm:p-6 ${compact ? 'max-w-md' : 'max-w-2xl'}`}
+            className={`fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-y-auto rounded-2xl border border-line bg-panel shadow-card p-5 text-ink shadow-xl backdrop:bg-ink/50 sm:p-6 ${compact ? 'max-w-md' : 'max-w-2xl'}`}
         >
             <header className="mb-5 flex items-center justify-between gap-4 border-b border-line/60 pb-4">
-                <h2 id={`${id}-title`} className="text-2xl tracking-tight">
+                <h2 id={`${id}-title`} className="font-sans text-xl font-bold tracking-tight">
                     {title}
                 </h2>
                 <button

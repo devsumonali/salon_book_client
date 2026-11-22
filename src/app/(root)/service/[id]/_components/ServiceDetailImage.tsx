@@ -15,7 +15,7 @@ export default function ServiceDetailImage({ image, name, category }: ServiceDet
     const imageUrl = image?.startsWith('https://') ? image : undefined;
 
     return (
-        <div className="relative flex aspect-5/4 items-center justify-center overflow-hidden rounded-2xl border border-line bg-brand-soft/45 sm:aspect-6/5">
+        <div className="relative flex aspect-5/4 items-center justify-center overflow-hidden rounded-3xl border border-line bg-brand-soft/45 shadow-card sm:aspect-[1.3]">
             {imageUrl && failedImage !== imageUrl ? (
                 <Image
                     src={imageUrl}

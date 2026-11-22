@@ -75,7 +75,7 @@ export default function AddServiceForm() {
             aria-label="Service details"
             className="mt-6"
         >
-            <fieldset className="min-w-0 space-y-6 rounded-xl border border-line/70 bg-panel p-5 shadow-xs sm:p-9 lg:p-6 xl:p-9">
+            <fieldset className="min-w-0 space-y-6 rounded-xl border border-line/70 bg-panel p-5 shadow-card sm:p-9 lg:p-6 xl:p-9">
                 <ServiceFormFields />
 
                 <div className="flex justify-end border-t border-line/60 pt-5">

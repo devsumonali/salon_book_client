@@ -26,9 +26,9 @@ const ServiceSinglePage = async ({ params }: Props) => {
     }).format(new Date());
 
     return (
-        <div className="bg-[#fbf9f6]">
+        <div className="bg-surface">
             <div className="border-b border-line/70 bg-surface/70">
-                <div className="mx-auto flex w-full max-w-360 flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-4 sm:px-6 lg:px-8 xl:px-12">
+                <div className="site-container flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-5">
                     <nav aria-label="Breadcrumb" className="min-w-0">
                         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-6 text-muted sm:text-sm">
                             <li>
@@ -65,7 +65,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
                 </div>
             </div>
 
-            <div className="mx-auto grid w-full max-w-360 items-start gap-8 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,1fr)] lg:gap-10 lg:px-8 lg:py-12 xl:px-12">
+            <div className="site-container grid items-start gap-6 py-7 sm:py-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(360px,1fr)] lg:gap-8">
                 <div className="min-w-0 space-y-6">
                     <ServiceDetailImage
                         image={service.image}
@@ -73,7 +73,7 @@ const ServiceSinglePage = async ({ params }: Props) => {
                         category={category?.label || service.category}
                     />
 
-                    <article className="rounded-2xl border border-line/60 bg-panel p-6 sm:p-8">
+                    <article className="ui-card p-6 sm:p-8">
                         <div className="flex flex-wrap items-center gap-3 text-xs">
                             <span
                                 className={`rounded-full px-3 py-1.5 font-semibold ${category?.badgeClass || 'bg-brand-soft text-brand'}`}
@@ -140,16 +140,31 @@ const ServiceSinglePage = async ({ params }: Props) => {
                 </div>
 
                 <aside aria-label="Appointment booking" className="min-w-0 lg:sticky lg:top-28">
-                    {session.user.role === 'user' ? <ServiceBookingForm
-                        serviceName={service.name}
-                        serviceCategory={category?.label || service.category}
-                        serviceImage={service.image || '/images/salon-hero.jpg'}
-                        price={service.price}
-                        duration={service.duration}
-                        status={service.status}
-                        today={today}
-                        id={service._id}
-                    /> : <div className="rounded-2xl border border-line bg-panel p-6"><h2 className="text-2xl">Admin preview</h2><p className="mt-3 text-base leading-7 text-muted">Appointment requests are available to customer accounts.</p><Link href="/dashboard/admin/manage-services" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand underline">Manage services</Link></div>}
+                    {session.user.role === 'user' ? (
+                        <ServiceBookingForm
+                            serviceName={service.name}
+                            serviceCategory={category?.label || service.category}
+                            serviceImage={service.image || '/images/salon-hero.jpg'}
+                            price={service.price}
+                            duration={service.duration}
+                            status={service.status}
+                            today={today}
+                            id={service._id}
+                        />
+                    ) : (
+                        <div className="rounded-2xl border border-line bg-panel p-6">
+                            <h2 className="text-2xl">Admin preview</h2>
+                            <p className="mt-3 text-base leading-7 text-muted">
+                                Appointment requests are available to customer accounts.
+                            </p>
+                            <Link
+                                href="/dashboard/admin/manage-services"
+                                className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand underline"
+                            >
+                                Manage services
+                            </Link>
+                        </div>
+                    )}
                 </aside>
             </div>
         </div>

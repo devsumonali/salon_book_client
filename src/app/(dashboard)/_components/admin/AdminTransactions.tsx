@@ -4,7 +4,7 @@ import { formatAppointmentDate } from '../customer-appointment-display';
 
 export default function AdminTransactions({ transactions }: { transactions: AdminTransaction[] }) {
     return (
-        <div className="overflow-x-auto rounded-2xl border border-line bg-panel">
+        <div className="overflow-x-auto rounded-2xl border border-line bg-panel shadow-card">
             <table className={tableClass}>
                 <caption className="sr-only">
                     Read-only payment records verified by Stripe webhooks

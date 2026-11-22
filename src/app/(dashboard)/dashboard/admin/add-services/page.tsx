@@ -6,7 +6,7 @@ import { FiChevronRight } from 'react-icons/fi';
 const AddServices = async () => {
     await requireUser('admin');
     return (
-        <section className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh">
+        <section className="dashboard-page">
             <div className="mx-auto max-w-6xl">
                 <header className="border-b border-line/60 pb-6">
                     <nav aria-label="Breadcrumb" className="mb-1 text-xs">
@@ -28,9 +28,7 @@ const AddServices = async () => {
 
                     <div className="flex flex-wrap items-start justify-between gap-5">
                         <div>
-                            <h1 className="text-[32px] leading-tight tracking-tight">
-                                Add New Service
-                            </h1>
+                            <h1 className="leading-tight tracking-tight">Add New Service</h1>
                             <p className="mt-2 text-sm text-muted">
                                 Create a new salon service for your booking catalog.
                             </p>

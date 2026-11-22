@@ -54,11 +54,8 @@ export default function UserMenu() {
     // If the user is not logged in, show a login button
     if (!user) {
         return (
-            <Link
-                href="/sign-in"
-                className="inline-flex min-h-11 items-center justify-center rounded-md border border-brand px-4 py-2 text-sm font-semibold text-brand transition-colors hover:bg-brand-soft"
-            >
-                Login
+            <Link href="/sign-in" className="ui-button-secondary min-h-11 px-4 py-2.5">
+                Sign In
             </Link>
         );
     }
@@ -81,7 +78,7 @@ export default function UserMenu() {
                 aria-expanded={isOpen}
                 aria-controls="user-dropdown"
                 onClick={() => setOpenKey(isOpen ? null : currentKey)}
-                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md p-1.5 transition-colors hover:bg-brand-soft"
+                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-line bg-panel p-1.5 shadow-soft transition-colors hover:bg-surface"
             >
                 <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-avatar text-sm font-semibold text-brand">
                     {user.image && user.image !== failedImage ? (
@@ -98,8 +95,9 @@ export default function UserMenu() {
                         <span aria-hidden="true">{initial}</span>
                     )}
                 </span>
-                {/* Static display role; connect the actual user role later. */}
-                <span className="text-xs font-medium text-muted">{user.role}</span>
+                <span className="hidden max-w-28 truncate text-sm font-semibold text-ink sm:block">
+                    {userName}
+                </span>
                 <FiChevronDown
                     aria-hidden="true"
                     size={15}
@@ -110,7 +108,7 @@ export default function UserMenu() {
             <div
                 id="user-dropdown"
                 hidden={!isOpen}
-                className="absolute right-0 top-full z-10 mt-2 w-56 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-line bg-panel shadow-lg"
+                className="absolute right-0 top-full z-10 mt-3 w-64 max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-line bg-panel p-1.5 shadow-lift"
             >
                 <p
                     className="truncate border-b border-line px-4 py-3 text-sm font-semibold text-ink"

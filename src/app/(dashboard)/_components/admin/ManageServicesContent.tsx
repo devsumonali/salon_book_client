@@ -54,7 +54,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
         <div className="mt-6 space-y-5">
             <section
                 aria-label="Service filters"
-                className="rounded-xl border border-line/50 bg-panel p-3.5 shadow-xs sm:p-4"
+                className="rounded-2xl border border-line bg-panel p-4 shadow-card sm:p-4"
             >
                 <div className="flex flex-wrap items-center gap-3">
                     <label className="flex min-h-11 min-w-0 basis-56 grow items-center gap-2.5 rounded-lg bg-surface px-3.5 focus-within:ring-2 focus-within:ring-brand/30">
@@ -68,7 +68,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                                 setSearch(event.currentTarget.value);
                                 setPage(1);
                             }}
-                            className="min-h-11 w-full min-w-0 bg-transparent text-xs text-ink placeholder:text-subtle focus:outline-none"
+                            className="min-h-11 w-full min-w-0 bg-transparent text-sm text-ink placeholder:text-subtle focus:outline-none"
                         />
                     </label>
 
@@ -86,7 +86,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                                     setStatus(filter.value);
                                     setPage(1);
                                 }}
-                                className={`min-h-9 cursor-pointer whitespace-nowrap rounded-md px-3 text-[11px] font-medium transition-colors ${status === filter.value ? 'bg-panel text-ink shadow-xs' : 'text-muted hover:text-brand'}`}
+                                className={`min-h-9 cursor-pointer whitespace-nowrap rounded-md px-3 text-sm font-medium transition-colors ${status === filter.value ? 'bg-panel text-ink shadow-xs' : 'text-muted hover:text-brand'}`}
                             >
                                 {filter.label} ({filter.count})
                             </button>
@@ -95,7 +95,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
 
                     <Link
                         href="/dashboard/admin/add-services"
-                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-hover/40 bg-brand px-4 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-brand-hover"
+                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-hover/40 bg-brand px-4 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-brand-hover"
                     >
                         <FiPlusCircle aria-hidden="true" size={16} />
                         Add New Service
@@ -114,7 +114,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                             setCategory('all');
                             setPage(1);
                         }}
-                        className={`min-h-8 cursor-pointer rounded-full px-3 text-[10px] font-medium transition-colors ${category === 'all' ? 'bg-ink text-white' : 'bg-surface text-muted hover:bg-brand-soft'}`}
+                        className={`min-h-8 cursor-pointer rounded-full px-3 text-sm font-medium transition-colors ${category === 'all' ? 'bg-ink text-white' : 'bg-surface text-muted hover:bg-brand-soft'}`}
                     >
                         All Categories
                     </button>
@@ -127,7 +127,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                                 setCategory(value);
                                 setPage(1);
                             }}
-                            className={`min-h-8 cursor-pointer rounded-full px-3 text-[10px] font-medium transition-colors ${category === value ? 'bg-brand-soft text-brand' : 'bg-surface text-muted hover:bg-brand-soft'}`}
+                            className={`min-h-8 cursor-pointer rounded-full px-3 text-sm font-medium transition-colors ${category === value ? 'bg-brand-soft text-brand' : 'bg-surface text-muted hover:bg-brand-soft'}`}
                         >
                             {serviceCategories[value].label}
                         </button>
@@ -141,7 +141,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
             >
                 <div
                     aria-hidden="true"
-                    className="hidden items-center gap-x-4 bg-surface px-5 py-4 text-[10px] font-semibold tracking-[0.04em] text-muted md:grid md:grid-cols-[minmax(0,1fr)_136px_88px_100px_62px_96px]"
+                    className="hidden items-center gap-x-4 bg-surface px-5 py-4 text-sm font-semibold tracking-[0.04em] text-muted xl:grid xl:grid-cols-[minmax(0,1fr)_136px_88px_100px_80px_96px]"
                 >
                     <span>SERVICE DETAILS</span>
                     <span>CATEGORY</span>
@@ -197,7 +197,7 @@ export default function ManageServicesContent({ services }: ManageServicesConten
                 )}
 
                 <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-line/40 bg-surface/60 px-4 py-4 sm:px-5">
-                    <p className="text-[10px] leading-5 text-muted">
+                    <p className="text-sm leading-5 text-muted">
                         Showing {filteredServices.length === 0 ? 0 : startIndex + 1}–
                         {Math.min(startIndex + pageSize, filteredServices.length)} of{' '}
                         {filteredServices.length} services

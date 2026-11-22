@@ -135,10 +135,7 @@ export default async function CustomerOverview() {
             : 'var(--color-line)';
 
     return (
-        <section
-            aria-labelledby="overview-title"
-            className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh lg:p-8"
-        >
+        <section aria-labelledby="overview-title" className="dashboard-page">
             <div className="mx-auto max-w-7xl space-y-7">
                 {/* Header */}
                 <header className="flex flex-wrap items-center justify-between gap-5">
@@ -147,10 +144,7 @@ export default async function CustomerOverview() {
                             YOUR PERSONAL ATELIER
                         </p>
 
-                        <h1
-                            id="overview-title"
-                            className="mt-2 text-4xl tracking-tight sm:text-5xl"
-                        >
+                        <h1 id="overview-title" className="mt-2 tracking-tight">
                             A little time for you.
                         </h1>
 
@@ -185,7 +179,7 @@ export default async function CustomerOverview() {
                                     key={card.label}
                                     className={`rounded-2xl border p-5 shadow-xs ${
                                         index === 0
-                                            ? 'border-brand/20 bg-[#f4e7de]'
+                                            ? 'border-brand/15 bg-brand-soft'
                                             : 'border-line/80 bg-panel'
                                     }`}
                                 >
@@ -219,7 +213,7 @@ export default async function CustomerOverview() {
                     {/* Next Appointment */}
                     <section
                         aria-labelledby="next-appointment-title"
-                        className="flex flex-col overflow-hidden rounded-2xl border border-line/80 bg-panel shadow-xs"
+                        className="flex flex-col overflow-hidden rounded-2xl border border-line/80 bg-panel shadow-card"
                     >
                         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line/70 px-5 py-4 sm:px-6">
                             <h2 id="next-appointment-title" className="text-2xl">
@@ -332,7 +326,7 @@ export default async function CustomerOverview() {
                     {/* Appointment Chart */}
                     <section
                         aria-labelledby="breakdown-title"
-                        className="rounded-2xl border border-line/80 bg-panel p-5 shadow-xs sm:p-6"
+                        className="rounded-2xl border border-line/80 bg-panel shadow-card p-5 shadow-xs sm:p-6"
                     >
                         <h2 id="breakdown-title" className="text-2xl">
                             Appointments at a glance
@@ -411,7 +405,7 @@ export default async function CustomerOverview() {
                 {/* Recent Appointments */}
                 <section
                     aria-labelledby="recent-appointments-title"
-                    className="overflow-hidden rounded-2xl border border-line/80 bg-panel shadow-xs"
+                    className="overflow-hidden rounded-2xl border border-line/80 bg-panel shadow-card"
                 >
                     <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-5 sm:px-6">
                         <div>

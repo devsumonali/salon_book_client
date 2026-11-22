@@ -183,20 +183,14 @@ export default function CustomerAppointmentsContent({
     }
 
     return (
-        <section
-            aria-labelledby="appointments-title"
-            className="-m-5 min-h-full bg-[#fbf9f6] p-5 sm:-m-6 sm:p-6 lg:min-h-dvh lg:p-8"
-        >
+        <section aria-labelledby="appointments-title" className="dashboard-page">
             <div className="mx-auto max-w-7xl space-y-6">
                 <header className="flex flex-wrap items-center justify-between gap-5">
                     <div>
                         <p className="text-sm font-semibold tracking-[0.16em] text-brand">
                             YOUR PERSONAL ATELIER
                         </p>
-                        <h1
-                            id="appointments-title"
-                            className="mt-2 text-4xl tracking-tight sm:text-5xl"
-                        >
+                        <h1 id="appointments-title" className="mt-2 tracking-tight">
                             My Appointments
                         </h1>
                         <p className="mt-3 text-base leading-7 text-muted">
@@ -220,10 +214,12 @@ export default function CustomerAppointmentsContent({
                     {summaryCards.map(({ label, count, icon: Icon, color }, index) => (
                         <div
                             key={label}
-                            className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 sm:p-5 ${index === 0 ? 'border-brand/20 bg-[#f4e7de]' : 'border-line/80 bg-panel'}`}
+                            className={`flex flex-col-reverse items-start justify-between gap-4 rounded-2xl border p-4 shadow-card sm:flex-row sm:items-center sm:p-5 ${index === 0 ? 'border-brand/15 bg-brand-soft' : 'border-line/80 bg-panel'}`}
                         >
                             <div>
-                                <dt className="text-sm leading-6 text-muted">{label}</dt>
+                                <dt className="min-h-12 text-sm leading-6 text-muted sm:min-h-6">
+                                    {label}
+                                </dt>
                                 <dd className="mt-2 text-3xl font-semibold tabular-nums">
                                     {String(count).padStart(2, '0')}
                                 </dd>
@@ -239,12 +235,12 @@ export default function CustomerAppointmentsContent({
 
                 <section
                     aria-label="Appointment records"
-                    className="overflow-hidden rounded-2xl border border-line/80 bg-panel shadow-xs"
+                    className="overflow-hidden rounded-2xl border border-line/80 bg-panel shadow-card"
                 >
                     <div
                         role="group"
                         aria-label="Choose appointment records"
-                        className="flex gap-6 overflow-x-auto border-b border-line px-5 sm:px-6"
+                        className="flex gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-line px-5 sm:px-6"
                     >
                         {views.map((tab) => (
                             <button

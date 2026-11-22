@@ -4,9 +4,8 @@ import type { AddServiceData } from '@/types/service';
 import { useId, useState } from 'react';
 import { FiChevronDown, FiUploadCloud } from 'react-icons/fi';
 
-const inputClass =
-    'min-h-11 w-full min-w-0 rounded-lg border border-transparent bg-surface px-3.5 text-sm text-ink transition-colors placeholder:text-subtle focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/10';
-const labelClass = 'mb-2 block text-xs font-medium';
+const inputClass = 'ui-input';
+const labelClass = 'mb-2 block text-sm font-semibold';
 
 export default function ServiceFormFields({ service }: { service?: AddServiceData }) {
     const id = useId();
@@ -105,7 +104,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                         />
                         <span
                             id={`${id}-duration-unit`}
-                            className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-[10px] text-muted"
+                            className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-sm text-muted"
                         >
                             minutes
                         </span>
@@ -129,7 +128,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                                     }
                                     className="peer sr-only"
                                 />
-                                <span className="flex w-full items-center justify-center rounded-md border border-transparent px-2 py-2 text-[10px] font-medium text-muted transition-colors peer-checked:border-brand-hover/40 peer-checked:bg-brand peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
+                                <span className="flex w-full items-center justify-center rounded-md border border-transparent px-2 py-2 text-sm font-medium text-muted transition-colors peer-checked:border-brand-hover/40 peer-checked:bg-brand peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
                                     {status}
                                 </span>
                             </label>
@@ -140,10 +139,10 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
 
             <div>
                 <div className="mb-2 flex items-center justify-between gap-3">
-                    <label htmlFor={`${id}-description`} className="text-xs font-medium">
+                    <label htmlFor={`${id}-description`} className="text-sm font-medium">
                         Description
                     </label>
-                    <span id={`${id}-description-hint`} className="text-[10px] text-subtle">
+                    <span id={`${id}-description-hint`} className="text-sm text-subtle">
                         Max. 300 characters
                     </span>
                 </div>
@@ -155,7 +154,7 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                     maxLength={300}
                     rows={4}
                     aria-describedby={`${id}-description-hint`}
-                    className={`${inputClass} block min-h-28 resize-y py-3.5 text-xs leading-6`}
+                    className={`${inputClass} block min-h-28 resize-y py-3.5 text-sm leading-6`}
                 />
             </div>
 
@@ -177,14 +176,14 @@ export default function ServiceFormFields({ service }: { service?: AddServiceDat
                         className="sr-only"
                     />
                     <FiUploadCloud aria-hidden="true" size={26} className="mb-2 text-brand" />
-                    <span className="text-xs font-medium">Upload Service Image</span>
-                    <span className="mt-1 text-[11px] text-muted">
+                    <span className="text-sm font-medium">Upload Service Image</span>
+                    <span className="mt-1 text-sm text-muted">
                         Choose your photo or{' '}
                         <span className="font-medium text-brand underline underline-offset-2">
                             click to browse
                         </span>
                     </span>
-                    <span id={`${id}-image-hint`} className="mt-2 text-[10px] text-subtle">
+                    <span id={`${id}-image-hint`} className="mt-2 text-sm text-subtle">
                         PNG, JPG or WebP up to 2MB
                     </span>
                 </label>

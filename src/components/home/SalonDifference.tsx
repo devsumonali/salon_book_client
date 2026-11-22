@@ -2,10 +2,10 @@ import { LuLeaf, LuShieldCheck, LuUserRoundCheck } from 'react-icons/lu';
 
 const features = [
     {
-        title: 'Master Stylist Matching',
+        title: 'Care, Made Personal',
         description:
-            'Find the right artisan for your next ritual, with thoughtful care shaped around your individual style.',
-        note: 'PRECISION PAIRINGS',
+            'Find your next favorite service, with thoughtful care shaped around your individual style.',
+        note: 'MADE FOR YOU',
         icon: LuUserRoundCheck,
     },
     {
@@ -26,10 +26,10 @@ const features = [
 
 export default function SalonDifference() {
     return (
-        <section aria-labelledby="salon-difference-title" className="bg-[#fbf9f6]">
-            <div className="mx-auto grid max-w-7xl gap-8 px-5 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 lg:grid-cols-[0.85fr_1.3fr] lg:items-center lg:gap-10 lg:px-8 lg:pt-20 lg:pb-16">
+        <section aria-labelledby="salon-difference-title" className="bg-panel">
+            <div className="site-container grid gap-8 pt-16 pb-10 sm:pt-20 lg:grid-cols-[0.8fr_1.4fr] lg:items-center lg:gap-10 lg:pt-24 lg:pb-16">
                 <header className="max-w-md">
-                    <p className="text-[10px] font-semibold tracking-[0.14em] text-brand">
+                    <p className="text-sm font-semibold tracking-[0.14em] text-brand">
                         A MORE CONSIDERED SALON EXPERIENCE
                     </p>
                     <h2
@@ -38,7 +38,7 @@ export default function SalonDifference() {
                     >
                         The SalonBook <span className="lg:block">Difference</span>
                     </h2>
-                    <p className="mt-4 text-sm leading-7 text-muted">
+                    <p className="mt-4 text-base leading-7 text-muted">
                         A thoughtful approach to beauty, bringing together skilled artisans,
                         personal care, and a booking experience that feels effortless.
                     </p>
@@ -48,7 +48,7 @@ export default function SalonDifference() {
                     {features.map(({ title, description, note, icon: Icon }) => (
                         <li
                             key={title}
-                            className="flex min-w-0 flex-col rounded-2xl border border-line/40 bg-panel p-5 shadow-xs lg:p-6"
+                            className="flex min-w-0 flex-col rounded-2xl border border-line bg-panel p-5 shadow-card lg:p-6"
                         >
                             <span className="flex size-11 items-center justify-center rounded-xl bg-[#f6eae4] text-brand">
                                 <Icon aria-hidden="true" size={22} />
@@ -56,8 +56,8 @@ export default function SalonDifference() {
                             <h3 className="mt-5 font-sans text-sm font-semibold leading-6 text-ink">
                                 {title}
                             </h3>
-                            <p className="mt-2 text-xs leading-6 text-muted">{description}</p>
-                            <p className="mt-auto pt-5 text-[9px] font-semibold tracking-[0.08em] text-brand">
+                            <p className="mt-2 text-base leading-7 text-muted">{description}</p>
+                            <p className="mt-auto pt-5 text-sm font-semibold tracking-[0.08em] text-brand">
                                 {note}
                             </p>
                         </li>
