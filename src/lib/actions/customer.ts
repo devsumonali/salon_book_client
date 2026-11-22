@@ -3,10 +3,10 @@
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
-import { getAppointmentActionProps } from '@/lib/api/user/user';
+import { getAppointmentActionProps, getUpdateProfileProps } from '@/lib/api/user/user';
 import { getBookingProps } from '@/lib/api/booking';
 import type { ServiceBookingData } from '@/types/checkout.data';
-import type { CustomerActionResult } from '@/types/customer';
+import type { CustomerActionResult, CustomerProfileResult, CustomerProfileUpdate } from '@/types/customer';
 
 export async function updateCustomerAppointment(
     id: string,
@@ -42,5 +42,17 @@ export async function requestCustomerAppointment(
         return { message: data.message as string };
     } catch {
         return { error: 'Unable to request appointment. Please try again.' };
+    }
+}
+
+export async function updateCustomerProfile(profile: CustomerProfileUpdate): Promise<CustomerProfileResult> {
+    try {
+        const session = await auth.api.getSession({ headers: await headers() });
+        if (!session) return { error: 'Please sign in again' };
+        const data = await getUpdateProfileProps(profile, session.session.token);
+        revalidatePath('/dashboard', 'layout');
+        return data;
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : 'Unable to update profile' };
     }
 }

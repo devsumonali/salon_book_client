@@ -6,6 +6,24 @@ export type CustomerActionResult = {
     url?: string;
 };
 
+export type CustomerProfileData = {
+    id: string;
+    name: string;
+    email: string;
+    image: string;
+    phone: string;
+    createdAt: string | null;
+    emailVerified: boolean;
+};
+
+export type CustomerProfileUpdate = Partial<Pick<CustomerProfileData, 'name' | 'image' | 'phone'>>;
+
+export type CustomerProfileResult = {
+    message?: string;
+    error?: string;
+    profile?: CustomerProfileData;
+};
+
 export type CustomerAppointment = {
     id: string;
     serviceName: string;
