@@ -54,8 +54,8 @@ export default function UserMenu() {
     // If the user is not logged in, show a login button
     if (!user) {
         return (
-            <Link href="/sign-in" className="ui-button-secondary min-h-11 px-4 py-2.5">
-                Sign In
+            <Link href="/sign-up" className="ui-button-secondary min-h-11 px-4 py-2.5">
+                Sign Up
             </Link>
         );
     }

@@ -6,7 +6,7 @@ SalonBook is a salon appointment platform. Customers browse services, request a 
 
 - Client repository: https://github.com/devsumonali/salon_book_client
 - Server repository: https://github.com/devsumonali/salon_book_server
-- Live website: deployment URL has not been added yet.
+- Live website:https://salon-book-client-alpha.vercel.app/
 
 ## Features
 
